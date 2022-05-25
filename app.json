@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "TimeZone",
+    "name": "TIMEZONE",
     "slug": "TimeZone",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/tz_logo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/tz_logo_white.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,13 +17,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/tz_logo.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.TimeZone"
     },
     "web": {
       "favicon": "./assets/favicon.png"
