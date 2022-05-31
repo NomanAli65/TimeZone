@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const WatchItem = ({ loading, item, halfScreen, index }) => {
 
-    const navigation=useNavigation();
+    const navigation = useNavigation();
 
     if (loading)
         return (
@@ -21,8 +21,8 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
         )
     else
         return (
-            <Pressable onPress={()=>navigation.navigate("ProductDetail")}>
-                <Box w={halfScreen ? "49%" : 200} alignItems="center" mr={halfScreen ? (index % 2 == 0 ? 2 : 0) : 3} mb={halfScreen ? 2 : 0} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
+            <Box w={halfScreen ? "49%" : 200} alignItems="center" mr={halfScreen ? (index % 2 == 0 ? 2 : 0) : 3} mb={halfScreen ? 2 : 0} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
+                <Pressable onPress={() => navigation.navigate("ProductDetail")}>
                     <Stack space={4}>
                         <Image alignSelf={"center"} maxH={150} maxW={"100%"} source={item.image} alt="image" resizeMode='contain' />
                         <Stack space={1} p={3}>
@@ -49,8 +49,8 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
                         </Stack>
                     </Stack>
                     <IconButton position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name='hearto' size={20} />} />
-                </Box>
-            </Pressable>
+                </Pressable >
+            </Box>
         )
 };
 

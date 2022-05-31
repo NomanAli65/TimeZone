@@ -6,8 +6,6 @@ import ForgotPass from "../screens/Auth/ForgotPass";
 import Dash from "../screens/";
 import Products from "../screens/Products";
 import SearchFilter from "../screens/Products/SearchFilter";
-import EditProfile from "../screens/Profile/EditProfile";
-import ChangePass from "../screens/Profile/ChangePass";
 import AllBrands from "../screens/BrandsAndCategories/AllBrands";
 import AllCategoires from "../screens/BrandsAndCategories/AllCategories";
 import ProductDetail from "../screens/Products/ProductDetail";

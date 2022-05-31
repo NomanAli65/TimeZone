@@ -6,9 +6,10 @@ import Profile from "../screens/Profile/Profile";
 import Wishlist from "../screens/Wishlist";
 import AccountStack from "./AccountStack";
 import { Icon } from "native-base";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons,FontAwesome5 } from "@expo/vector-icons";
 import theme from "../configs/Theme";
 import Cart from "../screens/Cart/index";
+import Trade from "../screens/TradeIn/index";
 
 
 const BottomNavigator = createBottomTabNavigator();
@@ -19,7 +20,7 @@ const BottomNav = () => {
             initialRouteName="Home"
             screenOptions={{
                 headerShown: false,
-                tabBarActiveTintColor:theme.colors.primary[100]
+                tabBarActiveTintColor: theme.colors.primary[100]
             }}>
             <BottomNavigator.Screen name="Home" component={MainStack}
                 options={{
@@ -38,6 +39,12 @@ const BottomNav = () => {
                 options={{
                     tabBarIcon: ({ size, color, focused }) => (
                         <Icon size={size} color={color} as={Ionicons} name={focused ? "cart" : "cart-outline"} />
+                    )
+                }} />
+            <BottomNavigator.Screen name="Trade In" component={Trade}
+                options={{
+                    tabBarIcon: ({ size, color, focused }) => (
+                        <Icon size={size} color={color} as={FontAwesome5} name={focused ? "hand-holding-usd" : "hand-holding-usd"} />
                     )
                 }} />
             <BottomNavigator.Screen name="More" component={AccountStack}

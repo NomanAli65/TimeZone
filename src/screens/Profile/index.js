@@ -46,7 +46,7 @@ export default class index extends Component {
     getScreenName = (screenName) => {
         switch (screenName) {
             case "Order History":
-                return "shopping-cart";
+                return "OrderHistory";
             case "My Account":
                 return "Profile";
             case "Help":
