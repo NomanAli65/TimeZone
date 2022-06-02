@@ -2,10 +2,13 @@ import React from "react";
 import { AspectRatio, Box, Button, FlatList, Heading, HStack, Icon, IconButton, Image, Pressable, ScrollView, Skeleton, Stack, Text, View, VStack } from 'native-base';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useSelector } from "react-redux";
+
 
 const WatchItem = ({ loading, item, halfScreen, index }) => {
 
     const navigation = useNavigation();
+    const loggedIn=useSelector((state)=>state.Auth.isLogin);
 
     if (loading)
         return (
@@ -48,7 +51,11 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
                             </VStack>
                         </Stack>
                     </Stack>
-                    <IconButton position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name='hearto' size={20} />} />
+                    <IconButton 
+                    onPress={()=>{
+                        if(!loggedIn)
+                        navigation.navigate("Login")}}
+                    position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name='hearto' size={20} />} />
                 </Pressable >
             </Box>
         )
