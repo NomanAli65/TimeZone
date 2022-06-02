@@ -9,6 +9,7 @@ import SearchFilter from "../screens/Products/SearchFilter";
 import AllBrands from "../screens/BrandsAndCategories/AllBrands";
 import AllCategoires from "../screens/BrandsAndCategories/AllCategories";
 import ProductDetail from "../screens/Products/ProductDetail";
+import PersonalDetail from "../screens/TradeIn/PersonalDetail";
 
 
 const StackNavigator = createNativeStackNavigator();

@@ -8,8 +8,8 @@ import AccountStack from "./AccountStack";
 import { Icon } from "native-base";
 import { Ionicons,FontAwesome5 } from "@expo/vector-icons";
 import theme from "../configs/Theme";
-import Cart from "../screens/Cart/index";
-import Trade from "../screens/TradeIn/index";
+import TradeStack from "./TradeStack";
+import CartStack from "./CartStack";
 
 
 const BottomNavigator = createBottomTabNavigator();
@@ -35,13 +35,13 @@ const BottomNav = () => {
                         <Icon size={size} color={color} as={Ionicons} name={focused ? "heart" : "heart-outline"} />
                     )
                 }} />
-            <BottomNavigator.Screen name="Cart" component={Cart}
+            <BottomNavigator.Screen name="Cart" component={CartStack}
                 options={{
                     tabBarIcon: ({ size, color, focused }) => (
                         <Icon size={size} color={color} as={Ionicons} name={focused ? "cart" : "cart-outline"} />
                     )
                 }} />
-            <BottomNavigator.Screen name="Trade In" component={Trade}
+            <BottomNavigator.Screen name="Trade In" component={TradeStack}
                 options={{
                     tabBarIcon: ({ size, color, focused }) => (
                         <Icon size={size} color={color} as={FontAwesome5} name={focused ? "hand-holding-usd" : "hand-holding-usd"} />
