@@ -5,6 +5,7 @@ import AppBar from '../../components/Appbar';
 import { AntDesign } from '@expo/vector-icons';
 import theme from '../../configs/Theme';
 import LGButton from '../../components/LGButton';
+import { Video } from 'expo-av';
 
 
 //TODO:Add Video player
@@ -48,7 +49,10 @@ export default class ProductDetail extends Component {
                     />
                     <RNView style={{ width }}>
                         <RNImage source={require("../../../assets/1.jpg")} style={{ width, height: 250 }} resizeMode="cover" />
-                        <IconButton icon={<AntDesign name='hearto' size={20} color={theme.colors.primary[100]} />} position="absolute" top={0.5} right={2} />
+                        <HStack position="absolute" top={0.5} right={2} space={3} backgroundColor="rgba(0,0,0,0.7)">
+                        <IconButton icon={<AntDesign name='sharealt' size={20} color={theme.colors.primary[100]} />}  />
+                        <IconButton icon={<AntDesign name='hearto' size={20} color={theme.colors.primary[100]} />}/>
+                        </HStack>
                     </RNView>
                     <FlatList
                         p={3}
@@ -103,7 +107,23 @@ export default class ProductDetail extends Component {
                                 Male
                             </Text>
                         </HStack>
-
+                        <Box w={"100%"} h={200}>
+                        <Video
+                        useNativeControls
+                        //source={{uri:"https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"}}
+                        source={{uri:"https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"}}
+                        posterSource={{uri:"https://www.mapcom.com/wp-content/uploads/2015/07/video-placeholder.jpg"}}
+                        style={{
+                            width:"100%",
+                            height:200,
+                        }}
+                        posterStyle={{
+                            width:"100%",
+                            height:200
+                        }}
+                        resizeMode="cover"
+                        />
+                        </Box>
                     </VStack>
                 </ScrollView>
                 <HStack justifyContent={"space-around"}>
