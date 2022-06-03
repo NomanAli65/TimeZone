@@ -70,7 +70,11 @@ export default class index extends Component {
 
     render() {
         return (
-            <View flex={1} backgroundColor="#fff">
+            <View flex={1}
+                backgroundColor="#fff"
+                _dark={{
+                    backgroundColor: "black"
+                }}>
                 <AppBar
                     title={"TIMEZONE"}
                     back
@@ -78,7 +82,7 @@ export default class index extends Component {
                     noWish
                 />
                 <SearchBar
-                    onFilterPress={()=>this.props.navigation.navigate("Filters")}
+                    onFilterPress={() => this.props.navigation.navigate("Filters")}
                     placeholder={"Search TIMEZONE"}
                     filter
                 />

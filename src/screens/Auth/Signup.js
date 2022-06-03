@@ -3,12 +3,13 @@ import React, { Component } from 'react';
 import { Ionicons } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
 import { ImageBackground } from 'react-native';
+import theme from '../../configs/Theme';
 
 class Signup extends Component {
     render() {
         return (
             // <ImageBackground style={{flex:1,backgroundColor:"#fff"}} source={require("../../../assets/watchd.png")} imageStyle={{opacity:0.2,transform:[{scale:0.6}],resizeMode:"contain"}}>
-            <View flex={1} backgroundColor="#fff">
+            <View flex={1} backgroundColor="#fff" _dark={{backgroundColor:"black"}}>
                 {/* <Image 
                 left={"-50%"}
                 top={"10%"}
@@ -28,12 +29,12 @@ class Signup extends Component {
                 <Box position="absolute" top={"5%"} left="3%">
                     <IconButton
                         onPress={() => this.props.navigation.goBack()}
-                        icon={<Ionicons name='md-close' size={25} color="#000" />} />
+                        icon={<Ionicons name='md-close' size={25} color={theme.config.initialColorMode=="dark"?"#fff":"#000"} />} />
                 </Box>
                 {/* <ScrollView flex={1}> */}
                 <View flex={1} justifyContent="center" p="5%">
                     <Stack>
-                        <Heading bold fontSize={35} color="black">
+                        <Heading bold fontSize={35} color="black" _dark={{color:"#fff"}}>
                             Signup
                         </Heading>
                         <Text color="coolGray.400" fontSize={17}>Please Signup to continue</Text>

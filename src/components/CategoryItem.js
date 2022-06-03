@@ -5,7 +5,7 @@ import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 const CategoryItem = ({ loading, item, name }) => {
     if (loading)
         return (
-            <Box w={"32%"} mr={2} mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
+            <Box _dark={{backgroundColor:"black"}} w={"32%"} mr={2} mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <Stack space={4} p={2}>
                     <Skeleton h={70} w={"100%"} />
                     <Skeleton h={5} w={"80%"} alignSelf="center" />
@@ -14,7 +14,7 @@ const CategoryItem = ({ loading, item, name }) => {
         )
     else
         return (
-            <Box w={"32%"} alignItems="center" mr={2} mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
+            <Box _dark={{backgroundColor:"gray.700"}} w={"32%"} alignItems="center" mr={2} mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <Stack space={4} p={2}>
                     <Image alignSelf={"center"} maxH={70} maxW={"70%"} source={item.image} alt="image" resizeMode='contain' />
                         <Stack space={1} >

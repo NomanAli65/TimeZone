@@ -13,7 +13,7 @@ export default class EditProfile extends Component {
 
     render() {
         return (
-            <View flex={1}>
+            <View flex={1} _dark={{ backgroundColor: "black" }}>
                 <AppBar
                     title={"Account Details"}
                     noCart

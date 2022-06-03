@@ -39,7 +39,12 @@ export default class ProductDetail extends Component {
 
     render() {
         return (
-            <View flex={1}>
+            <View flex={1}
+            backgroundColor="#fff"
+            _dark={{
+                backgroundColor:"#000"
+            }}
+            >
                 <ScrollView>
                     <AppBar
                         back

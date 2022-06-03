@@ -1,5 +1,5 @@
 import React from "react";
-import { AspectRatio, Box, Button, FlatList, Heading, HStack, Icon, IconButton, Image, Pressable, ScrollView, Skeleton, Stack, Text, View, VStack } from 'native-base';
+import { AspectRatio, Box, Button, FlatList, Heading, HStack, Icon, IconButton, Image, Pressable, ScrollView, Skeleton, Stack, Text, useColorModeValue, View, VStack } from 'native-base';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
@@ -8,11 +8,16 @@ import { useSelector } from "react-redux";
 const WatchItem = ({ loading, item, halfScreen, index }) => {
 
     const navigation = useNavigation();
-    const loggedIn=useSelector((state)=>state.Auth.isLogin);
+    const loggedIn = useSelector((state) => state.Auth.isLogin);
+    const color = useColorModeValue("#000", "#cccc");
 
     if (loading)
         return (
-            <Box w={halfScreen ? "49%" : 200} mr={halfScreen ? (index % 2 == 0 ? 2 : 0) : 3} mb={halfScreen ? 2 : 0} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
+            <Box
+                _dark={{
+                    backgroundColor: "gray.800"
+                }}
+                w={halfScreen ? "49%" : 200} mr={halfScreen ? (index % 2 == 0 ? 2 : 0) : 3} mb={halfScreen ? 2 : 0} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <Stack space={4}>
                     <Skeleton h={150} w={"100%"} />
                     <Stack space={3} p={3}>
@@ -24,7 +29,11 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
         )
     else
         return (
-            <Box w={halfScreen ? "49%" : 200} alignItems="center" mr={halfScreen ? (index % 2 == 0 ? 2 : 0) : 3} mb={halfScreen ? 2 : 0} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
+            <Box
+                _dark={{
+                    backgroundColor: "gray.800"
+                }}
+                w={halfScreen ? "49%" : 200} alignItems="center" mr={halfScreen ? (index % 2 == 0 ? 2 : 0) : 3} mb={halfScreen ? 2 : 0} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <Pressable onPress={() => navigation.navigate("ProductDetail")}>
                     <Stack space={4}>
                         <Image alignSelf={"center"} maxH={150} maxW={"100%"} source={item.image} alt="image" resizeMode='contain' />
@@ -51,11 +60,12 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
                             </VStack>
                         </Stack>
                     </Stack>
-                    <IconButton 
-                    onPress={()=>{
-                        if(!loggedIn)
-                        navigation.navigate("Login")}}
-                    position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name='hearto' size={20} />} />
+                    <IconButton
+                        onPress={() => {
+                            if (!loggedIn)
+                                navigation.navigate("Login")
+                        }}
+                        position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name='hearto' size={20} color={color} />} />
                 </Pressable >
             </Box>
         )

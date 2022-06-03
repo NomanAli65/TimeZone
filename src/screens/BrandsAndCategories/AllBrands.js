@@ -59,7 +59,11 @@ export default class AllBrands extends Component {
 
     render() {
         return (
-            <View flex={1} backgroundColor="#fff">
+            <View flex={1} 
+            backgroundColor="#fff"
+            _dark={{
+                backgroundColor:'black'
+            }}>
                 <AppBar
                     title={"All Brands"}
                     back

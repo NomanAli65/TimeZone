@@ -60,7 +60,7 @@ export default class index extends Component {
 
     render() {
         return (
-            <View flex={1} backgroundColor="white">
+            <View flex={1} _dark={{ backgroundColor: "black" }}>
                 <AppBar
                     title="Account"
                     noWish
@@ -102,6 +102,9 @@ export default class index extends Component {
                                             color={
                                                 "gray.700"
                                             }
+                                            _dark={{
+                                                color: "gray.400"
+                                            }}
                                         >
                                             {name}
                                         </Text>
@@ -117,7 +120,12 @@ export default class index extends Component {
                                         size="5"
                                         as={<MaterialCommunityIcons name="logout" />}
                                     />
-                                    <Text fontWeight="500" color="gray.700">
+                                    <Text
+                                        _dark={{
+                                            color: "gray.400"
+                                        }}
+                                        fontWeight="500"
+                                        color="gray.700">
                                         Logout
                                     </Text>
                                 </HStack>

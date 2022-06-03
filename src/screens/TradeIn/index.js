@@ -36,7 +36,7 @@ export default class index extends Component {
   //require("../../../assets/placeholder.png")
   render() {
     return (
-      <ScrollView>
+      <ScrollView backgroundColor="#fff" _dark={{ backgroundColor: "black" }}>
         <View flex={1}>
           <AppBar
             noCart
@@ -63,7 +63,11 @@ export default class index extends Component {
                 Add Photos
               </Heading>
             </HStack>
-            <Box borderRadius={3} borderWidth={1} borderColor="gray.200" h={145} justifyContent="center" p={3}>
+            <Box borderRadius={3} borderWidth={1} borderColor="gray.200" h={145} justifyContent="center" p={3}
+            _dark={{
+              borderColor:"gray.600"
+            }}
+            >
               <ScrollView horizontal>
                 <Pressable
                   onPress={() => this.pickImage()}
@@ -72,12 +76,12 @@ export default class index extends Component {
                 </Pressable>
                 {
                   this.state.images.map((value) => (
-                    <Image 
-                    source={{ uri: value.uri }} 
-                    alt="image" 
-                    h={120} w={120} 
-                    backgroundColor="gray.300" 
-                    mr={3} />
+                    <Image
+                      source={{ uri: value.uri }}
+                      alt="image"
+                      h={120} w={120}
+                      backgroundColor="gray.300"
+                      mr={3} />
                   ))
                 }
               </ScrollView>

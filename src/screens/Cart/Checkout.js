@@ -15,7 +15,11 @@ class Checkout extends Component {
 
     render() {
         return (
-            <ScrollView>
+            <ScrollView
+            backgroundColor="#fff"
+            _dark={{
+                backgroundColor: "black"
+            }}>
                 <View flex={1}>
                     <AppBar
                         noWish
@@ -24,7 +28,7 @@ class Checkout extends Component {
                         title="Checkout"
                     />
                     <VStack p={3} space={5}>
-                        <Box borderWidth={1} borderColor={"gray.200"}>
+                        <Box borderWidth={1} borderColor={"gray.200"} _dark={{ borderColor: "gray.600" }}>
                             <VStack p={3} space={7}>
                                 <HStack>
                                     <Icon as={Entypo} name="location-pin" size={8} />
@@ -43,7 +47,7 @@ class Checkout extends Component {
                                 </VStack>
                             </VStack>
                         </Box>
-                        <Box borderWidth={1} borderColor={"gray.200"}>
+                        <Box borderWidth={1} borderColor={"gray.200"} _dark={{ borderColor: "gray.600" }}>
                             <VStack p={3} space={7}>
                                 <HStack>
                                     <Icon as={Entypo} name="wallet" size={8} />
@@ -68,7 +72,7 @@ class Checkout extends Component {
                         <Button variant={"outline"}>
                             Boutique Pick up
                         </Button>
-                        <Box borderWidth={1} borderColor={"gray.200"}>
+                        <Box borderWidth={1} borderColor={"gray.200"} _dark={{ borderColor: "gray.600" }}>
                             <VStack p={3} space={7}>
                                 <HStack>
                                     <Icon as={FontAwesome5} name="receipt" size={8} />

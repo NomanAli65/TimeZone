@@ -121,8 +121,8 @@ export default class index extends Component {
 
   _renderItem = ({ item }) => (
     <WatchItem
-    loading={this.state.loading}
-    item={item}
+      loading={this.state.loading}
+      item={item}
     />
   )
 
@@ -166,7 +166,12 @@ export default class index extends Component {
   render() {
     return (
       <ScrollView>
-        <View flex={1} backgroundColor="#fff">
+        <View flex={1}
+          backgroundColor="#fff"
+          _dark={{
+            backgroundColor: "#000"
+          }}
+        >
           <AppBar
             title={"TIMEZONE"}
             noCart
@@ -175,7 +180,7 @@ export default class index extends Component {
           />
           <SearchBar
             placeholder={"Search TIMEZONE"}
-            onSubmitEditing={()=>this.props.navigation.navigate("Products")}
+            onSubmitEditing={() => this.props.navigation.navigate("Products")}
           />
           <Box
             width={"100%"}
@@ -202,9 +207,9 @@ export default class index extends Component {
                 <Heading>
                   Popular Watches
                 </Heading>
-                <Button 
-                onPress={()=>this.props.navigation.navigate("Products")}
-                variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
+                <Button
+                  onPress={() => this.props.navigation.navigate("Products")}
+                  variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
                   View More
                 </Button>
               </HStack>
@@ -220,9 +225,9 @@ export default class index extends Component {
                 <Heading>
                   Top Brands
                 </Heading>
-                <Button 
-                onPress={() => this.props.navigation.navigate("AllBrands") }
-                variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
+                <Button
+                  onPress={() => this.props.navigation.navigate("AllBrands")}
+                  variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
                   All Brands
                 </Button>
               </HStack>
@@ -238,9 +243,9 @@ export default class index extends Component {
                 <Heading>
                   Featured Watches
                 </Heading>
-                <Button 
-                onPress={()=>this.props.navigation.navigate("Products")}
-                variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
+                <Button
+                  onPress={() => this.props.navigation.navigate("Products")}
+                  variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
                   View More
                 </Button>
               </HStack>
@@ -256,9 +261,9 @@ export default class index extends Component {
                 <Heading>
                   Top Categories
                 </Heading>
-                <Button 
-                onPress={() => this.props.navigation.navigate("AllCategories") }
-                variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
+                <Button
+                  onPress={() => this.props.navigation.navigate("AllCategories")}
+                  variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
                   All Categories
                 </Button>
               </HStack>
@@ -274,9 +279,9 @@ export default class index extends Component {
                 <Heading>
                   Latest Watches
                 </Heading>
-                <Button 
-                onPress={()=>this.props.navigation.navigate("Products")}
-                variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
+                <Button
+                  onPress={() => this.props.navigation.navigate("Products")}
+                  variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
                   View More
                 </Button>
               </HStack>

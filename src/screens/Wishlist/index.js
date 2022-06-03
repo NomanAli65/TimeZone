@@ -57,7 +57,9 @@ export default class index extends Component {
     _renderItem = ({ item }) => {
         if (this.state.loading)
             return (
-                <Box w={"90%"} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" m={"5%"}>
+                <Box _dark={{
+                    backgroundColor: "black"
+                }} w={"90%"} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" m={"5%"}>
                     <Stack space={4}>
                         <Skeleton h={200} w={"100%"} />
                         <Stack space={3} p={3}>
@@ -69,7 +71,11 @@ export default class index extends Component {
             )
         else
             return (
-                <Box w={"90%"} alignItems="center" backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" m={"5%"}>
+                <Box
+                    _dark={{
+                        backgroundColor: "gray.800"
+                    }}
+                    w={"90%"} alignItems="center" backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" m={"5%"}>
                     <Stack space={4}>
                         <Image alignSelf={"center"} maxH={200} maxW={"100%"} source={item.image} alt="image" resizeMode='contain' />
                         <Stack space={1} p={3}>
@@ -88,7 +94,12 @@ export default class index extends Component {
 
     render() {
         return (
-            <View flex={1}>
+            <View
+                backgroundColor="#fff"
+                _dark={{
+                    backgroundColor: "#000"
+                }}
+                flex={1}>
                 <AppBar
                     noLeftIcon
                     title={"Wishlist"}

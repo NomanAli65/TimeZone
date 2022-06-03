@@ -11,7 +11,11 @@ export default class SearchFilter extends Component {
 
     render() {
         return (
-            <View flex={1} backgroundColor="#fff">
+            <View flex={1} 
+            backgroundColor="#fff"
+            _dark={{
+                backgroundColor:"black"
+            }}>
                 <AppBar
                     title={"Filters"}
                     back

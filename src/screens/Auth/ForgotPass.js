@@ -4,20 +4,21 @@ import { StyleSheet } from 'react-native';
 import { AntDesign, Fontisto } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
 import { Ionicons } from "@expo/vector-icons";
+import theme from '../../configs/Theme';
 
 class ForgotPass extends Component {
     render() {
         return (
-            <View flex={1} backgroundColor="white">
+            <View flex={1} backgroundColor="white" _dark={{backgroundColor:"black"}}>
                 <Box position="absolute" top={"5%"} left="3%">
                     <IconButton
                         onPress={() => this.props.navigation.goBack()}
-                        icon={<Ionicons name='md-close' size={25} color="#000" />}
+                        icon={<Ionicons name='md-close' size={25} color={theme.config.initialColorMode=="dark"?"#fff":"#000"} />}
                     />
                 </Box>
                 <View flex={1} justifyContent="center" p="5%">
                     <Stack>
-                        <Heading bold fontSize={35} color="black">
+                        <Heading bold fontSize={35} color="black" _dark={{color:"#fff"}}>
                             Forgot Password
                         </Heading>
                         <Text color="coolGray.400" fontSize={17}>Please write your email to continue</Text>

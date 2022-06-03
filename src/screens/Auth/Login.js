@@ -5,12 +5,13 @@ import { AntDesign, Ionicons, FontAwesome5, Fontisto } from "@expo/vector-icons"
 import LGButton from '../../components/LGButton';
 import { connect } from 'react-redux';
 import AuthAction from '../../redux/Actions/AuthActions';
+import theme from '../../configs/Theme';
 
 class Login extends Component {
     render() {
         return (
             // <ScrollView>
-            <View flex={1} backgroundColor="white">
+            <View flex={1} backgroundColor="white" _dark={{backgroundColor:"black"}}>
                 {/* <Image
                     right={"-15%"}
                     top={"-10%"}
@@ -23,12 +24,12 @@ class Login extends Component {
                 <Box position="absolute" top={"5%"} left="3%">
                     <IconButton
                         onPress={() => this.props.navigation.goBack()}
-                        icon={<Ionicons name='md-close' size={25} color="#000" />}
+                        icon={<Ionicons name='md-close' size={25} color={theme.config.initialColorMode=="dark"?"#fff":"#000"} />}
                     />
                 </Box>
                 <View flex={1} justifyContent="center" p="5%">
                     <Stack>
-                        <Heading bold fontSize={35} color="black">
+                        <Heading bold fontSize={35} color="black" _dark={{color:"#fff"}}>
                             Login
                         </Heading>
                         <Text color="coolGray.400" fontSize={17}>Please Login to continue</Text>

@@ -12,7 +12,7 @@ export default class PersonalDetail extends Component {
 
     render() {
         return (
-            <ScrollView>
+            <ScrollView backgroundColor="#fff" _dark={{backgroundColor:"black"}}>
                 <View flex={1}>
                     <AppBar
                         noCart

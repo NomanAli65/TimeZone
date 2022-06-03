@@ -29,7 +29,7 @@ export default class index extends Component {
                             <Text bold>xxxx-xxxx-xxxx-1234</Text>
                         </HStack>
                         <IconButton
-                            icon={<Ionicons name="trash-bin" color={theme.colors.black} size={20} />}
+                            icon={<Ionicons name="trash-bin" color={theme.config.initialColorMode=="dark"?"#ccc":"#000"} size={20} />}
                             onPress={() => alert("ok")}
                         />
                     </HStack>
@@ -40,7 +40,7 @@ export default class index extends Component {
 
     render() {
         return (
-            <View flex={1} backgroundColor="white">
+            <View flex={1} backgroundColor="white" _dark={{ backgroundColor: "black" }}>
                 <AppBar
                     title={"Payment Methods"}
                     noCart
@@ -52,7 +52,7 @@ export default class index extends Component {
                     data={["", "", "", ""]}
                     renderItem={this._renderItem}
                 />
-                <Fab onPress={()=>this.props.navigation.navigate("AddCard")} renderInPortal={false} shadow={2} w={55} h={55} icon={<Icon color="white" as={AntDesign} name="plus" size="sm" ml={2} />} />
+                <Fab onPress={() => this.props.navigation.navigate("AddCard")} renderInPortal={false} shadow={2} w={55} h={55} icon={<Icon color="white" as={AntDesign} name="plus" size="sm" ml={2} />} />
             </View>
         );
     }

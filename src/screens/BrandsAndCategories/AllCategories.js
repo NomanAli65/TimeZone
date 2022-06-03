@@ -116,7 +116,7 @@ export default class AllCategoires extends Component {
         else
             return (
                 <RNView style={{ width }}>
-                    <RNImage source={item.image} style={{ width, height: 250 }} resizeMode="cover" />
+                    <RNImage source={item.image} style={{ width, height: 250}} resizeMode="cover" />
                 </RNView>
             )
     }
@@ -131,13 +131,18 @@ export default class AllCategoires extends Component {
 
     render() {
         return (
-            <ScrollView>
-                <View flex={1} backgroundColor="#fff">
+            <ScrollView
+            backgroundColor="#fff"
+            _dark={{
+                backgroundColor:"black"
+            }}
+            >
+                <View flex={1}>
                     <AppBar
                         title={"Top Categories"}
                         noCart
                         noWish
-                        noLeftIcon
+                        back
                     />
                     <Box
                         width={"100%"}

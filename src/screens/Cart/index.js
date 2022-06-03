@@ -48,7 +48,7 @@ export default class index extends Component {
 
     _renderItem = ({ item }) => {
         return (
-            <Box w={"100%"} alignItems="center" mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
+            <Box _dark={{backgroundColor:"gray.800"}} w={"100%"} alignItems="center" mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <HStack space={1} w={"full"} p={2}>
                     <Image alignSelf={"center"} maxH={90} maxW={"30%"} source={item.image} alt="image" resizeMode='contain' />
                     <Stack space={1} w={"55%"}>
@@ -62,7 +62,10 @@ export default class index extends Component {
                             <Text color={"primary.100"}>4000 AED</Text>
                         </Text>
                     </Stack>
-                    <IconButton ml={1} alignSelf={"center"} icon={<AntDesign name='delete' size={25} />} />
+                    <IconButton ml={1} alignSelf={"center"} icon={<AntDesign name='delete' size={25} />}
+                    _dark={{
+                        color:"#fff"
+                    }} />
                 </HStack>
             </Box>
         )
@@ -70,7 +73,7 @@ export default class index extends Component {
 
     render() {
         return (
-            <View flex={1}>
+            <View flex={1} backgroundColor="#fff" _dark={{backgroundColor:"black"}}>
                 <AppBar
                     title={"Cart"}
                     noCart

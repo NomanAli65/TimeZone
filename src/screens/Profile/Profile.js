@@ -11,7 +11,7 @@ export default class Profile extends Component {
 
     render() {
         return (
-            <View flex={1}>
+            <View flex={1} backgroundColor="#fff" _dark={{ backgroundColor: "black" }}>
                 <AppBar
                     title={"Account Details"}
                     noCart

@@ -1,21 +1,22 @@
-import { Box, Button, Heading, HStack, IconButton, Input, Icon, Stack, Text, View, FormControl, WarningOutlineIcon, ScrollView, Image, VStack } from 'native-base';
+import { Box, Heading, HStack, IconButton, Input, Icon, Stack, Text, View, VStack, } from 'native-base';
 import React, { Component } from 'react';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
+import theme from '../../configs/Theme';
 
 class AddCard extends Component {
     render() {
         return (
-            <View flex={1} backgroundColor="#fff">
+            <View flex={1} backgroundColor="#fff" _dark={{ backgroundColor: "black" }}>
                 <Box position="absolute" top={"5%"} left="3%">
                     <IconButton
                         onPress={() => this.props.navigation.goBack()}
-                        icon={<MaterialIcons name="chevron-left" size={25} color="#000" />} />
+                        icon={<MaterialIcons name="chevron-left" size={25} color={theme.config.initialColorMode=="dark"?"#fff":"#000"} />} />
                 </Box>
 
                 <View flex={1} justifyContent="center" p="5%">
                     <Stack>
-                        <Heading bold fontSize={35} color="black">
+                        <Heading bold fontSize={35} color="black" _dark={{ color: "#fff" }}>
                             Add Payment Method
                         </Heading>
                         <Text color="coolGray.400" fontSize={17}>Please fill all fields to continue</Text>

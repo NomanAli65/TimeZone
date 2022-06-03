@@ -48,7 +48,7 @@ export default class History extends Component {
 
     _renderItem = ({ item }) => {
         return (
-            <Box w={"100%"} alignItems="center" mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
+            <Box _dark={{ backgroundColor: "gray.800" }} w={"100%"} alignItems="center" mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <HStack space={1} w={"full"} p={2}>
                     <Image alignSelf={"center"} maxH={90} maxW={"30%"} source={item.image} alt="image" resizeMode='contain' />
                     <Stack space={1} w={"70%"}>
@@ -59,12 +59,12 @@ export default class History extends Component {
                             {item.desc}
                         </Text>
                         <HStack justifyContent={"space-between"}>
-                        <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
-                            <Text color={"primary.100"}>4000 AED</Text>
-                        </Text>
-                        <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3}>
-                            <Text color={"gray.400"}>1 Jan 2022</Text>
-                        </Text>
+                            <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
+                                <Text color={"primary.100"}>4000 AED</Text>
+                            </Text>
+                            <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3}>
+                                <Text color={"gray.400"}>1 Jan 2022</Text>
+                            </Text>
                         </HStack>
                     </Stack>
                 </HStack>
@@ -74,7 +74,7 @@ export default class History extends Component {
 
     render() {
         return (
-            <View flex={1}>
+            <View flex={1} backgroundColor="#fff" _dark={{ backgroundColor: "black" }}>
                 <AppBar
                     title={"Order History"}
                     noCart

@@ -68,6 +68,10 @@ const theme = extendTheme({
       800: "#AC9956",
       900: "#AC9956",
     }
+  },
+  config:{
+    useSystemColorMode: false,
+    initialColorMode:"light"
   }
 });
 
