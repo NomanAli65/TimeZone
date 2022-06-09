@@ -31,7 +31,7 @@ export default class ProductDetail extends Component {
         return (
             <Pressable>
                 <Box w={160} h={120} alignItems="center" mr={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
-                    <Image alignSelf={"center"} h={"100%"} w={"100%"}  source={item} alt="image" resizeMode='contain' />
+                    <Image alignSelf={"center"} h={"100%"} w={"100%"} source={item} alt="image" resizeMode='contain' />
                 </Box>
             </Pressable>
         )
@@ -40,10 +40,10 @@ export default class ProductDetail extends Component {
     render() {
         return (
             <View flex={1}
-            backgroundColor="#fff"
-            _dark={{
-                backgroundColor:"#000"
-            }}
+                backgroundColor="#fff"
+                _dark={{
+                    backgroundColor: "#000"
+                }}
             >
                 <ScrollView>
                     <AppBar
@@ -54,10 +54,6 @@ export default class ProductDetail extends Component {
                     />
                     <RNView style={{ width }}>
                         <RNImage source={require("../../../assets/1.jpg")} style={{ width, height: 250 }} resizeMode="cover" />
-                        <HStack position="absolute" top={0.5} right={2} space={3} backgroundColor="rgba(0,0,0,0.7)">
-                        <IconButton icon={<AntDesign name='sharealt' size={20} color={theme.colors.primary[100]} />}  />
-                        <IconButton icon={<AntDesign name='hearto' size={20} color={theme.colors.primary[100]} />}/>
-                        </HStack>
                     </RNView>
                     <FlatList
                         p={3}
@@ -67,12 +63,18 @@ export default class ProductDetail extends Component {
                     />
                     <VStack space={3} p={4}>
                         <HStack justifyContent={"space-between"}>
-                            <Heading>
-                                Rolex watch
-                            </Heading>
-                            <Heading color={"primary.100"}>
-                                40000 AED
-                            </Heading>
+                            <VStack>
+                                <Heading>
+                                    Rolex watch
+                                </Heading>
+                                <Heading fontSize={"xl"} color={"primary.100"}>
+                                    40000 AED
+                                </Heading>
+                            </VStack>
+                            <HStack alignItems={"flex-start"}>
+                                <IconButton icon={<AntDesign name='sharealt' size={20} color={theme.colors.primary[100]} />} />
+                                <IconButton icon={<AntDesign name='hearto' size={20} color={theme.colors.primary[100]} />} />
+                            </HStack>
                         </HStack>
                         <Text>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -113,21 +115,21 @@ export default class ProductDetail extends Component {
                             </Text>
                         </HStack>
                         <Box w={"100%"} h={200}>
-                        <Video
-                        useNativeControls
-                        //source={{uri:"https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"}}
-                        source={{uri:"https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4"}}
-                        posterSource={{uri:"https://www.mapcom.com/wp-content/uploads/2015/07/video-placeholder.jpg"}}
-                        style={{
-                            width:"100%",
-                            height:200,
-                        }}
-                        posterStyle={{
-                            width:"100%",
-                            height:200
-                        }}
-                        resizeMode="cover"
-                        />
+                            <Video
+                                useNativeControls
+                                //source={{uri:"https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"}}
+                                source={{ uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" }}
+                                posterSource={{ uri: "https://www.mapcom.com/wp-content/uploads/2015/07/video-placeholder.jpg" }}
+                                style={{
+                                    width: "100%",
+                                    height: 200,
+                                }}
+                                posterStyle={{
+                                    width: "100%",
+                                    height: 200
+                                }}
+                                resizeMode="cover"
+                            />
                         </Box>
                     </VStack>
                 </ScrollView>
