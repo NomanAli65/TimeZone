@@ -5,6 +5,8 @@ import SearchBar from '../../components/SearchBar';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
 import WatchItem from '../../components/WatchItem';
+import { connect } from 'react-redux';
+import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 
 const { width } = Dimensions.get("window");
 
@@ -41,7 +43,7 @@ const data = [
     }
 ]
 
-export default class index extends Component {
+class index extends Component {
 
     constructor(props) {
         super(props);
@@ -102,3 +104,14 @@ export default class index extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    loading: state.GeneralReducer.loading,
+    products: state.Product.data,
+})
+
+const mapDispatchToProps = dispatch => ({
+    getAllProducts: data => dispatch(ProductMiddleware.getAllProducts()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(index);

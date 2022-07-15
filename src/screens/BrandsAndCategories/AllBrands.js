@@ -5,6 +5,9 @@ import SearchBar from '../../components/SearchBar';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
 import BrandItem from '../../components/BrandItem';
+import { connect } from 'react-redux';
+import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
+import { APIs } from '../../configs/APIs';
 
 const { width } = Dimensions.get("window");
 
@@ -31,7 +34,7 @@ const data = [
     },
 ]
 
-export default class AllBrands extends Component {
+class AllBrands extends Component {
 
     constructor(props) {
         super(props);
@@ -41,13 +44,13 @@ export default class AllBrands extends Component {
     }
 
     componentDidMount() {
-        this.timeout = setTimeout(() => {
-            this.setState({ loading: false })
-        }, 3000)
+        this.props.getAllBrands({
+            next_url: this.props.all_brands?.next_url ? APIs.AllBrands : this.props.all_brands?.next_url,
+        })
     }
-    componentWillUnmount() {
-        clearTimeout(this.timeout)
-    }
+    // componentWillUnmount() {
+    //     clearTimeout(this.timeout)
+    // }
 
     _renderItem = ({ item, index }) => (
         <BrandItem
@@ -59,11 +62,11 @@ export default class AllBrands extends Component {
 
     render() {
         return (
-            <View flex={1} 
-            backgroundColor="#fff"
-            _dark={{
-                backgroundColor:'black'
-            }}>
+            <View flex={1}
+                backgroundColor="#fff"
+                _dark={{
+                    backgroundColor: 'black'
+                }}>
                 <AppBar
                     title={"All Brands"}
                     back
@@ -81,7 +84,7 @@ export default class AllBrands extends Component {
                     p={3}
                     numColumns={2}
                     keyExtractor={(item) => item.name}
-                    data={data}
+                    data={this.props.all_brands?.data?this.props.all_brands?.data:data}
                     renderItem={this._renderItem}
                 />
                 {/* </Stack> */}
@@ -89,3 +92,15 @@ export default class AllBrands extends Component {
         );
     }
 }
+
+
+const mapStateToProps = state => ({
+    loading: state.GeneralReducer.loading,
+    all_brands: state.GeneralReducer.all_brands
+})
+
+const mapDispatchToProps = dispatch => ({
+    getAllBrands: data => dispatch(GeneralMiddleware.getAllBrands(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllBrands);

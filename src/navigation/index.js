@@ -44,7 +44,7 @@ export default function Navigation() {
         {
           showAlert ?
           <View style={{...StyleSheet.absoluteFill,backgroundColor:"rgba(0,0,0,0.2)"}}>
-            <Alert variant={"subtle"} w="96%" status="success" position={"absolute"} bottom={60} borderRadius={10} alignSelf="center">
+            <Alert variant={"subtle"} w="96%" status={alertOptions?.status?alertOptions.status:"success"} position={"absolute"} bottom={60} borderRadius={10} alignSelf="center">
               <VStack space={1} flexShrink={1} w="100%" alignItems="center">
                 <Alert.Icon size="md" />
                 <Text fontSize="md" fontWeight="medium">

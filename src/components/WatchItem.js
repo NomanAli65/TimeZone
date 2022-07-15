@@ -3,13 +3,14 @@ import { AspectRatio, Box, Button, FlatList, Heading, HStack, Icon, IconButton, 
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
+import { img_url } from "../configs/APIs";
 
 
 const WatchItem = ({ loading, item, halfScreen, index }) => {
 
     const navigation = useNavigation();
     const loggedIn = useSelector((state) => state.Auth.isLogin);
-    const color = useColorModeValue("#000", "#cccc");
+    const color = useColorModeValue("#5c5c5c", "#cccc");
 
     if (loading)
         return (
@@ -36,20 +37,20 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
                 w={halfScreen ? "49%" : 200} alignItems="center" mr={halfScreen ? (index % 2 == 0 ? 2 : 0) : 3} mb={halfScreen ? 2 : 0} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <Pressable onPress={() => navigation.navigate("ProductDetail")}>
                     <Stack space={4}>
-                        <Image alignSelf={"center"} maxH={150} maxW={"100%"} source={item.image} alt="image" resizeMode='contain' />
+                        <Image alignSelf={"center"} h={150} w={"100%"} source={{ uri: img_url + item.image }} alt="Loading Image or No Image" resizeMode='contain' />
                         <Stack space={1} p={3}>
                             <Heading size={halfScreen ? "sm" : "md"}>
-                                {item.name}
+                                {item.product_name}
                             </Heading>
                             <Text fontSize={halfScreen ? "13" : "14"} flexWrap={"wrap"} numberOfLines={halfScreen ? 2 : 3}>
-                                {item.desc}
+                                {item.description}
                             </Text>
                             {/* <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
                             Price on Request
                         </Text> */}
                             <VStack>
                                 <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
-                                    PRICE <Text color={"primary.100"}>4000 AED</Text>
+                                    PRICE <Text color={"primary.100"}>{item.price} AED</Text>
                                 </Text>
                                 {/* <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
                            RETAIL PRICE <Text color={"gray.400"}>4000 AED</Text> 

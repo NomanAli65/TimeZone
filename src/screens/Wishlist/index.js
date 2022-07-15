@@ -2,6 +2,7 @@ import { AspectRatio, Box, Button, FlatList, Heading, HStack, Icon, IconButton, 
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
 
 
 const data = [
@@ -37,7 +38,7 @@ const data = [
     }
 ]
 
-export default class index extends Component {
+class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -115,3 +116,15 @@ export default class index extends Component {
         );
     }
 }
+
+
+const mapStateToProps = state => ({
+    loading: state.GeneralReducer.loading,
+    all_methods: state.User.methods
+})
+
+const mapDispatchToProps = dispatch => ({
+    getAllMethods: data => dispatch(GeneralMiddleware.getAllBrands(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(index);

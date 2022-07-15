@@ -3,8 +3,10 @@ import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import theme from '../../configs/Theme';
+import { UserMiddleware } from '../../redux/Middlewares/UserMiddleware';
+import { APIs } from '../../configs/APIs';
 
-export default class index extends Component {
+class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -12,10 +14,19 @@ export default class index extends Component {
         };
     }
 
-    _renderItem = ({ index }) => {
+    componentDidMount(){
+        this.props.getAllMethods({
+            next_url: this.props.all_methods?.next_url ? APIs.GetPaymentMethods : this.props.all_methods?.next_url,
+        })
+    }
+
+    _renderItem = ({ index,item }) => {
         return (
             <Box rounded={"lg"} p={4}>
-                <Pressable onPress={() => this.setState({ selectedIndex: index })}>
+                <Pressable onPress={() => {
+                    this.props.defaultMethod(item)
+                    this.setState({ selectedIndex: index })
+                    }}>
                     <HStack alignItems="center" justifyContent={"space-between"}>
                         <HStack space={4} alignItems="center">
                             <Radio.Group
@@ -29,8 +40,8 @@ export default class index extends Component {
                             <Text bold>xxxx-xxxx-xxxx-1234</Text>
                         </HStack>
                         <IconButton
-                            icon={<Ionicons name="trash-bin" color={theme.config.initialColorMode=="dark"?"#ccc":"#000"} size={20} />}
-                            onPress={() => alert("ok")}
+                            icon={<Ionicons name="trash-bin" color={theme.config.initialColorMode == "dark" ? "#ccc" : "#000"} size={20} />}
+                            onPress={() => this.props.deleteMethod(index)}
                         />
                     </HStack>
                 </Pressable>
@@ -49,7 +60,7 @@ export default class index extends Component {
                 />
                 <FlatList
                     p={3}
-                    data={["", "", "", ""]}
+                    data={this.props.all_methods?.data ? this.props.all_methods?.data : ["", "", "", ""]}
                     renderItem={this._renderItem}
                 />
                 <Fab onPress={() => this.props.navigation.navigate("AddCard")} renderInPortal={false} shadow={2} w={55} h={55} icon={<Icon color="white" as={AntDesign} name="plus" size="sm" ml={2} />} />
@@ -57,3 +68,16 @@ export default class index extends Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    loading: state.GeneralReducer.loading,
+    all_methods: state.User.methods
+})
+
+const mapDispatchToProps = dispatch => ({
+    getAllMethods: data => dispatch(UserMiddleware.getAllMethods(data)),
+    deleteMethod: data => dispatch(UserMiddleware.DeleteMethod(data)),
+    defaultMethod: data => dispatch(UserMiddleware.DefaultMethod(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(index);

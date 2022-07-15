@@ -4,8 +4,12 @@ import AppBar from '../components/Appbar';
 import SearchBar from '../components/SearchBar';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import Carousel from "react-native-snap-carousel";
-import { Dimensions, View as RNView, Image as RNImage } from "react-native";
+import { Dimensions, View as RNView, Image as RNImage, BackHandler } from "react-native";
 import WatchItem from '../components/WatchItem';
+import { connect } from 'react-redux';
+import { GeneralMiddleware } from '../redux/Middlewares/GeneralMiddleware';
+import { img_url } from '../configs/APIs';
+import GeneralActions from '../redux/Actions/GeneralActions';
 
 const { width } = Dimensions.get("window");
 
@@ -101,7 +105,9 @@ const dataC = [
   },
 ]
 
-export default class index extends Component {
+const dummy_data = [{}, {}, {}, {}, {}];
+
+class index extends Component {
 
   constructor(props) {
     super(props);
@@ -111,23 +117,27 @@ export default class index extends Component {
   }
 
   componentDidMount() {
-    this.timeout = setTimeout(() => {
-      this.setState({ loading: false })
-    }, 3000)
+    this.props.getDashboard();
+    BackHandler.addEventListener("hardwareBackPress",this.BackPress());
   }
   componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
+  BackPress=()=>{
+    this.props.StopLoading();
+    return false;
+  }
+
   _renderItem = ({ item }) => (
     <WatchItem
-      loading={this.state.loading}
+      loading={this.props.loading}
       item={item}
     />
   )
 
   _renderItemSmall = ({ item }) => {
-    if (this.state.loading)
+    if (this.props.loading)
       return (
         <Box alignItems="center" marginRight={3} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
           <Stack space={4} alignItems="center">
@@ -139,7 +149,7 @@ export default class index extends Component {
       return (
         <Box alignItems="center" marginRight={3} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" p={2}>
           <Stack space={4} alignItems="center">
-            <Image alignSelf={"center"} maxH={60} maxW={60} source={item.image} alt="image" resizeMode='contain' />
+            <Image alignSelf={"center"} h={60} w={60} source={{ uri: img_url + item.image }} alt="image" resizeMode='contain' />
             {/* <Heading size={"sm"}>
             {item.name}
           </Heading> */}
@@ -149,7 +159,7 @@ export default class index extends Component {
   }
 
   _renderBanner = ({ item }) => {
-    if (this.state.loading)
+    if (this.props.loading)
       return (
         <RNView style={{ width }}>
           <Skeleton width={"100%"} height={"100%"} />
@@ -158,7 +168,7 @@ export default class index extends Component {
     else
       return (
         <RNView style={{ width }}>
-          <RNImage source={item.image} style={{ width, height: 250 }} resizeMode="cover" />
+          <RNImage source={{ uri: img_url + item.image }} style={{ width, height: 250 }} resizeMode="cover" />
         </RNView>
       )
   }
@@ -171,6 +181,7 @@ export default class index extends Component {
           _dark={{
             backgroundColor: "#000"
           }}
+          paddingBottom={30}
         >
           <AppBar
             title={"TIMEZONE"}
@@ -196,8 +207,8 @@ export default class index extends Component {
               itemWidth={width}
               snapToInterval={width}
               enableSnap={false}
-              data={banners}
-              extraData={this.state.loading}
+              data={this.props.dashboard?.banners}
+              extraData={this.props.loading}
               renderItem={this._renderBanner}
             />
           </Box>
@@ -216,7 +227,7 @@ export default class index extends Component {
               <FlatList
                 horizontal
                 keyExtractor={(item) => item.name}
-                data={data}
+                data={this.props.dashboard?.popular_watches?.length > 0 ? this.props.dashboard?.popular_watches : dummy_data}
                 renderItem={this._renderItem}
               />
             </Stack>
@@ -234,7 +245,7 @@ export default class index extends Component {
               <FlatList
                 horizontal
                 keyExtractor={(item) => item.name}
-                data={dataB}
+                data={this.props.dashboard?.top_brands?.length > 0 ? this.props.dashboard?.top_brands : dummy_data}
                 renderItem={this._renderItemSmall}
               />
             </Stack>
@@ -252,7 +263,7 @@ export default class index extends Component {
               <FlatList
                 horizontal
                 keyExtractor={(item) => item.name}
-                data={data}
+                data={this.props.dashboard?.latest_watches?.length > 0 ? this.props.dashboard?.latest_watches : dummy_data}
                 renderItem={this._renderItem}
               />
             </Stack>
@@ -270,7 +281,7 @@ export default class index extends Component {
               <FlatList
                 horizontal
                 keyExtractor={(item) => item.name}
-                data={dataC}
+                data={this.props.dashboard?.top_categories?.length > 0 ? this.props.dashboard?.top_categories : dummy_data}
                 renderItem={this._renderItemSmall}
               />
             </Stack>
@@ -288,7 +299,7 @@ export default class index extends Component {
               <FlatList
                 horizontal
                 keyExtractor={(item) => item.name}
-                data={data}
+                data={this.props.dashboard?.latest_watches?.length > 0 ? this.props.dashboard?.latest_watches : dummy_data}
                 renderItem={this._renderItem}
               />
             </Stack>
@@ -298,3 +309,15 @@ export default class index extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  loading: state.GeneralReducer.loading,
+  dashboard: state.GeneralReducer.dashboardData
+})
+
+const mapDispatchToProps = dispatch => ({
+  getDashboard: data => dispatch(GeneralMiddleware.getDashboardData()),
+  StopLoading:()=>dispatch(GeneralActions.HideLoading())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(index);

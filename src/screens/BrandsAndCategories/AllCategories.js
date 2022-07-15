@@ -6,6 +6,8 @@ import { Dimensions, View as RNView, Image as RNImage } from "react-native";
 import WatchItem from '../../components/WatchItem';
 import AppBar from '../../components/Appbar';
 import CategoryItem from '../../components/CategoryItem';
+import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
+import { connect } from 'react-redux';
 
 const { width } = Dimensions.get("window");
 
@@ -79,7 +81,7 @@ const dataB = [
 ]
 
 
-export default class AllCategoires extends Component {
+class AllCategories extends Component {
 
     constructor(props) {
         super(props);
@@ -89,14 +91,17 @@ export default class AllCategoires extends Component {
     }
 
     componentDidMount() {
-        this.timeout = setTimeout(() => {
-            this.setState({ loading: false })
-        }, 3000)
+        // this.timeout = setTimeout(() => {
+        //     this.setState({ loading: false })
+        // }, 3000)
+        this.props.getAllCategories({
+            next_url: this.props.all_brands?.next_url ? APIs.AllBrands : this.props.all_brands?.next_url,
+        })
     }
 
-    componentWillUnmount() {
-        clearTimeout(this.timeout)
-    }
+    // componentWillUnmount() {
+    //     clearTimeout(this.timeout)
+    // }
 
     _renderItem = ({ item }) => (
         <WatchItem
@@ -244,7 +249,7 @@ export default class AllCategoires extends Component {
                                 // p={3}
                                 numColumns={3}
                                 keyExtractor={(item) => item.name}
-                                data={dataB}
+                                data={this.props.all_categories?.data?this.props.all_categories?.data:dataB}
                                 renderItem={this._renderBItem}
                             />
                         </Stack>
@@ -255,3 +260,15 @@ export default class AllCategoires extends Component {
         );
     }
 }
+
+
+const mapStateToProps = state => ({
+    loading: state.GeneralReducer.loading,
+    all_categories: state.GeneralReducer.all_categories
+})
+
+const mapDispatchToProps = dispatch => ({
+    getAllBrands: data => dispatch(GeneralMiddleware.getAllCategories(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AllCategories);
