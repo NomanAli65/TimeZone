@@ -15,6 +15,22 @@ class ProductActions {
             payload: payload,
         };
     };
+    static AddRemToWishlist = payload => {
+        return {
+            type: ProductTypes.ADD_PRODUCT_WISHLIST,
+            payload: payload,
+        };
+    };
+    static ResetProducts = () => {
+        return {
+            type: ProductTypes.RESET_ALL_PRODUCTS,
+        };
+    };
+    static ResetWishlist = () => {
+        return {
+            type: ProductTypes.RESET_GET_WISHLIST,
+        };
+    };
 }
 
 export default ProductActions;

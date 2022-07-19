@@ -41,6 +41,7 @@ export const post = async (url, data, config = {}, message = "") => {
     }
   } catch (error) {
     store.dispatch(AlertAction.ShowAlert({ title: "Warning", message: error.message, status: "error" }))
+    throw error;
   }
 };
 
@@ -53,6 +54,7 @@ export const get = async (url, config = {}) => {
       store.dispatch(AlertAction.ShowAlert({ title: "Warning", message: request.data.message }))
     }
   } catch (error) {
-    store.dispatch(AlertAction.ShowAlert({ title: "Warning", message: error.message, status: "error" }))
+    store.dispatch(AlertAction.ShowAlert({ title: "Warning", message: error.message, status: "error" }));
+    throw error;
   }
 };

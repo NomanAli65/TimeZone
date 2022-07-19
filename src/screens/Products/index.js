@@ -7,6 +7,8 @@ import { Dimensions } from "react-native";
 import WatchItem from '../../components/WatchItem';
 import { connect } from 'react-redux';
 import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
+import { APIs } from '../../configs/APIs';
+import ProductActions from '../../redux/Actions/ProductActions';
 
 const { width } = Dimensions.get("window");
 
@@ -48,17 +50,36 @@ class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: true
+            loading: true,
+            refreshing: false
         };
     }
 
     componentDidMount() {
-        this.timeout = setTimeout(() => {
-            this.setState({ loading: false })
-        }, 3000)
+        this.props.resetProducts();
+        this.props.getAllProducts({
+            next_url: this.props.products?.next_url ? this.props.products.next_url : APIs.AllProducts,
+            search: "",
+            type: "",
+            callback: () => {
+                this.setState({ loading: false })
+            }
+        })
     }
-    componentWillUnmount() {
-        clearTimeout(this.timeout)
+
+    onSearch = (text) => {
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            this.setState({ refreshing: true })
+            this.props.getAllProducts({
+                next_url: this.props.products.next_url ? this.props.products.next_url : APIs.AllProducts,
+                search: text,
+                type: "",
+                callback: () => {
+                    this.setState({ refreshing: false })
+                }
+            })
+        }, 1000)
     }
 
     _renderItem = ({ item, index }) => (
@@ -71,6 +92,7 @@ class index extends Component {
     )
 
     render() {
+        console.warn(this.props.products)
         return (
             <View flex={1}
                 backgroundColor="#fff"
@@ -87,16 +109,18 @@ class index extends Component {
                     onFilterPress={() => this.props.navigation.navigate("Filters")}
                     placeholder={"Search TIMEZONE"}
                     filter
+                    onChangeText={this.onSearch}
                 />
                 {/* <Stack space={2} p={3}>
                     <Heading>
                         Popular Watches
                     </Heading> */}
                 <FlatList
+                    refreshing={this.state.refreshing}
                     p={3}
                     numColumns={2}
                     keyExtractor={(item) => item.name}
-                    data={data}
+                    data={this.state.loading ? [{}, {}, {}, {}] : this.props.products?.data}
                     renderItem={this._renderItem}
                 />
                 {/* </Stack> */}
@@ -111,7 +135,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    getAllProducts: data => dispatch(ProductMiddleware.getAllProducts()),
+    getAllProducts: data => dispatch(ProductMiddleware.getAllProducts(data)),
+    resetProducts:()=>dispatch(ProductActions.ResetProducts())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

@@ -5,6 +5,7 @@ import { AntDesign, Ionicons } from "@expo/vector-icons";
 import theme from '../../configs/Theme';
 import { UserMiddleware } from '../../redux/Middlewares/UserMiddleware';
 import { APIs } from '../../configs/APIs';
+import { connect } from 'react-redux';
 
 class index extends Component {
     constructor(props) {

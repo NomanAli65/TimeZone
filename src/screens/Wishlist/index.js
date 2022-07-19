@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
+import { connect } from 'react-redux';
 
 
 const data = [

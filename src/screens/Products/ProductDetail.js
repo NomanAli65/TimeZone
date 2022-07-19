@@ -6,6 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 import theme from '../../configs/Theme';
 import LGButton from '../../components/LGButton';
 import { Video } from 'expo-av';
+import { img_url } from "../../configs/APIs";
 
 
 //TODO:Add Video player
@@ -37,7 +38,19 @@ export default class ProductDetail extends Component {
         )
     }
 
+    formatString = (str = "") => {
+        if (str) {
+            let strr = str;
+            let firstLetter = strr.charAt(0).toUpperCase();
+            let newStr = firstLetter + strr.substring(1, str.length);
+            return newStr;
+        }
+        else
+            return "No info available"
+    }
+
     render() {
+        let data = this.props.route.params?.item;
         return (
             <View flex={1}
                 backgroundColor="#fff"
@@ -53,7 +66,7 @@ export default class ProductDetail extends Component {
                         title={"TIMEZONE"}
                     />
                     <RNView style={{ width }}>
-                        <RNImage source={require("../../../assets/1.jpg")} style={{ width, height: 250 }} resizeMode="cover" />
+                        <RNImage source={{ uri: img_url + data.image }} style={{ width, height: 250 }} resizeMode="cover" />
                     </RNView>
                     <FlatList
                         p={3}
@@ -65,10 +78,10 @@ export default class ProductDetail extends Component {
                         <HStack justifyContent={"space-between"}>
                             <VStack>
                                 <Heading>
-                                    Rolex watch
+                                    {data.product_name}
                                 </Heading>
                                 <Heading fontSize={"xl"} color={"primary.100"}>
-                                    40000 AED
+                                    {data.price} AED
                                 </Heading>
                             </VStack>
                             <HStack alignItems={"flex-start"}>
@@ -77,14 +90,32 @@ export default class ProductDetail extends Component {
                             </HStack>
                         </HStack>
                         <Text>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            {data.description}
                         </Text>
+                        <HStack justifyContent={"space-between"}>
+                            <Text bold>
+                                Color
+                            </Text>
+                            <Text color={"primary.100"}>
+                                {this.formatString(data?.color?.color_name)}
+                            </Text>
+                        </HStack>
+                        <Divider />
                         <HStack justifyContent={"space-between"}>
                             <Text bold>
                                 Condition
                             </Text>
                             <Text color={"primary.100"}>
-                                Used
+                                {this.formatString(data?.condition)}
+                            </Text>
+                        </HStack>
+                        <Divider />
+                        <HStack justifyContent={"space-between"}>
+                            <Text bold>
+                                Case Material
+                            </Text>
+                            <Text color={"primary.100"}>
+                                {this.formatString(data?.case_material)}
                             </Text>
                         </HStack>
                         <Divider />
@@ -93,7 +124,7 @@ export default class ProductDetail extends Component {
                                 Availability
                             </Text>
                             <Text color={"primary.100"}>
-                                In Stock
+                                {data?.availability == 1 ? "In Stock" : "Out of Stock"}
                             </Text>
                         </HStack>
                         <Divider />
@@ -102,7 +133,7 @@ export default class ProductDetail extends Component {
                                 Brand
                             </Text>
                             <Text color={"primary.100"}>
-                                Rolex
+                                {this.formatString(data?.brand?.brand_name)}
                             </Text>
                         </HStack>
                         <Divider />
@@ -111,7 +142,7 @@ export default class ProductDetail extends Component {
                                 Gender
                             </Text>
                             <Text color={"primary.100"}>
-                                Male
+                                {this.formatString(data?.gender)}
                             </Text>
                         </HStack>
                         <Box w={"100%"} h={200}>
