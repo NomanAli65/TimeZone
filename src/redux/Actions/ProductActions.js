@@ -9,9 +9,21 @@ class ProductActions {
             payload
         };
     };
+    static GetMoreAllProducts = (payload) => {
+        return {
+            type: ProductTypes.GET_MORE_ALL_PRODUCTS,
+            payload
+        };
+    };
     static GetWishlist = payload => {
         return {
             type: ProductTypes.GET_WISHLIST,
+            payload: payload,
+        };
+    };
+    static GetMoreWishlist = payload => {
+        return {
+            type: ProductTypes.GET_MORE_WISHLIST,
             payload: payload,
         };
     };

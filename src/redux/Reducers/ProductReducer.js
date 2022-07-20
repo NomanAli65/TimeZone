@@ -15,15 +15,15 @@ let initialSate = {
 const ProductReducer = (state = initialSate, action) => {
     switch (action.type) {
         case ProductTypes.GET_ALL_PRODUCTS:
+            state = { ...state, data: action.payload };
+            break;
+        case ProductTypes.GET_MORE_PRODUCTS:
             state = { ...state, data: { ...state.data, data: [...state.data?.data, ...action.payload.data] } };
             break;
-        case ProductTypes.RESET_ALL_PRODUCTS:
-            state = { ...state, data: { data: [] } };
-            break;
-        case ProductTypes.RESET_GET_WISHLIST:
-            state = { ...state, wishlist: { data: [] } };
-            break;
         case ProductTypes.GET_WISHLIST:
+            state = { ...state, wishlist: action.payload };
+            break;
+        case ProductTypes.GET_MORE_WISHLIST:
             state = { ...state, wishlist: { ...state.wishlist, data: [...state.wishlist?.data, ...action.payload.data] } };
             break;
         case ProductTypes.ADD_PRODUCT_WISHLIST:

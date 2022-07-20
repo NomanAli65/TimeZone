@@ -39,7 +39,7 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
                 w={halfScreen ? "49%" : 200} alignItems="center" mr={halfScreen ? (index % 2 == 0 ? 2 : 0) : 3} mb={halfScreen ? 2 : 0} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <Pressable onPress={() => navigation.navigate("ProductDetail", { item })}>
                     <Stack space={4}>
-                        <Image alignSelf={"center"} h={150} w={"100%"} source={item.image ? { uri: img_url + item.image } : require("../../assets/placeholder.jpeg")} resizeMode='contain' />
+                        <Image h={150} w={"100%"} source={item.image ? { uri: img_url + item.image } : require("../../assets/placeholder.png")} alt="Watch Image" resizeMode='contain' />
                         <Stack space={1} p={3}>
                             <Heading size={halfScreen ? "sm" : "md"}>
                                 {item.product_name}

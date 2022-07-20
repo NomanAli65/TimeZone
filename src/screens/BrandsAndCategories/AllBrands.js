@@ -32,6 +32,26 @@ const data = [
         name: "Seiko",
         image: require("../../../assets/seiko.png")
     },
+    {
+        name: "Rolex",
+        image: require("../../../assets/rolex.png")
+    },
+    {
+        name: "Rado",
+        image: require("../../../assets/rado.png")
+    },
+    {
+        name: "Timex",
+        image: require("../../../assets/timex.png")
+    },
+    {
+        name: "Tag",
+        image: require("../../../assets/tag.png")
+    },
+    {
+        name: "Seiko",
+        image: require("../../../assets/seiko.png")
+    },
 ]
 
 class AllBrands extends Component {
@@ -39,14 +59,33 @@ class AllBrands extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: true
+            loading: true,
+            refreshing: false,
+            search:""
         };
     }
 
     componentDidMount() {
         this.props.getAllBrands({
-            next_url: this.props.all_brands?.next_url ? APIs.AllBrands : this.props.all_brands?.next_url,
+            search:"",
+            callback: () => {
+                this.setState({ loading: false })
+            }
         })
+    }
+
+    onSearch = (text) => {
+        this.setState({ search: text })
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            this.setState({ refreshing: true })
+            this.props.getAllBrands({
+                search: text,
+                callback: () => {
+                    this.setState({ refreshing: false })
+                }
+            })
+        }, 1000)
     }
     // componentWillUnmount() {
     //     clearTimeout(this.timeout)
@@ -59,6 +98,16 @@ class AllBrands extends Component {
             item={item}
         />
     )
+
+    onRefresh = () => {
+        this.setState({ refreshing: true })
+        this.props.getAllBrands({
+            search:this.state.search,
+            callback: () => {
+                this.setState({ refreshing: false })
+            }
+        })
+    }
 
     render() {
         return (
@@ -75,16 +124,19 @@ class AllBrands extends Component {
                 />
                 <SearchBar
                     placeholder={"Search Brands"}
+                    onChangeText={this.onSearch}
                 />
                 {/* <Stack space={2} p={3}>
                     <Heading>
                         Popular Watches
                     </Heading> */}
                 <FlatList
+                    onRefresh={this.onRefresh}
+                    refreshing={this.state.refreshing}
                     p={3}
                     numColumns={2}
                     keyExtractor={(item) => item.name}
-                    data={this.props.all_brands?.data?this.props.all_brands?.data:data}
+                    data={!this.state.loading ? this.props.all_brands : data}
                     renderItem={this._renderItem}
                 />
                 {/* </Stack> */}
@@ -95,7 +147,6 @@ class AllBrands extends Component {
 
 
 const mapStateToProps = state => ({
-    loading: state.GeneralReducer.loading,
     all_brands: state.GeneralReducer.all_brands
 })
 

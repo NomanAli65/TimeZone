@@ -27,9 +27,27 @@ class GeneralActions {
             payload: payload,
         };
     };
+    static GetMoreBrands = payload => {
+        return {
+            type: GeneralTypes.GET_MORE_BRANDS,
+            payload: payload,
+        };
+    };
     static GetAllCategories = payload => {
         return {
             type: GeneralTypes.GET_ALL_CATEGORIES,
+            payload: payload,
+        };
+    };
+    static GetTopCategories = payload => {
+        return {
+            type: GeneralTypes.GET_TOP_CATEGORIES,
+            payload: payload,
+        };
+    };
+    static GetMoreCategories = payload => {
+        return {
+            type: GeneralTypes.GET_MORE_CATEGORIES,
             payload: payload,
         };
     };

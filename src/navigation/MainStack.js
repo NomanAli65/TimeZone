@@ -10,6 +10,7 @@ import AllBrands from "../screens/BrandsAndCategories/AllBrands";
 import AllCategoires from "../screens/BrandsAndCategories/AllCategories";
 import ProductDetail from "../screens/Products/ProductDetail";
 import PersonalDetail from "../screens/TradeIn/PersonalDetail";
+import TopCategories from "../screens/BrandsAndCategories/TopCategories";
 
 
 const StackNavigator = createNativeStackNavigator();
@@ -30,6 +31,7 @@ const MainStack = () => {
             <StackNavigator.Screen name="Filters" component={SearchFilter} />
             <StackNavigator.Screen name="AllBrands" component={AllBrands} />
             <StackNavigator.Screen name="AllCategories" component={AllCategoires} />
+            <StackNavigator.Screen name="TopCategories" component={TopCategories} />
             <StackNavigator.Screen name="ProductDetail" component={ProductDetail} />
 
         </StackNavigator.Navigator>

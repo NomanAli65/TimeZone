@@ -8,6 +8,7 @@ import AppBar from '../../components/Appbar';
 import CategoryItem from '../../components/CategoryItem';
 import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
 import { connect } from 'react-redux';
+import SearchBar from '../../components/SearchBar';
 
 const { width } = Dimensions.get("window");
 
@@ -78,6 +79,34 @@ const dataB = [
         name: "Mechanical",
         image: require("../../../assets/seiko.png")
     },
+    {
+        name: "Mechanical",
+        image: require("../../../assets/seiko.png")
+    },
+    {
+        name: "Analog",
+        image: require("../../../assets/rolex.png")
+    },
+    {
+        name: "Digital",
+        image: require("../../../assets/rado.png")
+    },
+    {
+        name: "Automatic1",
+        image: require("../../../assets/timex.png")
+    },
+    {
+        name: "Chronograph1",
+        image: require("../../../assets/tag.png")
+    },
+    {
+        name: "Mechanical1",
+        image: require("../../../assets/seiko.png")
+    },
+    {
+        name: "Mechanical1",
+        image: require("../../../assets/seiko.png")
+    },
 ]
 
 
@@ -86,22 +115,44 @@ class AllCategories extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: true
+            loading: true,
+            refreshing: false,
+            search: ""
         };
     }
 
     componentDidMount() {
-        // this.timeout = setTimeout(() => {
-        //     this.setState({ loading: false })
-        // }, 3000)
         this.props.getAllCategories({
-            next_url: this.props.all_brands?.next_url ? APIs.AllBrands : this.props.all_brands?.next_url,
+            search: "",
+            callback: () => {
+                this.setState({ loading: false })
+            }
         })
     }
 
-    // componentWillUnmount() {
-    //     clearTimeout(this.timeout)
-    // }
+    onSearch = (text) => {
+        this.setState({ search: text })
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+            this.setState({ refreshing: true })
+            this.props.getAllCategories({
+                search: text,
+                callback: () => {
+                    this.setState({ refreshing: false })
+                }
+            })
+        }, 1000)
+    }
+
+    onRefresh = () => {
+        this.setState({ refreshing: true })
+        this.props.getAllCategories({
+            search: this.state.search,
+            callback: () => {
+                this.setState({ refreshing: false })
+            }
+        })
+    }
 
     _renderItem = ({ item }) => (
         <WatchItem
@@ -109,7 +160,6 @@ class AllCategories extends Component {
             item={item}
         />
     )
-
 
     _renderBanner = ({ item }) => {
         if (this.state.loading)
@@ -121,7 +171,7 @@ class AllCategories extends Component {
         else
             return (
                 <RNView style={{ width }}>
-                    <RNImage source={item.image} style={{ width, height: 250}} resizeMode="cover" />
+                    <RNImage source={item.image} style={{ width, height: 250 }} resizeMode="cover" />
                 </RNView>
             )
     }
@@ -137,138 +187,73 @@ class AllCategories extends Component {
     render() {
         return (
             <ScrollView
-            backgroundColor="#fff"
-            _dark={{
-                backgroundColor:"black"
-            }}
+                backgroundColor="#fff"
+                _dark={{
+                    backgroundColor: "black"
+                }}
             >
                 <View flex={1}>
                     <AppBar
-                        title={"Top Categories"}
+                        title={"All Categories"}
                         noCart
                         noWish
                         back
                     />
-                    <Box
-                        width={"100%"}
-                        height={250}
-                        mb={10}
-                    >
-                        <Carousel
-                            autoplay
-                            loop
-                            sliderHeight={250}
-                            itemHeight={250}
-                            sliderWidth={width}
-                            itemWidth={width}
-                            snapToInterval={width}
-                            enableSnap={false}
-                            data={banners}
-                            extraData={this.state.loading}
-                            renderItem={this._renderBanner}
+                    <SearchBar
+                        placeholder={"Search Categories"}
+                        onChangeText={this.onSearch}
+                    />
+                    {!this.state.refreshing && !this.state.search ?
+                        this.state.loading ?
+                            <Skeleton
+                                h={250}
+                                w="100%"
+                            />
+                            :
+                            <Box
+                                width={"100%"}
+                                height={250}
+                                mb={10}
+                            >
+                                <Carousel
+                                    autoplay
+                                    loop
+                                    sliderHeight={250}
+                                    itemHeight={250}
+                                    sliderWidth={width}
+                                    itemWidth={width}
+                                    snapToInterval={width}
+                                    enableSnap={false}
+                                    data={banners}
+                                    extraData={this.state.loading}
+                                    renderItem={this._renderBanner}
+                                />
+                            </Box>
+                        : null}
+                    <Stack space={4} px={3}>
+                        <FlatList
+                            // p={3}
+                            onRefresh={this.onRefresh}
+                            refreshing={this.state.refreshing}
+                            numColumns={3}
+                            keyExtractor={(item) => item.name}
+                            data={!this.state.loading ? this.props.all_categories : dataB}
+                            renderItem={this._renderBItem}
                         />
-                    </Box>
-                    <Stack px={3} space={10}>
-                        <Stack space={2}>
-                            <HStack justifyContent={"space-between"}>
-                                <Heading>
-                                    Men
-                                </Heading>
-                                <Button
-                                    onPress={() => this.props.navigation.navigate("Products")}
-                                    variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
-                                    View More
-                                </Button>
-                            </HStack>
-                            <FlatList
-                                horizontal
-                                keyExtractor={(item) => item.name}
-                                data={data}
-                                renderItem={this._renderItem}
-                            />
-                        </Stack>
-                        <Stack space={2}>
-                            <HStack justifyContent={"space-between"}>
-                                <Heading>
-                                    Women
-                                </Heading>
-                                <Button
-                                    onPress={() => this.props.navigation.navigate("Products")}
-                                    variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
-                                    View More
-                                </Button>
-                            </HStack>
-                            <FlatList
-                                horizontal
-                                keyExtractor={(item) => item.name}
-                                data={data}
-                                renderItem={this._renderItem}
-                            />
-                        </Stack>
-                        <Stack space={2}>
-                            <HStack justifyContent={"space-between"}>
-                                <Heading>
-                                    Unisex
-                                </Heading>
-                                <Button
-                                    onPress={() => this.props.navigation.navigate("Products")}
-                                    variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
-                                    View More
-                                </Button>
-                            </HStack>
-                            <FlatList
-                                horizontal
-                                keyExtractor={(item) => item.name}
-                                data={data}
-                                renderItem={this._renderItem}
-                            />
-                        </Stack>
-                        <Stack space={2}>
-                            <HStack justifyContent={"space-between"}>
-                                <Heading>
-                                    Children
-                                </Heading>
-                                <Button
-                                    onPress={() => this.props.navigation.navigate("Products")}
-                                    variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
-                                    View More
-                                </Button>
-                            </HStack>
-                            <FlatList
-                                horizontal
-                                keyExtractor={(item) => item.name}
-                                data={data}
-                                renderItem={this._renderItem}
-                            />
-                        </Stack>
-                        <Stack space={4}>
-                            <Heading>
-                                All Categories
-                            </Heading>
-                            <FlatList
-                                // p={3}
-                                numColumns={3}
-                                keyExtractor={(item) => item.name}
-                                data={this.props.all_categories?.data?this.props.all_categories?.data:dataB}
-                                renderItem={this._renderBItem}
-                            />
-                        </Stack>
                     </Stack>
-
                 </View>
-            </ScrollView>
+            </ScrollView >
         );
     }
 }
 
 
 const mapStateToProps = state => ({
-    loading: state.GeneralReducer.loading,
     all_categories: state.GeneralReducer.all_categories
 })
 
 const mapDispatchToProps = dispatch => ({
-    getAllBrands: data => dispatch(GeneralMiddleware.getAllCategories(data)),
+    getAllCategories: data => dispatch(GeneralMiddleware.getAllCategories(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllCategories);

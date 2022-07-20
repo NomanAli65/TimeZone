@@ -118,13 +118,13 @@ class index extends Component {
 
   componentDidMount() {
     this.props.getDashboard();
-    BackHandler.addEventListener("hardwareBackPress",this.BackPress());
+    BackHandler.addEventListener("hardwareBackPress", this.BackPress());
   }
   componentWillUnmount() {
     clearTimeout(this.timeout)
   }
 
-  BackPress=()=>{
+  BackPress = () => {
     this.props.StopLoading();
     return false;
   }
@@ -148,12 +148,40 @@ class index extends Component {
     else
       return (
         <Box alignItems="center" marginRight={3} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" p={2}>
+          <Pressable
+            onPress={() => {
+              this.props.navigation.navigate("Products", { category: item })
+            }}
+          >
+            <Stack space={4} alignItems="center">
+              <Image alignSelf={"center"} h={60} w={60} source={item.category_image ? { uri: img_url + item.category_image } : require("../../assets/placeholder.png")} alt="image" resizeMode='contain' />
+            </Stack>
+          </Pressable>
+        </Box>
+      )
+  }
+
+  _renderItemSmallBrand = ({ item }) => {
+    if (this.props.loading)
+      return (
+        <Box alignItems="center" marginRight={3} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
           <Stack space={4} alignItems="center">
-            <Image alignSelf={"center"} h={60} w={60} source={{ uri: img_url + item.image }} alt="image" resizeMode='contain' />
-            {/* <Heading size={"sm"}>
-            {item.name}
-          </Heading> */}
+            <Skeleton h={70} w={70} />
           </Stack>
+        </Box>
+      )
+    else
+      return (
+        <Box alignItems="center" marginRight={3} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" p={2}>
+          <Pressable
+            onPress={() => {
+              this.props.navigation.navigate("Products", { brand: item })
+            }}
+          >
+            <Stack space={4} alignItems="center">
+              <Image alignSelf={"center"} h={60} w={60} source={item.brand_image ? { uri: img_url + item.brand_image } : require("../../assets/placeholder.png")} alt="image" resizeMode='contain' />
+            </Stack>
+          </Pressable>
         </Box>
       )
   }
@@ -246,7 +274,7 @@ class index extends Component {
                 horizontal
                 keyExtractor={(item) => item.name}
                 data={this.props.dashboard?.top_brands?.length > 0 ? this.props.dashboard?.top_brands : dummy_data}
-                renderItem={this._renderItemSmall}
+                renderItem={this._renderItemSmallBrand}
               />
             </Stack>
             <Stack space={2}>
@@ -273,9 +301,9 @@ class index extends Component {
                   Top Categories
                 </Heading>
                 <Button
-                  onPress={() => this.props.navigation.navigate("AllCategories")}
+                  onPress={() => this.props.navigation.navigate("TopCategories")}
                   variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
-                  All Categories
+                  View more
                 </Button>
               </HStack>
               <FlatList
@@ -317,7 +345,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getDashboard: data => dispatch(GeneralMiddleware.getDashboardData()),
-  StopLoading:()=>dispatch(GeneralActions.HideLoading())
+  StopLoading: () => dispatch(GeneralActions.HideLoading())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

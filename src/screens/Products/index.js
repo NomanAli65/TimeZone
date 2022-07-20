@@ -51,12 +51,12 @@ class index extends Component {
         super(props);
         this.state = {
             loading: true,
-            refreshing: false
+            refreshing: false,
+            search: ""
         };
     }
 
     componentDidMount() {
-        this.props.resetProducts();
         this.props.getAllProducts({
             next_url: this.props.products?.next_url ? this.props.products.next_url : APIs.AllProducts,
             search: "",
@@ -68,11 +68,12 @@ class index extends Component {
     }
 
     onSearch = (text) => {
+        this.setState({ search: text })
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
             this.setState({ refreshing: true })
             this.props.getAllProducts({
-                next_url: this.props.products.next_url ? this.props.products.next_url : APIs.AllProducts,
+                next_url: APIs.AllProducts,
                 search: text,
                 type: "",
                 callback: () => {
@@ -91,8 +92,31 @@ class index extends Component {
         />
     )
 
+    onEndReached = () => {
+        if (this.props.products?.next_url)
+            this.props.getAllProducts({
+                next_url: this.props.products?.next_url ? this.props.products.next_url : APIs.AllProducts,
+                search: this.state.search,
+                type: "",
+                callback: () => {
+                    this.setState({ loading: false })
+                }
+            })
+    }
+
+    onRefresh = () => {
+        this.setState({ refreshing: true })
+        this.props.getAllProducts({
+            next_url: APIs.AllProducts,
+            search: this.state.search,
+            type: "",
+            callback: () => {
+                this.setState({ refreshing: false })
+            }
+        })
+    }
+
     render() {
-        console.warn(this.props.products)
         return (
             <View flex={1}
                 backgroundColor="#fff"
@@ -116,12 +140,15 @@ class index extends Component {
                         Popular Watches
                     </Heading> */}
                 <FlatList
+                    onRefresh={this.onRefresh}
                     refreshing={this.state.refreshing}
                     p={3}
                     numColumns={2}
                     keyExtractor={(item) => item.name}
-                    data={this.state.loading ? [{}, {}, {}, {}] : this.props.products?.data}
+                    data={this.props.products?.data}
                     renderItem={this._renderItem}
+                    onEndReached={this.onEndReached}
+                    onEndReachedThreshold={0.1}
                 />
                 {/* </Stack> */}
             </View>
@@ -136,7 +163,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getAllProducts: data => dispatch(ProductMiddleware.getAllProducts(data)),
-    resetProducts:()=>dispatch(ProductActions.ResetProducts())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

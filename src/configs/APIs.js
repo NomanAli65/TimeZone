@@ -7,6 +7,7 @@ export const APIs = {
   AllProducts: "all_watches",
   AllCategories:"all_categories",
   AllBrands:"all_brands",
+  TopCategories:"topCategoryProducts",
   Wishlist: "",
   AddToWishlist: "addToWishlist",
   RemoveFromWishlist: "",

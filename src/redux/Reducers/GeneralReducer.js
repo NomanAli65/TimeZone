@@ -6,7 +6,8 @@ let initialSate = {
     loading: false,
     dashboardData: null,
     all_brands: null,
-    all_categories: null
+    all_categories: null,
+    top_categories: null
 };
 
 const GeneralReducer = (state = initialSate, action) => {
@@ -18,9 +19,18 @@ const GeneralReducer = (state = initialSate, action) => {
             state = { ...state, loading: action.payload };
             break;
         case GeneralTypes.GET_ALL_BRANDS:
+            state = { ...state, all_brands: action.payload };
+            break;
+        case GeneralTypes.GET_MORE_BRANDS:
             state = { ...state, all_brands: { ...action.payload, data: [...state.all_brands.data, ...action.payload.data] } };
             break;
+        case GeneralTypes.GET_TOP_CATEGORIES:
+            state = { ...state, top_categories: action.payload };
+            break;
         case GeneralTypes.GET_ALL_CATEGORIES:
+            state = { ...state, all_categories: action.payload };
+            break;
+        case GeneralTypes.GET_MORE_CATEGORIES:
             state = { ...state, all_categories: { ...action.payload, data: [...state.all_categories.data, ...action.payload.data] } };
             break;
         default:

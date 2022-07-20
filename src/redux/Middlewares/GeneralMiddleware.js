@@ -20,32 +20,44 @@ export const GeneralMiddleware = {
             }
         };
     },
-    getAllBrands: ({next_url}) => {
+    getAllBrands: ({ callback, search }) => {
         return async dispatch => {
             try {
-                dispatch(GeneralActions.ShowLoading());
-                let request = await get(next_url);
+                let request = await get(APIs.AllBrands + "/" + search);
                 if (request) {
                     dispatch(GeneralActions.GetAllBrands(request));
                 }
-                dispatch(GeneralActions.HideLoading());
+                callback();
             } catch (error) {
-                dispatch(GeneralActions.HideLoading());
+                callback();
                 console.warn(error);
             }
         };
     },
-    getAllCategories: ({next_url}) => {
+    getAllCategories: ({ search, callback }) => {
         return async dispatch => {
             try {
-                dispatch(GeneralActions.ShowLoading());
-                let request = await get(next_url);
+                let request = await get(APIs.AllCategories + "/" + search);
                 if (request) {
                     dispatch(GeneralActions.GetAllCategories(request));
                 }
-                dispatch(GeneralActions.HideLoading());
+                callback()
             } catch (error) {
-                dispatch(GeneralActions.HideLoading());
+                callback()
+                console.warn(error);
+            }
+        };
+    },
+    getTopCategories: ({ callback }) => {
+        return async dispatch => {
+            try {
+                let request = await get(APIs.TopCategories);
+                if (request) {
+                    dispatch(GeneralActions.GetTopCategories(request));
+                }
+                callback()
+            } catch (error) {
+                callback()
                 console.warn(error);
             }
         };

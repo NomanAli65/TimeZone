@@ -10,29 +10,19 @@ export const ProductMiddleware = {
     getAllProducts: ({ next_url, search, type, callback }) => {
         return async dispatch => {
             try {
-                if (!next_url) {
-                    // dispatch(AlertAction.ShowAlert({
-                    //     title:"Message",
-                    //     message:"No more data",
-                    // }))
-                    return;
-                }
-                dispatch(GeneralActions.ShowLoading());
                 let formData = new FormData();
                 if (search)
                     formData.append("search", search)
                 if (type)
                     formData.append("type", type)
 
-                let request = await post(APIs.AllProducts, formData);
+                let request = await post(next_url, formData);
                 if (request) {
                     dispatch(ProductActions.GetAllProducts(request))
                     callback();
                 }
-                //dispatch({ type: ActionTypes.HideLoading });
             } catch (error) {
                 callback()
-                dispatch(GeneralActions.HideLoading());
                 console.warn(error);
             }
         };
@@ -40,13 +30,6 @@ export const ProductMiddleware = {
     getWishlist: ({ next_url }) => {
         return async dispatch => {
             try {
-                if (!next_url) {
-                    // dispatch(AlertAction.ShowAlert({
-                    //     title:"Message",
-                    //     message:"No more data",
-                    // }))
-                    return;
-                }
                 dispatch(GeneralActions.ShowLoading());
                 let request = await get(next_url);
                 if (request) {
