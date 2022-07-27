@@ -13,6 +13,8 @@ import {
     Avatar,
     View,
 } from "native-base";
+import { connect } from 'react-redux';
+import { img_url } from '../../configs/APIs';
 
 const routeNames = [
     "My Account",
@@ -21,7 +23,7 @@ const routeNames = [
     "Help",
 ]
 
-export default class index extends Component {
+class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -71,10 +73,10 @@ export default class index extends Component {
                     <VStack alignItems={"center"} space={4}>
                         <Avatar
                             size="2xl"
-                            source={require("../../../assets/user_place.png")}
+                            source={this.props.user?.user?.profile_pic ? { uri: img_url + this.props.user?.user?.profile_pic } : require("../../../assets/user_place.png")}
                         />
                         <Heading>
-                            User name
+                            {this.props.user?.user?.name}
                         </Heading>
                     </VStack>
                     <VStack divider={<Divider />} space="4">
@@ -137,3 +139,14 @@ export default class index extends Component {
         );
     }
 }
+
+
+const mapStateToProps = state => ({
+    user: state.Auth.user
+})
+
+const mapDispatchToProps = dispatch => ({
+    //  getDashboard: data => dispatch(GeneralMiddleware.getDashboardData(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(index);

@@ -5,18 +5,22 @@ import GeneralActions from '../Actions/UserActions';
 import UserActions from '../Actions/UserActions';
 
 export const UserMiddleware = {
-    getAllMethods: ({ next_url }) => {
+    getAllMethods: ({ onSuccess }) => {
         return async dispatch => {
             try {
-                dispatch(GeneralActions.ShowLoading());
-                let request = await get(next_url);
+                // dispatch(GeneralActions.ShowLoading());
+                let request = await get(APIs.GetPaymentMethods);
                 if (request) {
                     dispatch(UserActions.GetAllMethods(request))
+                    onSuccess(true);
+                    return;
                 }
-                dispatch(GeneralActions.HideLoading());
+                onSuccess(false)
+                // dispatch(GeneralActions.HideLoading());
                 //dispatch({ type: ActionTypes.HideLoading });
             } catch (error) {
-                dispatch(GeneralActions.HideLoading());
+                onSuccess(false)
+                // dispatch(GeneralActions.HideLoading());
                 console.warn(error);
             }
         };
@@ -24,20 +28,19 @@ export const UserMiddleware = {
     AddMethod: (data) => {
         return async dispatch => {
             try {
-                let formData=new FormData();
-                formData.append("card_number",data.number);
-                formData.append("exp_date",data.expiry);
-                formData.append("cvc",data.cvc);
-                dispatch(GeneralActions.ShowLoading());
-                let request = await post(APIs.AddCard,formData);
+                let formData = new FormData();
+                formData.append("card_number", data.number);
+                formData.append("exp_date", data.expiry);
+                formData.append("cvc", data.cvc);
+                let request = await post(APIs.AddCard, formData);
                 if (request) {
-                    data.onSuccess();
+                    data.onSuccess(true);
                     dispatch(UserActions.AddCard(request))
                 }
-                dispatch(GeneralActions.HideLoading());
-                //dispatch({ type: ActionTypes.HideLoading });
+                else
+                    data.onSuccess(false);
             } catch (error) {
-                dispatch(GeneralActions.HideLoading());
+                data.onSuccess(false);
                 console.warn(error);
             }
         };
@@ -61,10 +64,10 @@ export const UserMiddleware = {
     DefaultMethod: (data) => {
         return async dispatch => {
             try {
-                let formData=new FormData();
-                formData.append("id",data.id);
+                let formData = new FormData();
+                formData.append("id", data.id);
                 dispatch(GeneralActions.ShowLoading());
-                let request = await post(APIs.SetDefaultPaymentMethod,formData);
+                let request = await post(APIs.SetDefaultPaymentMethod, formData);
                 if (request) {
                 }
                 dispatch(GeneralActions.HideLoading());

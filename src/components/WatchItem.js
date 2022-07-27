@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AspectRatio, Box, Button, FlatList, Heading, HStack, Icon, IconButton, Image, Pressable, ScrollView, Skeleton, Stack, Text, useColorModeValue, View, VStack } from 'native-base';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -9,10 +9,13 @@ import { ProductMiddleware } from "../redux/Middlewares/ProductMiddleware";
 
 const WatchItem = ({ loading, item, halfScreen, index }) => {
 
+    let wish=Boolean(item.wishlist) ? true : false;
     const navigation = useNavigation();
     const dispatch = useDispatch();
     const loggedIn = useSelector((state) => state.Auth.isLogin);
     const color = useColorModeValue("#5c5c5c", "#cccc");
+    const [wishlist, addToWishlist] = useState(wish);
+
 
     if (loading)
         return (
@@ -67,10 +70,12 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
                         onPress={() => {
                             if (!loggedIn)
                                 navigation.navigate("Login")
-                            else
+                            else {
+                                addToWishlist(!wishlist);
                                 dispatch(ProductMiddleware.saveToWishlist(item))
+                            }
                         }}
-                        position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name='hearto' size={20} color={color} />} />
+                        position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name={wishlist || item.wishlist ? "heart" : 'hearto'} size={20} color={wishlist || item.wishlist ? "red" : color} />} />
                 </Pressable >
             </Box>
         )

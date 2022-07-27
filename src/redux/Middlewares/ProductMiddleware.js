@@ -27,17 +27,22 @@ export const ProductMiddleware = {
             }
         };
     },
-    getWishlist: ({ next_url }) => {
+    getWishlist: ({ next_url, onSuccess }) => {
         return async dispatch => {
             try {
-                dispatch(GeneralActions.ShowLoading());
                 let request = await get(next_url);
                 if (request) {
-                    dispatch(ProductActions.GetWishlist(request));
+                    if (next_url == APIs.Wishlist)
+                        dispatch(ProductActions.GetWishlist(request));
+                    else
+                        dispatch(ProductActions.GetMoreWishlist(request));
+                    
+                    onSuccess(true);
+                    return;
                 }
-                dispatch(GeneralActions.HideLoading());
+                onSuccess(false)
             } catch (error) {
-                dispatch(GeneralActions.HideLoading());
+                onSuccess(false)
                 console.warn(error);
             }
         };
@@ -45,16 +50,17 @@ export const ProductMiddleware = {
     saveToWishlist: (data) => {
         return async dispatch => {
             try {
+                dispatch(ProductActions.AddRemToWishlist(data));
                 let formData = new FormData();
                 formData.append("product_id", data.id)
-                dispatch(GeneralActions.ShowLoading());
+                // dispatch(GeneralActions.ShowLoading());
                 let request = await post(APIs.AddToWishlist, formData);
                 if (request) {
-                    dispatch(ProductActions.AddRemToWishlist(request));
+                    
                 }
-                dispatch(GeneralActions.HideLoading());
+                // dispatch(GeneralActions.HideLoading());
             } catch (error) {
-                dispatch(GeneralActions.HideLoading());
+                // dispatch(GeneralActions.HideLoading());
                 console.warn(error);
             }
         };

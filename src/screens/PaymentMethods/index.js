@@ -1,4 +1,4 @@
-import { Box, Fab, FlatList, HStack, Icon, IconButton, Image, Pressable, Radio, Text, View } from 'native-base';
+import { Box, Fab, FlatList, HStack, Icon, IconButton, Image, Pressable, Radio, Spinner, Text, View } from 'native-base';
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -11,23 +11,27 @@ class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedIndex: 0
+            selectedIndex: 0,
+            loading: true,
+            refreshing: true
         };
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.getAllMethods({
-            next_url: this.props.all_methods?.next_url ? APIs.GetPaymentMethods : this.props.all_methods?.next_url,
+            onSuccess: () => {
+                this.setState({ refreshing: false })
+            }
         })
     }
 
-    _renderItem = ({ index,item }) => {
+    _renderItem = ({ index, item }) => {
         return (
             <Box rounded={"lg"} p={4}>
                 <Pressable onPress={() => {
                     this.props.defaultMethod(item)
                     this.setState({ selectedIndex: index })
-                    }}>
+                }}>
                     <HStack alignItems="center" justifyContent={"space-between"}>
                         <HStack space={4} alignItems="center">
                             <Radio.Group
@@ -50,6 +54,15 @@ class index extends Component {
         )
     }
 
+    onRefresh = () => {
+        this.setState({ refreshing: true })
+        this.props.getAllMethods({
+            onSuccess: () => {
+                this.setState({ refreshing: false })
+            }
+        })
+    }
+
     render() {
         return (
             <View flex={1} backgroundColor="white" _dark={{ backgroundColor: "black" }}>
@@ -60,8 +73,10 @@ class index extends Component {
                     back
                 />
                 <FlatList
+                    refreshing={this.state.refreshing}
+                    onRefresh={this.onRefresh}
                     p={3}
-                    data={this.props.all_methods?.data ? this.props.all_methods?.data : ["", "", "", ""]}
+                    data={this.props.all_methods?.data}
                     renderItem={this._renderItem}
                 />
                 <Fab onPress={() => this.props.navigation.navigate("AddCard")} renderInPortal={false} shadow={2} w={55} h={55} icon={<Icon color="white" as={AntDesign} name="plus" size="sm" ml={2} />} />
@@ -71,7 +86,6 @@ class index extends Component {
 }
 
 const mapStateToProps = state => ({
-    loading: state.GeneralReducer.loading,
     all_methods: state.User.methods
 })
 

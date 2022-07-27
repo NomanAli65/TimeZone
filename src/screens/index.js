@@ -4,7 +4,7 @@ import AppBar from '../components/Appbar';
 import SearchBar from '../components/SearchBar';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import Carousel from "react-native-snap-carousel";
-import { Dimensions, View as RNView, Image as RNImage, BackHandler } from "react-native";
+import { Dimensions, View as RNView, Image as RNImage, RefreshControl } from "react-native";
 import WatchItem from '../components/WatchItem';
 import { connect } from 'react-redux';
 import { GeneralMiddleware } from '../redux/Middlewares/GeneralMiddleware';
@@ -112,13 +112,19 @@ class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true
+      loading: true,
+      refreshing: false,
+      search: ""
     };
   }
 
   componentDidMount() {
-    this.props.getDashboard();
-    BackHandler.addEventListener("hardwareBackPress", this.BackPress());
+    this.props.getDashboard({
+      onSuccess: () => {
+        this.setState({ loading: false })
+      }
+    });
+    // BackHandler.addEventListener("hardwareBackPress", this.BackPress());
   }
   componentWillUnmount() {
     clearTimeout(this.timeout)
@@ -131,13 +137,13 @@ class index extends Component {
 
   _renderItem = ({ item }) => (
     <WatchItem
-      loading={this.props.loading}
+      loading={this.state.loading}
       item={item}
     />
   )
 
   _renderItemSmall = ({ item }) => {
-    if (this.props.loading)
+    if (this.state.loading)
       return (
         <Box alignItems="center" marginRight={3} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
           <Stack space={4} alignItems="center">
@@ -162,7 +168,7 @@ class index extends Component {
   }
 
   _renderItemSmallBrand = ({ item }) => {
-    if (this.props.loading)
+    if (this.state.loading)
       return (
         <Box alignItems="center" marginRight={3} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
           <Stack space={4} alignItems="center">
@@ -187,7 +193,7 @@ class index extends Component {
   }
 
   _renderBanner = ({ item }) => {
-    if (this.props.loading)
+    if (this.state.loading)
       return (
         <RNView style={{ width }}>
           <Skeleton width={"100%"} height={"100%"} />
@@ -201,9 +207,25 @@ class index extends Component {
       )
   }
 
+  onRefresh = () => {
+    this.setState({ refreshing: true })
+    this.props.getDashboard({
+      onSuccess: () => {
+        this.setState({ refreshing: false })
+      }
+    });
+  }
+
   render() {
     return (
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh}
+          />
+        }
+      >
         <View flex={1}
           backgroundColor="#fff"
           _dark={{
@@ -219,7 +241,8 @@ class index extends Component {
           />
           <SearchBar
             placeholder={"Search TIMEZONE"}
-            onSubmitEditing={() => this.props.navigation.navigate("Products")}
+            onChangeText={(search) => this.setState({ search })}
+            onSubmitEditing={() => this.props.navigation.navigate("Products", { search: this.state.search })}
           />
           <Box
             width={"100%"}
@@ -236,7 +259,7 @@ class index extends Component {
               snapToInterval={width}
               enableSnap={false}
               data={this.props.dashboard?.banners}
-              extraData={this.props.loading}
+              extraData={this.state.loading}
               renderItem={this._renderBanner}
             />
           </Box>
@@ -254,9 +277,16 @@ class index extends Component {
               </HStack>
               <FlatList
                 horizontal
-                keyExtractor={(item) => item.name}
-                data={this.props.dashboard?.popular_watches?.length > 0 ? this.props.dashboard?.popular_watches : dummy_data}
+                keyExtractor={(item) => item.id}
+                data={!this.state.loading ? this.props.dashboard?.popular_watches : dummy_data}
                 renderItem={this._renderItem}
+                ListEmptyComponent={
+                  <Box ml={'32'}>
+                    <Heading fontSize={"md"}>
+                      No Data Found
+                    </Heading>
+                  </Box>
+                }
               />
             </Stack>
             <Stack space={2}>
@@ -272,9 +302,16 @@ class index extends Component {
               </HStack>
               <FlatList
                 horizontal
-                keyExtractor={(item) => item.name}
-                data={this.props.dashboard?.top_brands?.length > 0 ? this.props.dashboard?.top_brands : dummy_data}
+                keyExtractor={(item) => item.id}
+                data={!this.state.loading ? this.props.dashboard?.top_brands : dummy_data}
                 renderItem={this._renderItemSmallBrand}
+                ListEmptyComponent={
+                  <Box ml={'32'}>
+                    <Heading fontSize={"md"}>
+                      No Data Found
+                    </Heading>
+                  </Box>
+                }
               />
             </Stack>
             <Stack space={2}>
@@ -290,9 +327,16 @@ class index extends Component {
               </HStack>
               <FlatList
                 horizontal
-                keyExtractor={(item) => item.name}
-                data={this.props.dashboard?.latest_watches?.length > 0 ? this.props.dashboard?.latest_watches : dummy_data}
+                keyExtractor={(item) => item.id}
+                data={!this.state.loading ? this.props.dashboard?.latest_watches : dummy_data}
                 renderItem={this._renderItem}
+                ListEmptyComponent={
+                  <Box ml={'32'}>
+                    <Heading fontSize={"md"}>
+                      No Data Found
+                    </Heading>
+                  </Box>
+                }
               />
             </Stack>
             <Stack space={2}>
@@ -308,9 +352,16 @@ class index extends Component {
               </HStack>
               <FlatList
                 horizontal
-                keyExtractor={(item) => item.name}
-                data={this.props.dashboard?.top_categories?.length > 0 ? this.props.dashboard?.top_categories : dummy_data}
+                keyExtractor={(item) => item.id}
+                data={!this.state.loading ? this.props.dashboard?.top_categories : dummy_data}
                 renderItem={this._renderItemSmall}
+                ListEmptyComponent={
+                  <Box ml={'32'}>
+                    <Heading fontSize={"md"}>
+                      No Data Found
+                    </Heading>
+                  </Box>
+                }
               />
             </Stack>
             <Stack space={2}>
@@ -326,9 +377,16 @@ class index extends Component {
               </HStack>
               <FlatList
                 horizontal
-                keyExtractor={(item) => item.name}
-                data={this.props.dashboard?.latest_watches?.length > 0 ? this.props.dashboard?.latest_watches : dummy_data}
+                keyExtractor={(item) => item.id}
+                data={!this.state.loading ? this.props.dashboard?.latest_watches : dummy_data}
                 renderItem={this._renderItem}
+                ListEmptyComponent={
+                  <Box ml={'32'}>
+                    <Heading fontSize={"md"}>
+                      No Data Found
+                    </Heading>
+                  </Box>
+                }
               />
             </Stack>
           </Stack>
@@ -344,7 +402,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getDashboard: data => dispatch(GeneralMiddleware.getDashboardData()),
+  getDashboard: data => dispatch(GeneralMiddleware.getDashboardData(data)),
   StopLoading: () => dispatch(GeneralActions.HideLoading())
 });
 

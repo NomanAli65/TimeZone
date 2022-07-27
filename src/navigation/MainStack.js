@@ -11,6 +11,8 @@ import AllCategoires from "../screens/BrandsAndCategories/AllCategories";
 import ProductDetail from "../screens/Products/ProductDetail";
 import PersonalDetail from "../screens/TradeIn/PersonalDetail";
 import TopCategories from "../screens/BrandsAndCategories/TopCategories";
+import VerifyCode from "../screens/Auth/VerifyCode";
+import ResetPass from "../screens/Auth/ResetPass";
 
 
 const StackNavigator = createNativeStackNavigator();
@@ -25,6 +27,8 @@ const MainStack = () => {
             }}>
             <StackNavigator.Screen name="Dashboard" component={Dash} />
             <StackNavigator.Screen name="ForgotPass" component={ForgotPass} />
+            <StackNavigator.Screen name="VerifyCode" component={VerifyCode} />
+            <StackNavigator.Screen name="ResetPass" component={ResetPass} />
             <StackNavigator.Screen name="Login" component={Login} />
             <StackNavigator.Screen name="Signup" component={Signup} />
             <StackNavigator.Screen name="Products" component={Products} />

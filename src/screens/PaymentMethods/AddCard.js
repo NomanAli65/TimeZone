@@ -1,4 +1,4 @@
-import { Box, Heading, HStack, IconButton, Input, Icon, Stack, Text, View, VStack, } from 'native-base';
+import { Box, Heading, HStack, IconButton, Input, Icon, Stack, Text, View, VStack, FormControl,WarningOutlineIcon } from 'native-base';
 import React, { Component } from 'react';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
@@ -8,27 +8,31 @@ import { connect } from 'react-redux';
 
 class AddCard extends Component {
 
-    state={
-        number:"",
-        expiry:"",
-        cvc:""
+    state = {
+        number: "",
+        expiry: "",
+        cvc: "",
+        invalid:"",
+        loading: false
     }
 
-    AddCard=()=>{
+    AddCard = () => {
         let {
             number,
             expiry,
             cvc
-        }=this.state;
-        if(!number && !expiry && !cvc)
-        {
+        } = this.state;
+        if (!number || !expiry || !cvc) {
+            this.setState({invalid:"Please fill all fields"})
             return;
         }
+        this.setState({ loading: true });
         this.props.AddCard({
             number,
             expiry,
             cvc,
-            onSuccess:()=>{
+            onSuccess: () => {
+                this.setState({ loading: false })
                 this.props.navigation.goBack()
             }
         });
@@ -40,7 +44,7 @@ class AddCard extends Component {
                 <Box position="absolute" top={"5%"} left="3%">
                     <IconButton
                         onPress={() => this.props.navigation.goBack()}
-                        icon={<MaterialIcons name="chevron-left" size={25} color={theme.config.initialColorMode=="dark"?"#fff":"#000"} />} />
+                        icon={<MaterialIcons name="chevron-left" size={25} color={theme.config.initialColorMode == "dark" ? "#fff" : "#000"} />} />
                 </Box>
 
                 <View flex={1} justifyContent="center" p="5%">
@@ -50,32 +54,48 @@ class AddCard extends Component {
                         </Heading>
                         <Text color="coolGray.400" fontSize={17}>Please fill all fields to continue</Text>
                     </Stack>
-                    <VStack w="100%" space="md" marginY={50}>
-                        <Input InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Card number" 
-                        onChangeText={(number)=>this.setState({number})}
-                        />
-                        <HStack space={3} w="100%">
-                            <Input w="48%" InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Expiry" 
-                            maxLength={7}
-                            onChangeText={(expiry)=>{
-                                if(expiry.length==2)
-                                {
-                                    this.setState({expiry:expiry+"/"})
-                                }
-                                else
-                                {
-                                    this.setState({expiry})
-                                }
-                            }}
+                    <FormControl isInvalid={this.state.invalid}  marginY={50}>
+                        <VStack w="100%" space="md">
+                            <Input
+                                keyboardType='numeric'
+                                maxLength={20}
+                                InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Card number"
+                                onChangeText={(number) => this.setState({ number, invalid:"" })}
                             />
-                            <Input w="48%" InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="CVC/CVV" 
-                            onChangeText={(cvc)=>this.setState({cvc})}
-                            />
-                        </HStack>
-                        <Input InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Card holder name" />
-                    </VStack>
+                            <HStack space={3} w="100%">
+                                <Input
+                                    keyboardType='numeric'
+                                    w="48%" InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Expiry"
+                                    maxLength={7}
+                                    value={this.state.expiry}
+                                    onChangeText={(expiry) => {
+                                        if (expiry.length == 2) {
+                                            this.setState({ expiry: expiry + "/", invalid:"" })
+                                        }
+                                        else {
+                                            this.setState({ expiry, invalid:"" })
+                                        }
+                                    }}
+                                />
+                                <Input
+                                    keyboardType='numeric'
+                                    maxLength={5}
+                                    w="48%" InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="CVC/CVV"
+                                    onChangeText={(cvc) => this.setState({ cvc, invalid:"" })}
+                                />
+                            </HStack>
+                            {/* <Input InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Card holder name" /> */}
+                        </VStack>
+                        <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                            {this.state.invalid}
+                        </FormControl.ErrorMessage>
+                    </FormControl>
                     <LGButton
-                        title="Add" />
+                        isLoading={this.state.loading}
+                        isLoadingText={"Adding"}
+                        title="Add"
+                        onPress={this.AddCard}
+                        />
                 </View>
             </View>
         );
@@ -84,7 +104,7 @@ class AddCard extends Component {
 
 
 const mapStateToProps = state => ({
-    loading: state.GeneralReducer.loading,
+
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -21,16 +21,15 @@ const ProductReducer = (state = initialSate, action) => {
             state = { ...state, data: { ...state.data, data: [...state.data?.data, ...action.payload.data] } };
             break;
         case ProductTypes.GET_WISHLIST:
-            state = { ...state, wishlist: action.payload };
+            state = { ...state, wishlist: action.payload.wishlist };
             break;
         case ProductTypes.GET_MORE_WISHLIST:
             state = { ...state, wishlist: { ...state.wishlist, data: [...state.wishlist?.data, ...action.payload.data] } };
             break;
         case ProductTypes.ADD_PRODUCT_WISHLIST:
-            let index = state.wishlist.data.findIndex((value) => value.product_id == action.payload.product_id);
-            if (index == -1)
-                state = { ...state, wishlist: { ...state.wishlist, data: [action.payload, ...state.wishlist?.data] } }
-            else {
+            console.warn(state.wishlist);
+            if (state.wishlist?.data) {
+                let index = state.wishlist.data.findIndex((value) => value.product_id == action.payload.product_id);
                 let wish_copy = [...state.wishlist.data];
                 wish_copy.splice(index, 1);
                 state = { ...state, wishlist: { ...state.wishlist, data: wish_copy } };

@@ -4,86 +4,169 @@ import { Ionicons } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
 import { ImageBackground } from 'react-native';
 import theme from '../../configs/Theme';
+import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
+import { connect } from 'react-redux';
 
 class Signup extends Component {
+
+
+    state = {
+        f_name: "",
+        l_name: "",
+        email: "",
+        password: "",
+        c_password: "",
+        no_match: false,
+        invalid: "",
+        show_pass: false,
+        show_pass_c: false,
+        loading: false
+    }
+
+    Signup = () => {
+        let {
+            f_name,
+            l_name,
+            email,
+            password,
+            c_password
+        } = this.state;
+        if (!f_name || !l_name || !email || !password || !c_password) {
+            this.setState({ invalid: "Please enter your detaills" })
+            return;
+        }
+        if (password != c_password) {
+            this.setState({ no_match: true })
+            return;
+        }
+        this.props.Signup({
+            f_name,
+            l_name,
+            email,
+            password,
+            c_password,
+            onRequest: () => {
+                this.setState({ loading: true })
+            },
+            onSuccess: (success, message) => {
+                this.setState({ loading: false })
+                if (!success)
+                    return;
+                this.props.navigation.navigate("Dashboard")
+            }
+        });
+    }
+
     render() {
         return (
-            // <ImageBackground style={{flex:1,backgroundColor:"#fff"}} source={require("../../../assets/watchd.png")} imageStyle={{opacity:0.2,transform:[{scale:0.6}],resizeMode:"contain"}}>
-            <View flex={1} backgroundColor="#fff" _dark={{backgroundColor:"black"}}>
-                {/* <Image 
-                left={"-50%"}
-                top={"10%"}
-                position={"absolute"} 
-                opacity={0.1}
-                source={require("../../../assets/watchd.png")} /> */}
-                {/* <Image
-                    right={"-15%"}
-                    top={"-10%"}
-                    position={"absolute"}
-                    opacity={0.1}
-                    w={"40%"}
-                    h={"40%"}
-                    resizeMode="contain"
-                    tintColor={"#fff"}
-                    source={require("../../../assets/watchd.png")} /> */}
-                <Box position="absolute" top={"5%"} left="3%">
-                    <IconButton
-                        onPress={() => this.props.navigation.goBack()}
-                        icon={<Ionicons name='md-close' size={25} color={theme.config.initialColorMode=="dark"?"#fff":"#000"} />} />
-                </Box>
-                {/* <ScrollView flex={1}> */}
-                <View flex={1} justifyContent="center" p="5%">
-                    <Stack>
-                        <Heading bold fontSize={35} color="black" _dark={{color:"#fff"}}>
-                            Signup
-                        </Heading>
-                        <Text color="coolGray.400" fontSize={17}>Please Signup to continue</Text>
-                    </Stack>
-                    <Stack w="100%" space="md" marginY={50}>
-                        <Input InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="First Name" />
-                        <Input InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Last Name" />
-                        <FormControl isInvalid={false}>
-                            <Input InputLeftElement={<Icon as={Ionicons} name='mail' size={5} color="#bbb" ml={2} />} placeholder="Email" />
+            <ScrollView flex={1} backgroundColor="#fff" _dark={{ backgroundColor: "black" }}>
+                <View flex={1} >
+                    <Box marginTop="5%" marginLeft="3%" alignItems={"flex-start"}>
+                        <IconButton
+                            onPress={() => this.props.navigation.goBack()}
+                            icon={<Ionicons name='md-close' size={25} color={theme.config.initialColorMode == "dark" ? "#fff" : "#000"} />} />
+                    </Box>
+                    <View flex={1} justifyContent="center" p="5%">
+                        <Stack>
+                            <Heading bold fontSize={35} color="black" _dark={{ color: "#fff" }}>
+                                Signup
+                            </Heading>
+                            <Text color="coolGray.400" fontSize={17}>Please Signup to continue</Text>
+                        </Stack>
+                        <FormControl isInvalid={this.state.invalid} marginY={50}>
+                            <Stack w="100%" space="md" >
+                                <Input
+                                    onChangeText={(f_name) => {
+                                        this.setState({ f_name, invalid: "" })
+                                    }}
+                                    InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="First Name" />
+                                <Input
+                                    onChangeText={(l_name) => {
+                                        this.setState({ l_name, invalid: "" })
+                                    }}
+                                    InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Last Name" />
+                                <Input
+                                    onChangeText={(email) => {
+                                        this.setState({ email, invalid: "" })
+                                    }}
+                                    InputLeftElement={<Icon as={Ionicons} name='mail' size={5} color="#bbb" ml={2} />} placeholder="Email" />
+                                <FormControl isInvalid={this.state.no_match || this.state.invalid}>
+                                    <Input
+                                        onChangeText={(password) => {
+                                            this.setState({ password, invalid: "" })
+                                            if (this.state.c_password != password && this.state.c_password != "")
+                                                this.setState({ no_match: true })
+                                            else
+                                                this.setState({ no_match: false })
+                                        }}
+                                        secureTextEntry={!this.state.show_pass}
+                                        InputLeftElement={<Icon as={Ionicons} name='lock-closed' size={5} color="#bbb" ml={2} />}
+                                        InputRightElement={<Icon onPress={() => this.setState({ show_pass: !this.state.show_pass })}
+                                            as={Ionicons} name={this.state.show_pass ? "eye-off" : 'eye'} size={5} color="#bbb" mr={2} />}
+                                        placeholder="Password"
+                                        marginBottom={4}
+                                    />
+                                    <Input
+                                        onChangeText={(c_password) => {
+                                            this.setState({ c_password, invalid: "" })
+                                            if (this.state.password != c_password)
+                                                this.setState({ no_match: true })
+                                            else
+                                                this.setState({ no_match: false })
+                                        }}
+                                        secureTextEntry={!this.state.show_pass_c}
+                                        InputLeftElement={<Icon as={Ionicons} name='lock-closed' size={5} color="#bbb" ml={2} />}
+                                        InputRightElement={<Icon
+                                            onPress={() => this.setState({ show_pass_c: !this.state.show_pass_c })}
+                                            as={Ionicons} name={this.state.show_pass_c ? "eye-off" : 'eye'} size={5} color="#bbb" mr={2} />}
+                                        placeholder="Confirm Password" />
+                                    {
+                                        this.state.invalid ?
+                                            null
+                                            : <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                                                Password not match
+                                            </FormControl.ErrorMessage>
+                                    }
+
+                                </FormControl>
+                            </Stack>
                             <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                                Email already taken
+                                {this.state.invalid}
                             </FormControl.ErrorMessage>
                         </FormControl>
-                        <FormControl isInvalid={false}>
-                            <Input
-                                secureTextEntry
-                                InputLeftElement={<Icon as={Ionicons} name='lock-closed' size={5} color="#bbb" ml={2} />}
-                                InputRightElement={<Icon as={Ionicons} name='eye' size={5} color="#bbb" mr={2} />}
-                                placeholder="Password"
-                                marginBottom={4} />
-                            <Input
-                                secureTextEntry
-                                InputLeftElement={<Icon as={Ionicons} name='lock-closed' size={5} color="#bbb" ml={2} />}
-                                InputRightElement={<Icon as={Ionicons} name='eye' size={5} color="#bbb" mr={2} />}
-                                placeholder="Confirm Password" />
-                            <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
-                                Password not match
-                            </FormControl.ErrorMessage>
-                        </FormControl>
-                    </Stack>
-                    <LGButton
-                        title="SIGNUP" />
+                        <LGButton
+                            isLoading={this.state.loading}
+                            isLoadingText={"Signing you up"}
+                            onPress={() => {
+                                this.Signup();
+                            }}
+                            title="SIGNUP" />
+                    </View>
+                    <HStack alignItems="center" justifyContent="center">
+                        <Text>
+                            Already have an account ?
+                        </Text>
+                        <Button
+                            onPress={() => this.props.navigation.navigate("Login")}
+                            variant="ghost" _text={{
+                                fontSize: "lg"
+                            }}>
+                            Login
+                        </Button>
+                    </HStack>
                 </View>
-                {/* </ScrollView> */}
-                <HStack alignItems="center" justifyContent="center">
-                    <Text>
-                        Already have an account ?
-                    </Text>
-                    <Button variant="ghost" _text={{
-                        fontSize: "lg"
-                    }}>
-                        Login
-                    </Button>
-                </HStack>
-            </View>
-            //  </ImageBackground>
+            </ScrollView>
         );
     }
 }
 
 
-export default Signup;
+const mapStateToProps = state => ({
+
+})
+
+const mapDispatchToProps = dispatch => ({
+    Signup: data => dispatch(AuthMiddleware.SignUp(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
