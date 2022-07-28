@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, Heading, Select, Input, VStack, HStack, TextArea, Box, Image, Icon, Pressable, FormControl, WarningOutlineIcon } from "native-base";
+import { View, ScrollView, Text, Heading, Select, Input, VStack, HStack, TextArea, Box, Image, Icon, Pressable, FormControl, WarningOutlineIcon, Button, AlertDialog } from "native-base";
 import AppBar from '../../components/Appbar';
 import LGButton from '../../components/LGButton';
 import { Entypo } from "@expo/vector-icons";
@@ -20,7 +20,8 @@ class index extends Component {
       comments: "",
       brand: "",
       invalid: "",
-      loading: true
+      loading: true,
+      isOpen: false
     };
   }
 
@@ -33,25 +34,47 @@ class index extends Component {
     })
   }
 
-  pickImage = async () => {
+  pickImage = async (type) => {
     // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+    if (type == "camera") {
+      let result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
 
-    if (!result.cancelled) {
-      let uri = result.uri;
-      let name = uri.split("/")[uri.split("/").length - 1]
-      let file = {
-        uri,
-        name,
-        type: result.type,
+      if (!result.cancelled) {
+        let uri = result.uri;
+        let name = uri.split("/")[uri.split("/").length - 1]
+        let file = {
+          uri,
+          name,
+          type: result.type,
+        }
+        this.setState({ images: [file, ...this.state.images] })
       }
-      this.setState({ images: [file, ...this.state.images] })
     }
+    else {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+
+      if (!result.cancelled) {
+        let uri = result.uri;
+        let name = uri.split("/")[uri.split("/").length - 1]
+        let file = {
+          uri,
+          name,
+          type: result.type,
+        }
+        this.setState({ images: [file, ...this.state.images] })
+      }
+    }
+
   };
   //require("../../../assets/placeholder.png")
   render() {
@@ -99,7 +122,7 @@ class index extends Component {
                 >
                   <ScrollView horizontal>
                     <Pressable
-                      onPress={() => this.pickImage()}
+                      onPress={() => this.setState({ isOpen: true })}
                       w={120} h={120} justifyContent="center" alignItems='center' backgroundColor={"gray.300"} mr={3}>
                       <Icon as={Entypo} name="plus" size={"10"} />
                     </Pressable>
@@ -180,7 +203,34 @@ class index extends Component {
               }}
             />
           </VStack>
-
+          <AlertDialog isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
+            <AlertDialog.Content>
+              <AlertDialog.CloseButton />
+              <AlertDialog.Header>Select Option</AlertDialog.Header>
+              <AlertDialog.Body>
+                Select where do you want to select images from?
+              </AlertDialog.Body>
+              <AlertDialog.Footer>
+                <Button.Group space={2}>
+                  <Button variant="unstyled" colorScheme="coolGray" onPress={() => this.setState({ isOpen: false })}>
+                    Cancel
+                  </Button>
+                  <Button colorScheme="green" onPress={() => {
+                    this.pickImage("camera")
+                    this.setState({ isOpen: false });
+                  }}>
+                    Camera
+                  </Button>
+                  <Button colorScheme="blue" onPress={() => {
+                    this.pickImage("library")
+                    this.setState({ isOpen: false });
+                  }}>
+                    Library
+                  </Button>
+                </Button.Group>
+              </AlertDialog.Footer>
+            </AlertDialog.Content>
+          </AlertDialog>
         </View>
       </ScrollView>
     );
