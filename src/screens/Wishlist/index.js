@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import Products from '../Products';
 import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import { APIs, img_url } from '../../configs/APIs';
+import LGButton from '../../components/LGButton';
 
 
 const data = [
@@ -46,7 +47,7 @@ class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: true,
+            loading: this.props.user?.user ? true : false,
             refreshing: false,
             isOpen: false,
             selectedItem: null
@@ -54,12 +55,13 @@ class index extends Component {
     }
 
     componentDidMount() {
-        this.props.getWishlist({
-            next_url: APIs.Wishlist,
-            onSuccess: () => {
-                this.setState({ loading: false })
-            }
-        })
+        if (this.props.user?.user)
+            this.props.getWishlist({
+                next_url: APIs.Wishlist,
+                onSuccess: () => {
+                    this.setState({ loading: false })
+                }
+            })
     }
 
     _renderItem = ({ item }) => {
@@ -85,9 +87,9 @@ class index extends Component {
                     }}
                     w={"90%"} alignItems="center" backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" m={"5%"}>
                     <Stack space={4}>
-                        <Image alignSelf={"center"} h={200} w={"100%"} 
-                        source={item.product?.image ? { uri: img_url + item.product?.image } : require("../../../assets/placeholder.png")} 
-                        alt="Watch image" resizeMode='contain' />
+                        <Image alignSelf={"center"} h={200} w={"100%"}
+                            source={item.product?.image ? { uri: img_url + item.product?.image } : require("../../../assets/placeholder.png")}
+                            alt="Watch image" resizeMode='contain' />
                         <Stack space={1} p={3}>
                             <Heading size={"md"}>
                                 {item.product.product_name}
@@ -154,6 +156,23 @@ class index extends Component {
                     onEndReached={this.onEndReached}
                     onEndReachedThreshold={0.1}
                 />
+                {
+                    !this.props.user?.user ?
+                        <Box flex={1} p={5} >
+                            <Center>
+                                <Heading mb={3} fontSize={17} textAlign="center">
+                                    Please login to add products in wishlist and see your wishlist
+                                </Heading>
+                                <LGButton
+                                    w="40"
+                                    title={"Login"}
+                                    onPress={() => this.props.navigation.navigate("Login")}
+                                />
+                            </Center>
+                        </Box> :
+                        null
+                }
+
                 <AlertDialog isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
                     <AlertDialog.Content>
                         <AlertDialog.CloseButton />
@@ -183,7 +202,8 @@ class index extends Component {
 
 
 const mapStateToProps = state => ({
-    wishlist: state.Product.wishlist
+    wishlist: state.Product.wishlist,
+    user: state.Auth.user
 })
 
 const mapDispatchToProps = dispatch => ({

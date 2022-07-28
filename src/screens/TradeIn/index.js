@@ -1,16 +1,36 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, Heading, Select, Input, VStack, HStack, TextArea, Box, Image, Icon, Pressable } from "native-base";
+import { View, ScrollView, Text, Heading, Select, Input, VStack, HStack, TextArea, Box, Image, Icon, Pressable, FormControl, WarningOutlineIcon } from "native-base";
 import AppBar from '../../components/Appbar';
 import LGButton from '../../components/LGButton';
 import { Entypo } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
+import { connect } from 'react-redux';
+import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
 
-export default class index extends Component {
+class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: []
+      images: [],
+      name: "",
+      model: "",
+      price: "",
+      condition: 1,
+      box_paper: "",
+      comments: "",
+      brand: "",
+      invalid: "",
+      loading: true
     };
+  }
+
+  componentDidMount() {
+    this.props.getAllBrands({
+      search: "",
+      callback: () => {
+        this.setState({ loading: false })
+      }
+    })
   }
 
   pickImage = async () => {
@@ -45,53 +65,67 @@ export default class index extends Component {
             title={"Trade In"}
           />
           <VStack space={5} p={3}>
-            <Select
-              placeholder="Select"
-              selectedValue={""}
-              onValueChange={(itemValue) => console.warn("ok")}
-            >
-              <Select.Item label="Wallet" value="key0" />
-              <Select.Item label="ATM Card" value="key1" />
-              <Select.Item label="Debit Card" value="key2" />
-              <Select.Item label="Credit Card" value="key3" />
-              <Select.Item label="Net Banking" value="key4" />
-            </Select>
-            <Input placeholder='Name' />
-            <Input placeholder='Model' />
-            <HStack>
-              <Heading fontSize={"md"}>
-                Add Photos
-              </Heading>
-            </HStack>
-            <Box borderRadius={3} borderWidth={1} borderColor="gray.200" h={145} justifyContent="center" p={3}
-            _dark={{
-              borderColor:"gray.600"
-            }}
-            >
-              <ScrollView horizontal>
-                <Pressable
-                  onPress={() => this.pickImage()}
-                  w={120} h={120} justifyContent="center" alignItems='center' backgroundColor={"gray.300"} mr={3}>
-                  <Icon as={Entypo} name="plus" size={"10"} />
-                </Pressable>
+            <FormControl isInvalid={this.state.invalid}>
+              <VStack space={5}>
                 {
-                  this.state.images.map((value) => (
-                    <Image
-                      source={{ uri: value.uri }}
-                      alt="image"
-                      h={120} w={120}
-                      backgroundColor="gray.300"
-                      mr={3} />
-                  ))
+                  !this.state.loading ?
+                    <Select
+                      placeholder="Select Brand"
+                      selectedValue={this.state.brand}
+                      onValueChange={(itemValue) => this.setState({ brand: itemValue, invalid: "" })}
+                    >
+                      {
+                        this.props.all_brands.map((value) => (
+                          <Select.Item label={value.brand_name} value={value.id} />
+                        ))
+                      }
+                    </Select>
+                    : <Text ml={3}>
+                      Loading Brands
+                    </Text>
                 }
-              </ScrollView>
-            </Box>
+
+                <Input placeholder='Watch Name' onChangeText={(name) => this.setState({ name, invalid: "" })} />
+                <Input placeholder='Watch Model' onChangeText={(model) => this.setState({ model, invalid: "" })} />
+                <HStack>
+                  <Heading fontSize={"md"}>
+                    Add Photos
+                  </Heading>
+                </HStack>
+                <Box borderRadius={3} borderWidth={1} borderColor="gray.200" h={145} justifyContent="center" p={3}
+                  _dark={{
+                    borderColor: "gray.600"
+                  }}
+                >
+                  <ScrollView horizontal>
+                    <Pressable
+                      onPress={() => this.pickImage()}
+                      w={120} h={120} justifyContent="center" alignItems='center' backgroundColor={"gray.300"} mr={3}>
+                      <Icon as={Entypo} name="plus" size={"10"} />
+                    </Pressable>
+                    {
+                      this.state.images.map((value) => (
+                        <Image
+                          source={{ uri: value.uri }}
+                          alt="image"
+                          h={120} w={120}
+                          backgroundColor="gray.300"
+                          mr={3} />
+                      ))
+                    }
+                  </ScrollView>
+                </Box>
+              </VStack>
+              <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
+                {this.state.invalid}
+              </FormControl.ErrorMessage>
+            </FormControl>
             <Heading>
               Add more details (Optional)
             </Heading>
-            <HStack>
-              <Input flex={1} placeholder="Price" />
-              <Select
+            {/* <HStack> */}
+            <Input keyboardType='numeric' flex={1} placeholder="Price" onChangeText={(price) => this.setState({ price })} />
+            {/* <Select
                 flex={0.5}
                 placeholder="Select"
                 selectedValue={"key0"}
@@ -102,39 +136,63 @@ export default class index extends Component {
                 <Select.Item label="PKR" value="key2" />
                 <Select.Item label="INR" value="key3" />
               </Select>
-            </HStack>
+            </HStack> */}
             <Select
               flex={0.5}
               placeholder="Select Condition"
-              selectedValue={""}
-              onValueChange={(itemValue) => console.warn("ok")}
+              selectedValue={this.state.condition}
+              onValueChange={(itemValue) => this.setState({ condition: itemValue })}
             >
-              <Select.Item label="AED" value="key0" />
-              <Select.Item label="USD" value="key1" />
-              <Select.Item label="PKR" value="key2" />
-              <Select.Item label="INR" value="key3" />
+              <Select.Item label="1/10" value="1" />
+              <Select.Item label="2/10" value="2" />
+              <Select.Item label="3/10" value="3" />
+              <Select.Item label="4/10" value="4" />
+              <Select.Item label="5/10" value="5" />
+              <Select.Item label="6/10" value="6" />
+              <Select.Item label="7/10" value="7" />
+              <Select.Item label="8/10" value="8" />
+              <Select.Item label="9/10" value="9" />
+              <Select.Item label="10/10" value="10" />
             </Select>
             <Select
               flex={0.5}
               placeholder="Select Box/Paper"
-              selectedValue={""}
-              onValueChange={(itemValue) => console.warn("ok")}
+              selectedValue={this.state.box_paper}
+              onValueChange={(itemValue) => this.setState({ box_paper: itemValue })}
             >
-              <Select.Item label="Box" value="key0" />
-              <Select.Item label="Papers" value="key1" />
-              <Select.Item label="Box & Papers Both" value="key2" />
-              <Select.Item label="None" value="key3" />
+              <Select.Item label="Box" value="box" />
+              <Select.Item label="Papers" value="papers" />
+              <Select.Item label="Box & Papers Both" value="box_papers" />
+              <Select.Item label="None" value="none" />
             </Select>
             <TextArea
               placeholder='Comments'
+              onChangeText={(comments) => this.setState({ comments })}
             />
             <LGButton
               title={"Next"}
-              onPress={() => this.props.navigation.navigate("PersonalDetail")}
+              onPress={() => {
+                if (!this.state.brand || !this.state.name || !this.state.model) {
+                  this.setState({ invalid: "Please fill all required fields" });
+                  return;
+                }
+                this.props.navigation.navigate("PersonalDetail", { data: this.state })
+              }}
             />
           </VStack>
+
         </View>
       </ScrollView>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  all_brands: state.GeneralReducer.all_brands
+})
+
+const mapDispatchToProps = dispatch => ({
+  getAllBrands: data => dispatch(GeneralMiddleware.getAllBrands(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(index);

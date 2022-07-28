@@ -23,10 +23,10 @@ export const APIs = {
   SetDefaultPaymentMethod: "",
   Help: "help",
   OrderHistory: "",
-  ChangePassword: "",
-  EditProfile: "",
+  ChangePassword: "changePassword",
+  EditProfile: "updateProfile",
   PlaceOrder: "",
   GetAllAddresses: "",
   SaveAddress: "",
-  TadeIn: ""
+  TradeIn: "storeTrade"
 };

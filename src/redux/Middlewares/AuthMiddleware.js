@@ -87,4 +87,44 @@ export const AuthMiddleware = {
             }
         };
     },
+    ChangePassword: (data) => {
+        return async dispatch => {
+            try {
+                let formData = new FormData();
+                formData.append("old_password", data.old_pass);
+                formData.append("new_password", data.password);
+                let request = await post(APIs.ChangePassword, formData);
+                if (request) {
+                    data.onSuccess(true);
+                }
+                else
+                    data.onSuccess(false);
+            } catch (error) {
+                data.onSuccess(false);
+                console.warn(error);
+            }
+        };
+    },
+    UpdateProfile: (data) => {
+        return async dispatch => {
+            try {
+                let formData = new FormData();
+                formData.append("name", data.name);
+                //formData.append("profile_pic", data.pic);
+                formData.append("country", data.country);
+                formData.append("city", data.city);
+                formData.append("address", data.address);
+                let request = await post(APIs.EditProfile, formData);
+                if (request) {
+                    data.onSuccess(true);
+                    dispatch(AuthAction.UpdateUserProfile(request))
+                }
+                else
+                    data.onSuccess(false);
+            } catch (error) {
+                data.onSuccess(false);
+                console.warn(error);
+            }
+        };
+    }
 };

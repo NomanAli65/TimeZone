@@ -82,5 +82,34 @@ export const GeneralMiddleware = {
                 console.warn(error);
             }
         };
+    },
+    TradeIn: () => {
+        return async dispatch => {
+            try {
+                let formData = new FormData();
+                formData.append("name", data.pname);
+                formData.append("email", data.email);
+                formData.append("brand_id", data.brand);
+                formData.append("phone", data.phone);
+                formData.append("model_name", data.name);
+                formData.append("model_number", data.model);
+                formData.append("model_price", data.price);
+                formData.append("model_condition", data.condition);
+                formData.append("packing", data.box_paper);
+                formData.append("comments", data.comments);
+                data.images.forEach((img) => {
+                    formData.append("images[]", img);
+                })
+                let request = await post(APIs.TradeIn, formData);
+                if (request) {
+                    data.onSuccess(true);
+                    return;
+                }
+                data.onSuccess(false);
+            } catch (error) {
+                data.onSuccess(false);
+                console.warn(error);
+            }
+        };
     }
 };

@@ -5,13 +5,13 @@ import {
 class AuthAction {
     static UpdateUserProfile = payload => {
         return {
-            type: UPDATE_USER_PROFILE,
+            type: AuthTypes.UPDATE_USER_PROFILE,
             payload: payload,
         };
     };
     static Logout = payload => {
         return {
-            type: LOGOUT,
+            type: AuthTypes.LOGOUT,
             payload: payload,
         };
     };

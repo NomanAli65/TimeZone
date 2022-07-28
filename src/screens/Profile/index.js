@@ -15,6 +15,7 @@ import {
 } from "native-base";
 import { connect } from 'react-redux';
 import { img_url } from '../../configs/APIs';
+import AlertAction from '../../redux/Actions/AlertActions';
 
 const routeNames = [
     "My Account",
@@ -88,7 +89,14 @@ class index extends Component {
                                     rounded="md"
                                     bg={"transparent"}
                                     onPress={(event) => {
-                                        this.props.navigation.navigate(this.getScreenName(name));
+                                        if (this.props.user?.user)
+                                            this.props.navigation.navigate(this.getScreenName(name));
+                                        else
+                                            this.props.showAlert({
+                                                title: "Warning",
+                                                message: "Please login to continue",
+                                                status: "error"
+                                            })
                                     }}
                                 >
                                     <HStack space="7" alignItems="center">
@@ -114,25 +122,47 @@ class index extends Component {
                                 </Pressable>
                             ))}
                         </VStack>
-                        <VStack space="5">
-                            <Pressable px="5" py="3">
-                                <HStack space="7" alignItems="center">
-                                    <Icon
-                                        color="gray.500"
-                                        size="5"
-                                        as={<MaterialCommunityIcons name="logout" />}
-                                    />
-                                    <Text
-                                        _dark={{
-                                            color: "gray.400"
-                                        }}
-                                        fontWeight="500"
-                                        color="gray.700">
-                                        Logout
-                                    </Text>
-                                </HStack>
-                            </Pressable>
-                        </VStack>
+                        {
+                            this.props.user?.user ?
+                                <VStack space="5">
+                                    <Pressable px="5" py="3">
+                                        <HStack space="7" alignItems="center">
+                                            <Icon
+                                                color="gray.500"
+                                                size="5"
+                                                as={<MaterialCommunityIcons name="logout" />}
+                                            />
+                                            <Text
+                                                _dark={{
+                                                    color: "gray.400"
+                                                }}
+                                                fontWeight="500"
+                                                color="gray.700">
+                                                Logout
+                                            </Text>
+                                        </HStack>
+                                    </Pressable>
+                                </VStack>
+                                : <VStack space="5">
+                                    <Pressable onPress={() => this.props.navigation.navigate("Login")} px="5" py="3">
+                                        <HStack space="7" alignItems="center">
+                                            <Icon
+                                                color="gray.500"
+                                                size="5"
+                                                as={<MaterialCommunityIcons name="logout" />}
+                                            />
+                                            <Text
+                                                _dark={{
+                                                    color: "gray.400"
+                                                }}
+                                                fontWeight="500"
+                                                color="gray.700">
+                                                Login
+                                            </Text>
+                                        </HStack>
+                                    </Pressable>
+                                </VStack>
+                        }
                     </VStack>
                 </VStack>
             </View>
@@ -146,7 +176,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    //  getDashboard: data => dispatch(GeneralMiddleware.getDashboardData(data)),
+    showAlert: data => dispatch(AlertAction.ShowAlert(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);
