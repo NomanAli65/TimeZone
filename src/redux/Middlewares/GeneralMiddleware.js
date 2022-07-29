@@ -83,7 +83,7 @@ export const GeneralMiddleware = {
             }
         };
     },
-    TradeIn: () => {
+    TradeIn: (data) => {
         return async dispatch => {
             try {
                 let formData = new FormData();
@@ -92,7 +92,7 @@ export const GeneralMiddleware = {
                 formData.append("brand_id", data.brand);
                 formData.append("phone", data.phone);
                 formData.append("model_name", data.name);
-                formData.append("model_number", data.model);
+                formData.append("model_num", data.model);
                 formData.append("model_price", data.price);
                 formData.append("model_condition", data.condition);
                 formData.append("packing", data.box_paper);
@@ -100,7 +100,9 @@ export const GeneralMiddleware = {
                 data.images.forEach((img) => {
                     formData.append("images[]", img);
                 })
-                let request = await post(APIs.TradeIn, formData);
+                let request = await post(APIs.TradeIn, formData, {
+                    'Content-Type': "multipart/form-data"
+                });
                 if (request) {
                     data.onSuccess(true);
                     return;

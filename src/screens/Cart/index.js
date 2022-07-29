@@ -1,8 +1,11 @@
-import { Box, FlatList, Heading, HStack, IconButton, Image, Stack, Text, View, VStack } from 'native-base';
+import { Box, Center, FlatList, Heading, HStack, IconButton, Image, Stack, Text, View, VStack } from 'native-base';
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
+import ProductActions from '../../redux/Actions/ProductActions';
+import { connect } from 'react-redux';
+import { img_url } from '../../configs/APIs';
 
 
 const data = [
@@ -38,7 +41,7 @@ const data = [
     }
 ]
 
-export default class index extends Component {
+class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -48,32 +51,42 @@ export default class index extends Component {
 
     _renderItem = ({ item }) => {
         return (
-            <Box _dark={{backgroundColor:"gray.800"}} w={"100%"} alignItems="center" mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
+            <Box _dark={{ backgroundColor: "gray.800" }} w={"100%"} alignItems="center" mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <HStack space={1} w={"full"} p={2}>
-                    <Image alignSelf={"center"} maxH={90} maxW={"30%"} source={item.image} alt="image" resizeMode='contain' />
+                    <Image alignSelf={"center"} h={90} w={"30%"} source={item.image ? { uri: img_url + item.image } : require("../../../assets/placeholder.png")} alt="Watch image" resizeMode='contain' />
                     <Stack space={1} w={"55%"}>
                         <Heading size={"sm"}>
-                            {item.name}
+                            {item.product_name}
                         </Heading>
                         <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
-                            {item.desc}
+                            {item.description}
                         </Text>
                         <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
-                            <Text color={"primary.100"}>4000 AED</Text>
+                            <Text color={"primary.100"}>{item.price} AED</Text>
                         </Text>
                     </Stack>
-                    <IconButton ml={1} alignSelf={"center"} icon={<AntDesign name='delete' size={25} />}
-                    _dark={{
-                        color:"#fff"
-                    }} />
+                    <IconButton
+                        onPress={() => this.props.removeFromCart(item)}
+                        ml={1} alignSelf={"center"} icon={<AntDesign name='delete' size={25} />}
+                        _dark={{
+                            color: "#fff"
+                        }} />
                 </HStack>
             </Box>
         )
     }
 
+    getTotalPrice = () => {
+        let total = 0;
+        this.props.cart.forEach(itm => {
+            total += parseInt(itm.price);
+        })
+        return total;
+    }
+
     render() {
         return (
-            <View flex={1} backgroundColor="#fff" _dark={{backgroundColor:"black"}}>
+            <View flex={1} backgroundColor="#fff" _dark={{ backgroundColor: "black" }}>
                 <AppBar
                     title={"Cart"}
                     noCart
@@ -84,12 +97,23 @@ export default class index extends Component {
                     p={3}
                     mb={2}
                     renderItem={this._renderItem}
-                    data={data}
+                    data={this.props.cart}
                 />
+                {
+                    this.props.cart.length == 0 ?
+                        <Box flex={1} p={5} >
+                            <Center>
+                                <Heading mb={3} fontSize={17} textAlign="center">
+                                    No items available in your cart
+                                </Heading>
+                            </Center>
+                        </Box> :
+                        null
+                }
                 <Box p={3}>
                     <HStack justifyContent={"space-between"}>
                         <Text bold>Subtotal</Text>
-                        <Text bold color={"primary.100"}>50 AED</Text>
+                        <Text bold color={"primary.100"}>{this.getTotalPrice()} AED</Text>
                     </HStack>
                     <HStack justifyContent={"space-between"}>
                         <Text bold>Tax</Text>
@@ -100,7 +124,7 @@ export default class index extends Component {
                         <Text bold color={"primary.100"}>50000 AED</Text>
                     </HStack>
                     <LGButton
-                        onPress={()=>this.props.navigation.navigate("Checkout")}
+                        onPress={() => this.props.navigation.navigate("Checkout")}
                         title={"Review payment and address"}
                     />
                 </Box>
@@ -108,3 +132,14 @@ export default class index extends Component {
         );
     }
 }
+
+
+const mapStateToProps = state => ({
+    cart: state.Product.cart,
+})
+
+const mapDispatchToProps = dispatch => ({
+    removeFromCart: data => dispatch(ProductActions.RemoveFromCart(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(index);

@@ -7,6 +7,8 @@ import theme from '../../configs/Theme';
 import LGButton from '../../components/LGButton';
 import { Video } from 'expo-av';
 import { img_url } from "../../configs/APIs";
+import ProductActions from '../../redux/Actions/ProductActions';
+import { connect } from 'react-redux';
 
 
 //TODO:Add Video player
@@ -20,7 +22,7 @@ const data = [
     require("../../../assets/watchd.png"),
 ]
 
-export default class ProductDetail extends Component {
+class ProductDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -49,8 +51,21 @@ export default class ProductDetail extends Component {
             return "No info available"
     }
 
+    AddRemoveCart = () => {
+        let data = this.props.route.params?.item;
+        let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
+        if (index == -1) {
+            this.props.addToCart(data)
+        }
+        else {
+            this.props.removeFromCart(data)
+        }
+    }
+
     render() {
         let data = this.props.route.params?.item;
+        let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
+        console.warn(this.props.cart);
         return (
             <View flex={1}
                 backgroundColor="#fff"
@@ -165,10 +180,10 @@ export default class ProductDetail extends Component {
                     </VStack>
                 </ScrollView>
                 <HStack justifyContent={"space-around"}>
-                    <Pressable w={"50%"} >
+                    <Pressable w={"50%"} onPress={this.AddRemoveCart}>
                         <Box backgroundColor={"black"} h="12" w={"100%"} alignItems={"center"} justifyContent={"center"}>
                             <Text color={"white"} fontSize={"md"}>
-                                Add to cart
+                                {index == -1 ? "Add to cart" : "Remove from cart"}
                             </Text>
                         </Box>
                     </Pressable>
@@ -184,3 +199,15 @@ export default class ProductDetail extends Component {
         );
     }
 }
+
+
+const mapStateToProps = state => ({
+    cart: state.Product.cart,
+})
+
+const mapDispatchToProps = dispatch => ({
+    addToCart: data => dispatch(ProductActions.AddToCart(data)),
+    removeFromCart: data => dispatch(ProductActions.RemoveFromCart(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);

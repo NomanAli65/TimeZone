@@ -43,6 +43,18 @@ class ProductActions {
             type: ProductTypes.RESET_GET_WISHLIST,
         };
     };
+    static AddToCart = (data) => {
+        return {
+            type: ProductTypes.ADD_TO_CART,
+            payload: data
+        };
+    };
+    static RemoveFromCart = (data) => {
+        return {
+            type: ProductTypes.REMOVE_FROM_CART,
+            payload: data
+        };
+    };
 }
 
 export default ProductActions;

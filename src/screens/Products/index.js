@@ -58,7 +58,7 @@ class index extends Component {
 
     componentDidMount() {
         this.props.getAllProducts({
-            next_url: this.props.products?.next_url ? this.props.products.next_url : APIs.AllProducts,
+            next_url:APIs.AllProducts,
             search: "",
             type: "",
             callback: () => {

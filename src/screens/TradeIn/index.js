@@ -6,6 +6,7 @@ import { Entypo } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 import { connect } from 'react-redux';
 import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
+import * as FileSystem from "expo-file-system";
 
 class index extends Component {
   constructor(props) {
@@ -38,38 +39,40 @@ class index extends Component {
     // No permissions request is necessary for launching the image library
     if (type == "camera") {
       let result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [2, 3],
         quality: 1,
       });
 
       if (!result.cancelled) {
         let uri = result.uri;
+        // let info=await FileSystem.getInfoAsync(uri,{size:true});
         let name = uri.split("/")[uri.split("/").length - 1]
         let file = {
           uri,
           name,
-          type: result.type,
+          type: result.type + "/jpeg",
         }
         this.setState({ images: [file, ...this.state.images] })
       }
     }
     else {
       let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [4, 3],
+        aspect: [2, 3],
         quality: 1,
       });
 
       if (!result.cancelled) {
         let uri = result.uri;
+        //  let info=await FileSystem.getInfoAsync(uri,{size:true});
         let name = uri.split("/")[uri.split("/").length - 1]
         let file = {
           uri,
           name,
-          type: result.type,
+          type: result.type + "/jpeg",
         }
         this.setState({ images: [file, ...this.state.images] })
       }
@@ -108,8 +111,8 @@ class index extends Component {
                     </Text>
                 }
 
-                <Input placeholder='Watch Name' onChangeText={(name) => this.setState({ name, invalid: "" })} />
-                <Input placeholder='Watch Model' onChangeText={(model) => this.setState({ model, invalid: "" })} />
+                <Input value={this.state.name} placeholder='Watch Name' onChangeText={(name) => this.setState({ name, invalid: "" })} />
+                <Input value={this.state.model} placeholder='Watch Model' onChangeText={(model) => this.setState({ model, invalid: "" })} />
                 <HStack>
                   <Heading fontSize={"md"}>
                     Add Photos
@@ -147,7 +150,7 @@ class index extends Component {
               Add more details (Optional)
             </Heading>
             {/* <HStack> */}
-            <Input keyboardType='numeric' flex={1} placeholder="Price" onChangeText={(price) => this.setState({ price })} />
+            <Input value={this.state.price} keyboardType='numeric' flex={1} placeholder="Price" onChangeText={(price) => this.setState({ price })} />
             {/* <Select
                 flex={0.5}
                 placeholder="Select"
@@ -189,17 +192,18 @@ class index extends Component {
               <Select.Item label="None" value="none" />
             </Select>
             <TextArea
+              value={this.state.comments}
               placeholder='Comments'
               onChangeText={(comments) => this.setState({ comments })}
             />
             <LGButton
               title={"Next"}
               onPress={() => {
-                if (!this.state.brand || !this.state.name || !this.state.model) {
+                if (!this.state.brand || !this.state.name || !this.state.model || this.state.images.length == 0) {
                   this.setState({ invalid: "Please fill all required fields" });
                   return;
                 }
-                this.props.navigation.navigate("PersonalDetail", { data: this.state })
+                this.props.navigation.navigate("PersonalDetail", { data: this.state, Reset: () => this.setState({ brand: "", name: "", model: "", price: "", condition: 1, box_paper: "", comments: "", images: [] }) })
               }}
             />
           </VStack>
