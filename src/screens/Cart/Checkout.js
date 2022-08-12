@@ -146,10 +146,13 @@ class Checkout extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => (
-    {
-        showAlert: (payload) => dispatch({ type: AlertTypes.SHOW_ALERT, payload }),
-    }
-)
+const mapStateToProps = state => ({
+    cart: state.Product.cart,
+})
 
-export default connect(null, mapDispatchToProps)(Checkout);
+const mapDispatchToProps = dispatch => ({
+    showAlert: (payload) => dispatch({ type: AlertTypes.SHOW_ALERT, payload }),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+
