@@ -76,11 +76,12 @@ class index extends Component {
         )
     }
 
-    getTotalPrice = () => {
+    getTotalPrice = (tax = 0) => {
         let total = 0;
         this.props.cart.forEach(itm => {
             total += parseInt(itm.price);
         })
+        total += total / 100 * tax;
         return total;
     }
 
@@ -117,11 +118,11 @@ class index extends Component {
                     </HStack>
                     <HStack justifyContent={"space-between"}>
                         <Text bold>Tax</Text>
-                        <Text bold color={"primary.100"}>10 AED</Text>
+                        <Text bold color={"primary.100"}>{"2"} %</Text>
                     </HStack>
                     <HStack mb={3} justifyContent={"space-between"}>
                         <Text bold>Total</Text>
-                        <Text bold color={"primary.100"}>50000 AED</Text>
+                        <Text bold color={"primary.100"}>{this.getTotalPrice(2)} AED</Text>
                     </HStack>
                     <LGButton
                         onPress={() => this.props.navigation.navigate("Checkout")}
