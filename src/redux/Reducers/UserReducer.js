@@ -18,7 +18,7 @@ const UserReducer = (state = initialSate, action) => {
             state = { ...state, methods: methods_copy };
             break;
         case UserTypes.GET_ALL_METHODS:
-            state = { ...state, methods: action.payload.data };
+            state = { ...state, methods: action.payload };
             break;
         default:
             break;

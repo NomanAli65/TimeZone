@@ -92,11 +92,12 @@ class index extends Component {
                                         if (this.props.user?.user)
                                             this.props.navigation.navigate(this.getScreenName(name));
                                         else
-                                            this.props.showAlert({
-                                                title: "Warning",
-                                                message: "Please login to continue",
-                                                status: "error"
-                                            })
+                                            this.props.navigation.navigate("Login");
+                                        // this.props.showAlert({
+                                        //     title: "Warning",
+                                        //     message: "Please login to continue",
+                                        //     status: "error"
+                                        // })
                                     }}
                                 >
                                     <HStack space="7" alignItems="center">

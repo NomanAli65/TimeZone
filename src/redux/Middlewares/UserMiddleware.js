@@ -33,6 +33,7 @@ export const UserMiddleware = {
                 formData.append("exp_date", data.expiry);
                 formData.append("cvc", data.cvc);
                 let request = await post(APIs.AddCard, formData);
+                console.warn(request)
                 if (request) {
                     data.onSuccess(true);
                     dispatch(UserActions.AddCard(request))
@@ -49,14 +50,13 @@ export const UserMiddleware = {
         return async dispatch => {
             try {
                 dispatch(UserActions.DeleteCard(data.index))
-                dispatch(GeneralActions.ShowLoading());
-                let request = await get(APIs.DeletePaymentMethod);
+                let formData=new FormData();
+                formData.append("id",data.id)
+                let request = await post(APIs.DeletePaymentMethod,formData);
                 if (request) {
+                    data.onSuccess()
                 }
-                dispatch(GeneralActions.HideLoading());
-                //dispatch({ type: ActionTypes.HideLoading });
             } catch (error) {
-                dispatch(GeneralActions.HideLoading());
                 console.warn(error);
             }
         };
@@ -65,15 +65,13 @@ export const UserMiddleware = {
         return async dispatch => {
             try {
                 let formData = new FormData();
-                formData.append("id", data.id);
-                dispatch(GeneralActions.ShowLoading());
+                formData.append("source_id", data);
                 let request = await post(APIs.SetDefaultPaymentMethod, formData);
                 if (request) {
+                    dispatch(UserActions.GetAllMethods(request))
                 }
-                dispatch(GeneralActions.HideLoading());
                 //dispatch({ type: ActionTypes.HideLoading });
             } catch (error) {
-                dispatch(GeneralActions.HideLoading());
                 console.warn(error);
             }
         };

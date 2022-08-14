@@ -16,9 +16,12 @@ export const ProductMiddleware = {
                 if (type)
                     formData.append("type", type)
 
-                let request = await post(next_url, formData);
+                let request = await post(next_url);
                 if (request) {
-                    dispatch(ProductActions.GetAllProducts(request))
+                    if (next_url == APIs.AllProducts)
+                        dispatch(ProductActions.GetWishlist(request));
+                    else
+                        dispatch(ProductActions.GetAllProducts(request))
                     callback();
                 }
             } catch (error) {
@@ -36,7 +39,7 @@ export const ProductMiddleware = {
                         dispatch(ProductActions.GetWishlist(request));
                     else
                         dispatch(ProductActions.GetMoreWishlist(request));
-                    
+
                     onSuccess(true);
                     return;
                 }
@@ -56,11 +59,31 @@ export const ProductMiddleware = {
                 // dispatch(GeneralActions.ShowLoading());
                 let request = await post(APIs.AddToWishlist, formData);
                 if (request) {
-                    
+
                 }
                 // dispatch(GeneralActions.HideLoading());
             } catch (error) {
                 // dispatch(GeneralActions.HideLoading());
+                console.warn(error);
+            }
+        };
+    },
+    PlaceOrder: (data) => {
+        return async dispatch => {
+            try {
+                let formData = new FormData();
+                formData.append("sub_total", data.subtotal);
+                formData.append("total", data.total);
+                formData.append("tax_amount", data.tax);
+                formData.append("address", data.address);
+                formData.append("source_id", data.source_id);
+                formData.append("cartData", data.cart);
+                formData.append("b_pickup", data.b_pickup);
+                let request = await post(APIs.PlaceOrder, formData);
+                if (request) {
+                    data.onSuccess(true);
+                }
+            } catch (error) {
                 console.warn(error);
             }
         };

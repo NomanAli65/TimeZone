@@ -10,8 +10,9 @@ import { connect } from 'react-redux';
 class index extends Component {
     constructor(props) {
         super(props);
+        let selectedIndex = this.props.all_methods.findIndex(val => val.is_default == "1");
         this.state = {
-            selectedIndex: 0,
+            selectedIndex,
             loading: true,
             refreshing: true
         };
@@ -20,7 +21,8 @@ class index extends Component {
     componentDidMount() {
         this.props.getAllMethods({
             onSuccess: () => {
-                this.setState({ refreshing: false })
+                let selectedIndex = this.props.all_methods.findIndex(val => val.is_default == "1");
+                this.setState({ refreshing: false, selectedIndex })
             }
         })
     }
@@ -29,7 +31,7 @@ class index extends Component {
         return (
             <Box rounded={"lg"} p={4}>
                 <Pressable onPress={() => {
-                    this.props.defaultMethod(item)
+                    this.props.defaultMethod(item.stripe_card_id)
                     this.setState({ selectedIndex: index })
                 }}>
                     <HStack alignItems="center" justifyContent={"space-between"}>
@@ -41,12 +43,18 @@ class index extends Component {
                                     value={'' + index}
                                 />
                             </Radio.Group>
-                            <Image alt={"image"} w={25} h={6} resizeMode="stretch" source={require("../../../assets/visa.png")} />
-                            <Text bold>xxxx-xxxx-xxxx-1234</Text>
+                            <Image alt={"image"} w={25} h={6} resizeMode="stretch" source={item.card_brand == "Visa" ? require("../../../assets/visa.png") : require("../../../assets/master.png")} />
+                            <Text bold>xxxx-xxxx-xxxx-{item.card_end_number}</Text>
                         </HStack>
                         <IconButton
                             icon={<Ionicons name="trash-bin" color={theme.config.initialColorMode == "dark" ? "#ccc" : "#000"} size={20} />}
-                            onPress={() => this.props.deleteMethod(index)}
+                            onPress={() =>{
+                                 this.props.deleteMethod({index,id:item.id,onSuccess:()=>{
+                                     console.warn(this.props.all_methods)
+                                    let selectedIndex = this.props.all_methods.findIndex(val => val.is_default == "1");
+                                    this.setState({ selectedIndex })
+                                 }})
+                                }}
                         />
                     </HStack>
                 </Pressable>
@@ -76,7 +84,7 @@ class index extends Component {
                     refreshing={this.state.refreshing}
                     onRefresh={this.onRefresh}
                     p={3}
-                    data={this.props.all_methods?.data}
+                    data={this.props.all_methods}
                     renderItem={this._renderItem}
                 />
                 <Fab onPress={() => this.props.navigation.navigate("AddCard")} renderInPortal={false} shadow={2} w={55} h={55} icon={<Icon color="white" as={AntDesign} name="plus" size="sm" ml={2} />} />

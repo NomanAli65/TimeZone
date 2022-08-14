@@ -111,24 +111,33 @@ class index extends Component {
                         </Box> :
                         null
                 }
-                <Box p={3}>
-                    <HStack justifyContent={"space-between"}>
-                        <Text bold>Subtotal</Text>
-                        <Text bold color={"primary.100"}>{this.getTotalPrice()} AED</Text>
-                    </HStack>
-                    <HStack justifyContent={"space-between"}>
-                        <Text bold>Tax</Text>
-                        <Text bold color={"primary.100"}>{"2"} %</Text>
-                    </HStack>
-                    <HStack mb={3} justifyContent={"space-between"}>
-                        <Text bold>Total</Text>
-                        <Text bold color={"primary.100"}>{this.getTotalPrice(2)} AED</Text>
-                    </HStack>
-                    <LGButton
-                        onPress={() => this.props.navigation.navigate("Checkout")}
-                        title={"Review payment and address"}
-                    />
-                </Box>
+                {
+                    this.props.cart.length != 0 ?
+                        <Box p={3}>
+                            <HStack justifyContent={"space-between"}>
+                                <Text bold>Subtotal</Text>
+                                <Text bold color={"primary.100"}>{this.getTotalPrice()} AED</Text>
+                            </HStack>
+                            <HStack justifyContent={"space-between"}>
+                                <Text bold>Tax</Text>
+                                <Text bold color={"primary.100"}>{this.props.user.vat.vat_percent} %</Text>
+                            </HStack>
+                            <HStack mb={3} justifyContent={"space-between"}>
+                                <Text bold>Total</Text>
+                                <Text bold color={"primary.100"}>{this.getTotalPrice(this.props.user.vat.vat_percent)} AED</Text>
+                            </HStack>
+                            <LGButton
+                                onPress={() => {
+                                    if (this.props.user?.user)
+                                        this.props.navigation.navigate("Checkout")
+                                    else
+                                        this.props.navigation.navigate("Login")
+                                }}
+                                title={"Review payment and address"}
+                            />
+                        </Box>
+                        :
+                        null}
             </View>
         );
     }
@@ -136,6 +145,7 @@ class index extends Component {
 
 
 const mapStateToProps = state => ({
+    user: state.Auth.user,
     cart: state.Product.cart,
 })
 

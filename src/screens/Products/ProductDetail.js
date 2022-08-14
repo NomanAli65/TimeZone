@@ -9,6 +9,7 @@ import { Video } from 'expo-av';
 import { img_url } from "../../configs/APIs";
 import ProductActions from '../../redux/Actions/ProductActions';
 import { connect } from 'react-redux';
+import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 
 
 //TODO:Add Video player
@@ -25,7 +26,9 @@ const data = [
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
+        let data = this.props.route.params?.item;
         this.state = {
+            wishlist: Boolean(data.wishlist)
         };
     }
 
@@ -65,7 +68,6 @@ class ProductDetail extends Component {
     render() {
         let data = this.props.route.params?.item;
         let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
-        console.warn(this.props.cart);
         return (
             <View flex={1}
                 backgroundColor="#fff"
@@ -101,7 +103,16 @@ class ProductDetail extends Component {
                             </VStack>
                             <HStack alignItems={"flex-start"}>
                                 <IconButton icon={<AntDesign name='sharealt' size={20} color={theme.colors.primary[100]} />} />
-                                <IconButton icon={<AntDesign name='hearto' size={20} color={theme.colors.primary[100]} />} />
+                                <IconButton
+                                    onPress={() => {
+                                        if (!this.props.loggedIn)
+                                            this.props.navigation.navigate("Login")
+                                        else {
+                                            this.setState({ wishlist: !this.state.wishlist });
+                                            this.props.addToWish(data)
+                                        }
+                                    }}
+                                    icon={<AntDesign name={this.state.wishlist ? "heart" : 'hearto'} size={20} color={theme.colors.primary[100]} />} />
                             </HStack>
                         </HStack>
                         <Text>
@@ -203,11 +214,13 @@ class ProductDetail extends Component {
 
 const mapStateToProps = state => ({
     cart: state.Product.cart,
+    loggedIn: state.Auth.isLogin
 })
 
 const mapDispatchToProps = dispatch => ({
     addToCart: data => dispatch(ProductActions.AddToCart(data)),
     removeFromCart: data => dispatch(ProductActions.RemoveFromCart(data)),
+    addToWish: data => dispatch(ProductMiddleware.saveToWishlist(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);
