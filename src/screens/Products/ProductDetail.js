@@ -54,7 +54,7 @@ class ProductDetail extends Component {
             return "No info available"
     }
 
-    AddRemoveCart = () => {
+    AddRemoveCart = (now) => {
         let data = this.props.route.params?.item;
         let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
         if (index == -1) {
@@ -63,6 +63,8 @@ class ProductDetail extends Component {
         else {
             this.props.removeFromCart(data)
         }
+        if (now)
+            this.props.navigation.navigate("Checkout")
     }
 
     render() {
@@ -92,14 +94,24 @@ class ProductDetail extends Component {
                         renderItem={this._renderItem}
                     />
                     <VStack space={3} p={4}>
-                        <HStack justifyContent={"space-between"}>
+                        <HStack justifyContent={"space-between"} >
                             <VStack>
                                 <Heading>
                                     {data.product_name}
                                 </Heading>
-                                <Heading fontSize={"xl"} color={"primary.100"}>
-                                    {data.price} AED
-                                </Heading>
+                                <HStack alignItems={"center"} space={2}>
+                                    {data.discount?.discount_value ? <Heading textDecorationLine="none" fontSize={"xl"} color={"primary.100"}>
+                                        {
+                                            data.discount?.discount_type == "fixed" ?
+                                                data.price - data.discount?.discount_value
+                                                :
+                                                data.price - (data.price / 100 * data.discount?.discount_value)
+                                        } AED
+                                    </Heading> : null}
+                                    <Heading fontSize={data.discount?.discount_value ? "sm" : "xl"} color={data.discount?.discount_value ? "red.500" : "primary.100"} textDecorationLine={data.discount?.discount_value ? "line-through" : "none"}>
+                                        {data.price} AED
+                                    </Heading>
+                                </HStack>
                             </VStack>
                             <HStack alignItems={"flex-start"}>
                                 <IconButton icon={<AntDesign name='sharealt' size={20} color={theme.colors.primary[100]} />} />
@@ -191,14 +203,14 @@ class ProductDetail extends Component {
                     </VStack>
                 </ScrollView>
                 <HStack justifyContent={"space-around"}>
-                    <Pressable w={"50%"} onPress={this.AddRemoveCart}>
+                    <Pressable w={"50%"} onPress={() => this.AddRemoveCart(false)}>
                         <Box backgroundColor={"black"} h="12" w={"100%"} alignItems={"center"} justifyContent={"center"}>
                             <Text color={"white"} fontSize={"md"}>
                                 {index == -1 ? "Add to cart" : "Remove from cart"}
                             </Text>
                         </Box>
                     </Pressable>
-                    <Pressable w={"50%"} >
+                    <Pressable w={"50%"} onPress={() => this.AddRemoveCart(true)}>
                         <Box backgroundColor={"primary.100"} h="12" w={"100%"} alignItems={"center"} justifyContent={"center"}>
                             <Text color={"white"} fontSize={"md"}>
                                 Buy now

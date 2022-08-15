@@ -2,6 +2,7 @@
 import { APIs } from '../../configs/APIs';
 import { get, post } from '../../configs/AxiosConfig';
 import AuthAction from '../Actions/AuthActions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AuthMiddleware = {
     Login: (data) => {
@@ -16,6 +17,7 @@ export const AuthMiddleware = {
                 if (request) {
                     data.onSuccess(true, "");
                     dispatch(AuthAction.Login(request))
+                    await AsyncStorage.setItem("@TZ-USER", JSON.stringify(request));
                 }
                 else
                     data.onSuccess(false, request.message);
@@ -78,6 +80,7 @@ export const AuthMiddleware = {
                 if (request) {
                     data.onSuccess(true, request.message);
                     dispatch(AuthAction.Login(request))
+                    await AsyncStorage.setItem("@TZ-USER", JSON.stringify(request));
                 }
                 else
                     data.onSuccess(false, request.message);
@@ -110,7 +113,7 @@ export const AuthMiddleware = {
             try {
                 let formData = new FormData();
                 formData.append("name", data.name);
-                //formData.append("profile_pic", data.pic);
+                formData.append("profile_pic", data.pic);
                 formData.append("country", data.country);
                 formData.append("city", data.city);
                 formData.append("address", data.address);
@@ -118,6 +121,7 @@ export const AuthMiddleware = {
                 if (request) {
                     data.onSuccess(true);
                     dispatch(AuthAction.UpdateUserProfile(request))
+                    await AsyncStorage.setItem("@TZ-USER", JSON.stringify({ ...data.old_data, user: request }));
                 }
                 else
                     data.onSuccess(false);

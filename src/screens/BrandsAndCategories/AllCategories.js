@@ -9,6 +9,7 @@ import CategoryItem from '../../components/CategoryItem';
 import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
 import { connect } from 'react-redux';
 import SearchBar from '../../components/SearchBar';
+import { img_url } from '../../configs/APIs';
 
 const { width } = Dimensions.get("window");
 
@@ -171,7 +172,7 @@ class AllCategories extends Component {
         else
             return (
                 <RNView style={{ width }}>
-                    <RNImage source={item.image} style={{ width, height: 250 }} resizeMode="cover" />
+                    <RNImage source={{ uri: img_url + item.banner_path }} style={{ width, height: 250 }} resizeMode="cover" />
                 </RNView>
             )
     }
@@ -224,7 +225,7 @@ class AllCategories extends Component {
                                     itemWidth={width}
                                     snapToInterval={width}
                                     enableSnap={false}
-                                    data={banners}
+                                    data={this.state.loading ? [{}, {}, {}, {}] : this.props.dashboard?.banners}
                                     extraData={this.state.loading}
                                     renderItem={this._renderBanner}
                                 />
@@ -249,7 +250,8 @@ class AllCategories extends Component {
 
 
 const mapStateToProps = state => ({
-    all_categories: state.GeneralReducer.all_categories
+    all_categories: state.GeneralReducer.all_categories,
+    dashboard: state.GeneralReducer.dashboardData
 })
 
 const mapDispatchToProps = dispatch => ({

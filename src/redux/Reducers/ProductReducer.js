@@ -9,7 +9,10 @@ let initialSate = {
     wishlist: {
         data: []
     },
-    cart: []
+    cart: [],
+    orders: {
+        data: []
+    }
 };
 
 const ProductReducer = (state = initialSate, action) => {
@@ -18,13 +21,19 @@ const ProductReducer = (state = initialSate, action) => {
             state = { ...state, data: action.payload };
             break;
         case ProductTypes.GET_MORE_PRODUCTS:
-            state = { ...state, data: { ...state.data, data: [...state.data?.data, ...action.payload.data] } };
+            state = { ...state, data: { ...action.payload, data: [...state.data?.data, ...action.payload.data] } };
+            break;
+        case ProductTypes.GET_ORDERS:
+            state = { ...state, orders: action.payload };
+            break;
+        case ProductTypes.GET_MORE_ORDERS:
+            state = { ...state, orders: { ...action.payload, data: [...state.orders?.data, ...action.payload.data] } };
             break;
         case ProductTypes.GET_WISHLIST:
             state = { ...state, wishlist: action.payload.wishlist };
             break;
         case ProductTypes.GET_MORE_WISHLIST:
-            state = { ...state, wishlist: { ...state.wishlist, data: [...state.wishlist?.data, ...action.payload.data] } };
+            state = { ...state, wishlist: { ...action.payload, data: [...state.wishlist?.data, ...action.payload.data] } };
             break;
         case ProductTypes.ADD_PRODUCT_WISHLIST:
             if (state.wishlist?.data) {
@@ -42,6 +51,9 @@ const ProductReducer = (state = initialSate, action) => {
             let cart_copy = [...state.cart];
             cart_copy.splice(index, 1);
             state = { ...state, cart: cart_copy };
+            break;
+        case ProductTypes.EMPTY_CART:
+            state = { ...state, cart: [] };
             break;
         default:
             break;

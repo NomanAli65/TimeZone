@@ -3,6 +3,7 @@ import { Avatar, Button, Heading, HStack, Text, View, VStack } from "native-base
 import AppBar from '../../components/Appbar';
 import { connect } from 'react-redux';
 import AlertAction from '../../redux/Actions/AlertActions';
+import { img_url } from '../../configs/APIs';
 
 class Profile extends Component {
     constructor(props) {

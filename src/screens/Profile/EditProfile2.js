@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Avatar, Box, Button, FormControl, Heading, HStack, Icon, IconButton, Input, ScrollView, Stack, Text, View, VStack, theme, WarningOutlineIcon } from "native-base";
+import { Avatar, Box, Button, FormControl, Heading, HStack, Icon, IconButton, Input, ScrollView, Stack, Text, View, VStack, theme, WarningOutlineIcon, AlertDialog, Pressable } from "native-base";
 import AppBar from '../../components/Appbar';
 import { MaterialCommunityIcons, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
 import { connect } from 'react-redux';
 import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
+import * as ImagePicker from 'expo-image-picker';
+import { img_url } from '../../configs/APIs';
 
 class EditProfile2 extends Component {
     constructor(props) {
@@ -16,7 +18,8 @@ class EditProfile2 extends Component {
             address: this.props.user?.user.address,
             pic: null,
             invalid: "",
-            loading: ""
+            loading: "",
+            isOpen: false
         };
     }
 
@@ -34,6 +37,7 @@ class EditProfile2 extends Component {
             city,
             address,
             pic,
+            old_data: this.props.user,
             onSuccess: (success) => {
                 if (success) {
                     this.props.navigation.goBack();
@@ -42,6 +46,51 @@ class EditProfile2 extends Component {
             }
         })
     }
+
+    pickImage = async (type) => {
+        // No permissions request is necessary for launching the image library
+        if (type == "camera") {
+            let result = await ImagePicker.launchCameraAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [2, 3],
+                quality: 1,
+            });
+
+            if (!result.cancelled) {
+                let uri = result.uri;
+                // let info=await FileSystem.getInfoAsync(uri,{size:true});
+                let name = uri.split("/")[uri.split("/").length - 1]
+                let file = {
+                    uri,
+                    name,
+                    type: result.type + "/jpeg",
+                }
+                this.setState({ pic: file })
+            }
+        }
+        else {
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [2, 3],
+                quality: 1,
+            });
+
+            if (!result.cancelled) {
+                let uri = result.uri;
+                //  let info=await FileSystem.getInfoAsync(uri,{size:true});
+                let name = uri.split("/")[uri.split("/").length - 1]
+                let file = {
+                    uri,
+                    name,
+                    type: result.type + "/jpeg",
+                }
+                this.setState({ pic: file })
+            }
+        }
+
+    };
 
     render() {
         return (
@@ -61,11 +110,13 @@ class EditProfile2 extends Component {
                         </Stack>
                         <FormControl marginY={50} isInvalid={this.state.invalid}>
                             <VStack w="100%" space="md">
-                                <Avatar
-                                    alignSelf={"center"}
-                                    size={120}
-                                    source={require("../../../assets/user_place.png")}
-                                />
+                                <Pressable onPress={() => this.setState({ isOpen: true })}>
+                                    <Avatar
+                                        alignSelf={"center"}
+                                        size={120}
+                                        source={this.state.pic?.uri ? { uri: this.state.pic?.uri } : this.props.user?.user?.profile_pic ? { uri: img_url + this.props.user?.user?.profile_pic } : require("../../../assets/user_place.png")}
+                                    />
+                                </Pressable>
                                 <Input InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Name"
                                     value={this.state.name}
                                     onChangeText={(name) => this.setState({ name, invalid: "" })}
@@ -95,6 +146,34 @@ class EditProfile2 extends Component {
                             title="Update" />
                     </View>
                 </ScrollView>
+                <AlertDialog isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
+                    <AlertDialog.Content>
+                        <AlertDialog.CloseButton />
+                        <AlertDialog.Header>Select Option</AlertDialog.Header>
+                        <AlertDialog.Body>
+                            Select where do you want to select images from?
+                        </AlertDialog.Body>
+                        <AlertDialog.Footer>
+                            <Button.Group space={2}>
+                                <Button variant="unstyled" colorScheme="coolGray" onPress={() => this.setState({ isOpen: false })}>
+                                    Cancel
+                                </Button>
+                                <Button colorScheme="green" onPress={() => {
+                                    this.pickImage("camera")
+                                    this.setState({ isOpen: false });
+                                }}>
+                                    Camera
+                                </Button>
+                                <Button colorScheme="blue" onPress={() => {
+                                    this.pickImage("library")
+                                    this.setState({ isOpen: false });
+                                }}>
+                                    Library
+                                </Button>
+                            </Button.Group>
+                        </AlertDialog.Footer>
+                    </AlertDialog.Content>
+                </AlertDialog>
             </View>
         );
     }

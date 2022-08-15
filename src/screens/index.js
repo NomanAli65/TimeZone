@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
 import { GeneralMiddleware } from '../redux/Middlewares/GeneralMiddleware';
 import { img_url } from '../configs/APIs';
 import GeneralActions from '../redux/Actions/GeneralActions';
+import AuthAction from '../redux/Actions/AuthActions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width } = Dimensions.get("window");
 
@@ -119,6 +121,7 @@ class index extends Component {
   }
 
   componentDidMount() {
+    this.LoginIfRegistered();
     this.props.getDashboard({
       onSuccess: () => {
         this.setState({ loading: false })
@@ -126,6 +129,19 @@ class index extends Component {
     });
     // BackHandler.addEventListener("hardwareBackPress", this.BackPress());
   }
+
+  LoginIfRegistered = async () => {
+    try {
+      let result = await AsyncStorage.getItem("@TZ-USER");
+      if (result) {
+        let user = JSON.parse(result);
+        this.props.Login(user);
+      }
+    } catch (error) {
+      console.warn(error)
+    }
+  }
+
   componentWillUnmount() {
     clearTimeout(this.timeout)
   }
@@ -202,7 +218,7 @@ class index extends Component {
     else
       return (
         <RNView style={{ width }}>
-          <RNImage source={{ uri: img_url + item.image }} style={{ width, height: 250 }} resizeMode="cover" />
+          <RNImage source={{ uri: img_url + item.banner_path }} style={{ width, height: 250 }} resizeMode="cover" />
         </RNView>
       )
   }
@@ -258,7 +274,7 @@ class index extends Component {
               itemWidth={width}
               snapToInterval={width}
               enableSnap={false}
-              data={this.props.dashboard?.banners}
+              data={this.state.loading ? [{}, {}, {}, {}] : this.props.dashboard?.banners}
               extraData={this.state.loading}
               renderItem={this._renderBanner}
             />
@@ -403,7 +419,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getDashboard: data => dispatch(GeneralMiddleware.getDashboardData(data)),
-  StopLoading: () => dispatch(GeneralActions.HideLoading())
+  StopLoading: () => dispatch(GeneralActions.HideLoading()),
+  Login: (data) => dispatch(AuthAction.Login(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

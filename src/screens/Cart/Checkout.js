@@ -14,6 +14,8 @@ class Checkout extends Component {
         super(props);
         this.state = {
             b_pickup: false,
+            title: "",
+            address: this.props.user?.user?.address,
             loading: false
         };
     }
@@ -38,7 +40,17 @@ class Checkout extends Component {
                             {item.description}
                         </Text>
                         <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
-                            <Text color={"primary.100"}>{item.price} AED</Text>
+                            <Text color={item.discount?.discount_value ? "red.500" : "primary.100"} textDecorationLine={item.discount?.discount_value ? "line-through" : "none"}>{item.price} AED</Text>
+                            {
+                                item.discount?.discount_value ?
+                                    <Text color={"primary.100"}> {
+                                        item.discount?.discount_type == "fixed" ?
+                                            item.price - item.discount?.discount_value
+                                            :
+                                            item.price - (item.price / 100 * item.discount?.discount_value)
+                                    } AED</Text>
+                                    : null
+                            }
                         </Text>
                     </Stack>
                 </HStack>
@@ -49,19 +61,45 @@ class Checkout extends Component {
     getTotalPrice = (tax = 0) => {
         let total = 0;
         this.props.cart.forEach(itm => {
-            total += parseInt(itm.price);
+            total += parseInt(itm.discount?.discount_type == "fixed" ?
+                itm.price - itm.discount?.discount_value
+                :
+                itm.price - (itm.price / 100 * itm.discount?.discount_value));
         })
         total += total / 100 * tax;
         return total;
     }
 
     PlaceOrder = () => {
-        this.setState({ loading: false })
+        if (!this.state.address) {
+            this.props.showAlert({
+                title: "Address",
+                message: "Please add address to continue",
+                status: "error"
+            })
+            return;
+        }
+        if (this.props.all_methods.length == 0) {
+            this.props.showAlert({
+                title: "Payment Method",
+                message: "Please add payment method to continue",
+                status: "error"
+            })
+            return;
+        }
+        this.setState({ loading: true })
         let cart = this.props.cart.map(item => {
             return ({
                 product_id: item.id,
-                discount_amount: item.discount.discount_price,
-                product_total: item.price,
+                discount_amount: parseInt(item.discount?.discount_type == "fixed" ?
+                    item.discount?.discount_value
+                    :
+                    (item.price / 100 * item.discount?.discount_value)),
+                price: item.price,
+                product_total: parseInt(item.discount?.discount_type == "fixed" ?
+                    item.price - item.discount?.discount_value
+                    :
+                    item.price - (item.price / 100 * item.discount?.discount_value)),
             })
         })
         let b_pickup = this.state.b_pickup ? 1 : 0;
@@ -71,14 +109,17 @@ class Checkout extends Component {
             sub_total: this.getTotalPrice(),
             tax_amount: this.getTotalPrice() / 100 * this.props.user.vat.vat_percent,
             total: this.getTotalPrice(this.props.user.vat.vat_percent),
-            address:"",
-            onSuccess: () => {
+            address: this.state.address,
+            source_id: this.props.all_methods.find(val => val.is_default == "1").stripe_card_id,
+            onSuccess: (success) => {
                 this.setState({ loading: false })
-                this.props.showAlert({
-                    title: "Thank you for your order",
-                    message: "Your order has been successfully placed"
-                })
-                this.props.navigation.goBack()
+                if (success) {
+                    this.props.showAlert({
+                        title: "Thank you for your order",
+                        message: "Your order has been successfully placed"
+                    })
+                    this.props.navigation.goBack()
+                }
             }
         })
     }
@@ -105,14 +146,14 @@ class Checkout extends Component {
                                     <Heading ml={2} flex={1}>
                                         Delivery Address
                                     </Heading>
-                                    <Icon as={Entypo} name='edit' size={6} onPress={() => { }} />
+                                    <Icon as={Entypo} name='edit' size={6} onPress={() => this.props.navigation.navigate("Address", { setAddress: (title, address) => this.setState({ address, title }) })} />
                                 </HStack>
                                 <VStack>
                                     <Text bold>
-                                        Home
+                                        {this.state.title}
                                     </Text>
                                     <Text>
-                                        House no 12, UAE
+                                        {this.state.address}
                                     </Text>
                                 </VStack>
                             </VStack>
@@ -162,19 +203,19 @@ class Checkout extends Component {
                                         <Text bold>
                                             Subtotal
                                         </Text>
-                                        <Text color={"primary.100"}>{this.getTotalPrice()} AED</Text>
+                                        <Text color={"primary.100"} bold>{this.getTotalPrice()} AED</Text>
                                     </HStack>
                                     <HStack justifyContent={"space-between"}>
                                         <Text bold>
                                             Tax
                                         </Text>
-                                        <Text color={"primary.100"}>{this.props.user.vat.vat_percent} %</Text>
+                                        <Text color={"primary.100"} bold>{this.props.user.vat.vat_percent} %</Text>
                                     </HStack>
                                     <HStack justifyContent={"space-between"}>
                                         <Text bold>
                                             Total
                                         </Text>
-                                        <Text color={"primary.100"}>{this.getTotalPrice(this.props.user.vat.vat_percent)} AED</Text>
+                                        <Text color={"primary.100"} bold>{this.getTotalPrice(this.props.user.vat.vat_percent)} AED</Text>
                                     </HStack>
                                 </VStack>
                             </VStack>

@@ -62,7 +62,17 @@ class index extends Component {
                             {item.description}
                         </Text>
                         <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
-                            <Text color={"primary.100"}>{item.price} AED</Text>
+                            <Text color={item.discount?.discount_value ?"red.500":"primary.100"} textDecorationLine={item.discount?.discount_value ? "line-through" : "none"}>{item.price} AED</Text>
+                            {
+                                item.discount?.discount_value ?
+                                    <Text color={"primary.100"}> {
+                                        item.discount?.discount_type == "fixed" ?
+                                            item.price - item.discount?.discount_value
+                                            :
+                                            item.price - (item.price / 100 * item.discount?.discount_value)
+                                    } AED</Text>
+                                    : null
+                            }
                         </Text>
                     </Stack>
                     <IconButton
@@ -79,7 +89,10 @@ class index extends Component {
     getTotalPrice = (tax = 0) => {
         let total = 0;
         this.props.cart.forEach(itm => {
-            total += parseInt(itm.price);
+            total += parseInt(itm.discount?.discount_type == "fixed" ?
+            itm.price - itm.discount?.discount_value
+            :
+            itm.price - (itm.price / 100 * itm.discount?.discount_value));
         })
         total += total / 100 * tax;
         return total;
@@ -112,7 +125,7 @@ class index extends Component {
                         null
                 }
                 {
-                    this.props.cart.length != 0 ?
+                    this.props.cart.length != 0 && this.props.user?.vat?.vat_percent ?
                         <Box p={3}>
                             <HStack justifyContent={"space-between"}>
                                 <Text bold>Subtotal</Text>

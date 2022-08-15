@@ -55,6 +55,23 @@ class ProductActions {
             payload: data
         };
     };
+    static EmptyCart = () => {
+        return {
+            type: ProductTypes.EMPTY_CART,
+        };
+    }
+    static GetOrders = (data) => {
+        return {
+            type: ProductTypes.GET_ORDERS,
+            payload: data
+        };
+    };
+    static GetMoreOrders = (data) => {
+        return {
+            type: ProductTypes.GET_MORE_ORDERS,
+            payload: data
+        };
+    };
 }
 
 export default ProductActions;
