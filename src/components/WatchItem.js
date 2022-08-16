@@ -16,6 +16,7 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
     const color = useColorModeValue("#5c5c5c", "#cccc");
     const [wishlist, addToWishlist] = useState(wish?true:false);
 
+    console.warn(img_url + item.image)
     if (loading)
         return (
             <Box

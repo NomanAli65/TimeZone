@@ -11,15 +11,15 @@ export const ProductMiddleware = {
         return async dispatch => {
             try {
                 let formData = new FormData();
-                if (search)
-                    formData.append("search", search)
-                if (type)
-                    formData.append("type", type)
+                formData.append("search", search)
+                formData.append("type", type)
 
-                let request = await post(next_url);
+                console.warn(formData)
+
+                let request = await post(next_url, formData);
                 if (request) {
                     if (next_url == APIs.AllProducts)
-                        dispatch(ProductActions.GetWishlist(request));
+                        dispatch(ProductActions.GetAllProducts(request));
                     else
                         dispatch(ProductActions.GetAllProducts(request))
                     callback();

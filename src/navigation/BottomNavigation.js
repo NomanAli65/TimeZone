@@ -6,15 +6,19 @@ import Profile from "../screens/Profile/Profile";
 import Wishlist from "../screens/Wishlist";
 import AccountStack from "./AccountStack";
 import { Icon } from "native-base";
-import { Ionicons,FontAwesome5 } from "@expo/vector-icons";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import theme from "../configs/Theme";
 import TradeStack from "./TradeStack";
 import CartStack from "./CartStack";
+import { useSelector } from "react-redux";
 
 
 const BottomNavigator = createBottomTabNavigator();
 
 const BottomNav = () => {
+
+    const cart = useSelector(state => state.Product.cart)
+
     return (
         <BottomNavigator.Navigator
             initialRouteName="Home"
@@ -39,7 +43,9 @@ const BottomNav = () => {
                 options={{
                     tabBarIcon: ({ size, color, focused }) => (
                         <Icon size={size} color={color} as={Ionicons} name={focused ? "cart" : "cart-outline"} />
-                    )
+                    ),
+                    ...cart.length != 0 ? { tabBarBadge: cart.length != 0 ? cart.length : "", tabBarBadgeStyle: { backgroundColor: "#AC9956" } } : {}
+
                 }} />
             <BottomNavigator.Screen name="Trade In" component={TradeStack}
                 options={{

@@ -13,6 +13,11 @@ import PersonalDetail from "../screens/TradeIn/PersonalDetail";
 import TopCategories from "../screens/BrandsAndCategories/TopCategories";
 import VerifyCode from "../screens/Auth/VerifyCode";
 import ResetPass from "../screens/Auth/ResetPass";
+import Cart from "../screens/Cart";
+import Checkout from "../screens/Cart/Checkout";
+import PaymentMethods from "../screens/PaymentMethods";
+import AddCard from "../screens/PaymentMethods/AddCard";
+import Address from "../screens/Cart/Address";
 
 
 const StackNavigator = createNativeStackNavigator();
@@ -37,6 +42,11 @@ const MainStack = () => {
             <StackNavigator.Screen name="AllCategories" component={AllCategoires} />
             <StackNavigator.Screen name="TopCategories" component={TopCategories} />
             <StackNavigator.Screen name="ProductDetail" component={ProductDetail} />
+            <StackNavigator.Screen name="CartIndex" component={Cart} />
+            <StackNavigator.Screen name="Checkout" component={Checkout} />
+            <StackNavigator.Screen name="Payments" component={PaymentMethods} />
+            <StackNavigator.Screen name="AddCard" component={AddCard} />
+            <StackNavigator.Screen name="Address" component={Address} />
 
         </StackNavigator.Navigator>
     );

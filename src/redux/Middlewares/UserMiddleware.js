@@ -8,6 +8,7 @@ export const UserMiddleware = {
     getAllMethods: ({ onSuccess }) => {
         return async dispatch => {
             try {
+                dispatch(UserActions.GetAllMethods([]))
                 // dispatch(GeneralActions.ShowLoading());
                 let request = await get(APIs.GetPaymentMethods);
                 if (request) {
@@ -15,7 +16,7 @@ export const UserMiddleware = {
                     onSuccess(true);
                     return;
                 }
-                onSuccess(false)
+                 onSuccess(false)
                 // dispatch(GeneralActions.HideLoading());
                 //dispatch({ type: ActionTypes.HideLoading });
             } catch (error) {

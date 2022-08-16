@@ -169,8 +169,6 @@ class index extends Component {
               selectedValue={this.state.condition}
               onValueChange={(itemValue) => this.setState({ condition: itemValue })}
             >
-              <Select.Item label="1/10" value="1" />
-              <Select.Item label="2/10" value="2" />
               <Select.Item label="3/10" value="3" />
               <Select.Item label="4/10" value="4" />
               <Select.Item label="5/10" value="5" />
@@ -186,10 +184,10 @@ class index extends Component {
               selectedValue={this.state.box_paper}
               onValueChange={(itemValue) => this.setState({ box_paper: itemValue })}
             >
-              <Select.Item label="Box" value="box" />
-              <Select.Item label="Papers" value="papers" />
-              <Select.Item label="Box & Papers Both" value="box_papers" />
-              <Select.Item label="None" value="none" />
+              <Select.Item label="Box" value="packing_box" />
+              <Select.Item label="Papers" value="packing_paper" />
+              <Select.Item label="Box & Papers Both" value="packing_box and paper" />
+              <Select.Item label="None" value="packing_none" />
             </Select>
             <TextArea
               value={this.state.comments}

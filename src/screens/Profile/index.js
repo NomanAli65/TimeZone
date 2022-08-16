@@ -16,6 +16,8 @@ import {
 import { connect } from 'react-redux';
 import { img_url } from '../../configs/APIs';
 import AlertAction from '../../redux/Actions/AlertActions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthTypes } from '../../redux/ActionTypes/AuthTypes';
 
 const routeNames = [
     "My Account",
@@ -60,6 +62,11 @@ class index extends Component {
                 return undefined;
         }
     };
+
+    onLogout = async () => {
+        await AsyncStorage.removeItem("@TZ-USER");
+        this.props.Logout();
+    }
 
     render() {
         return (
@@ -126,7 +133,7 @@ class index extends Component {
                         {
                             this.props.user?.user ?
                                 <VStack space="5">
-                                    <Pressable px="5" py="3">
+                                    <Pressable px="5" py="3" onPress={()=>this.onLogout()}>
                                         <HStack space="7" alignItems="center">
                                             <Icon
                                                 color="gray.500"
@@ -178,6 +185,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     showAlert: data => dispatch(AlertAction.ShowAlert(data)),
+    Logout: () => dispatch({ type: AuthTypes.LOGOUT })
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

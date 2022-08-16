@@ -28,16 +28,17 @@ class ProductDetail extends Component {
         super(props);
         let data = this.props.route.params?.item;
         this.state = {
-            wishlist: Boolean(data.wishlist)
+            wishlist: Boolean(data.wishlist),
+            selectedImage: img_url + data.image
         };
     }
 
 
     _renderItem = ({ item }) => {
         return (
-            <Pressable>
+            <Pressable onPress={() => this.setState({ selectedImage: img_url + item.media })}>
                 <Box w={160} h={120} alignItems="center" mr={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
-                    <Image alignSelf={"center"} h={"100%"} w={"100%"} source={item} alt="image" resizeMode='contain' />
+                    <Image alignSelf={"center"} h={"100%"} w={"100%"} source={{ uri: img_url + item.media }} alt="image" resizeMode='contain' />
                 </Box>
             </Pressable>
         )
@@ -57,14 +58,21 @@ class ProductDetail extends Component {
     AddRemoveCart = (now) => {
         let data = this.props.route.params?.item;
         let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
-        if (index == -1) {
-            this.props.addToCart(data)
+
+        if (now && this.props.loggedIn) {
+            if (index == -1) {
+                this.props.addToCart(data)
+            }
+            this.props.navigation.navigate("Checkout")
         }
         else {
-            this.props.removeFromCart(data)
+            if (index == -1) {
+                this.props.addToCart(data)
+            }
+            else {
+                this.props.removeFromCart(data)
+            }
         }
-        if (now)
-            this.props.navigation.navigate("Checkout")
     }
 
     render() {
@@ -85,14 +93,17 @@ class ProductDetail extends Component {
                         title={"TIMEZONE"}
                     />
                     <RNView style={{ width }}>
-                        <RNImage source={{ uri: img_url + data.image }} style={{ width, height: 250 }} resizeMode="cover" />
+                        <RNImage source={{ uri: this.state.selectedImage }} style={{ width, height: 250 }} resizeMode="cover" />
                     </RNView>
-                    <FlatList
-                        p={3}
-                        horizontal
-                        data={data}
-                        renderItem={this._renderItem}
-                    />
+                    {data.images.length > 0 ?
+                        <FlatList
+                            p={3}
+                            horizontal
+                            data={data.images}
+                            renderItem={this._renderItem}
+                        />
+                        : null
+                    }
                     <VStack space={3} p={4}>
                         <HStack justifyContent={"space-between"} >
                             <VStack>
@@ -183,23 +194,29 @@ class ProductDetail extends Component {
                                 {this.formatString(data?.gender)}
                             </Text>
                         </HStack>
-                        <Box w={"100%"} h={200}>
-                            <Video
-                                useNativeControls
-                                //source={{uri:"https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"}}
-                                source={{ uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" }}
-                                posterSource={{ uri: "https://www.mapcom.com/wp-content/uploads/2015/07/video-placeholder.jpg" }}
-                                style={{
-                                    width: "100%",
-                                    height: 200,
-                                }}
-                                posterStyle={{
-                                    width: "100%",
-                                    height: 200
-                                }}
-                                resizeMode="cover"
-                            />
-                        </Box>
+                        {
+                            data.videos.length > 0 ?
+                                <Box w={"100%"} h={200}>
+                                    <Video
+                                        useNativeControls
+                                        //source={{uri:"https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"}}
+                                        // source={{ uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" }}
+                                        source={{ uri: img_url + data.videos[0].media }}
+                                        posterSource={{ uri: "https://www.mapcom.com/wp-content/uploads/2015/07/video-placeholder.jpg" }}
+                                        style={{
+                                            width: "100%",
+                                            height: 200,
+                                        }}
+                                        posterStyle={{
+                                            width: "100%",
+                                            height: 200
+                                        }}
+                                        resizeMode="cover"
+                                    />
+                                </Box>
+                                : null
+                        }
+
                     </VStack>
                 </ScrollView>
                 <HStack justifyContent={"space-around"}>

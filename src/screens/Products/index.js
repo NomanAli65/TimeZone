@@ -52,13 +52,14 @@ class index extends Component {
         this.state = {
             loading: true,
             refreshing: false,
-            search: ""
+            search: "",
+            filters: null
         };
     }
 
     componentDidMount() {
         this.props.getAllProducts({
-            next_url:APIs.AllProducts,
+            next_url: APIs.AllProducts,
             search: "",
             type: "",
             callback: () => {
@@ -93,9 +94,9 @@ class index extends Component {
     )
 
     onEndReached = () => {
-        if (this.props.products?.next_url)
+        if (this.props.products?.next_page_url)
             this.props.getAllProducts({
-                next_url: this.props.products?.next_url ? this.props.products.next_url : APIs.AllProducts,
+                next_url: this.props.products.next_page_url,
                 search: this.state.search,
                 type: "",
                 callback: () => {
@@ -145,7 +146,7 @@ class index extends Component {
                     p={3}
                     numColumns={2}
                     keyExtractor={(item) => item.name}
-                    data={this.props.products?.data}
+                    data={this.state.loading ? [{}, {}, {}, {}] : this.props.products?.data}
                     renderItem={this._renderItem}
                     onEndReached={this.onEndReached}
                     onEndReachedThreshold={0.1}
