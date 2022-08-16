@@ -53,15 +53,23 @@ class index extends Component {
             loading: true,
             refreshing: false,
             search: "",
-            filters: null
+            filters: {
+                filter_sort: "",
+                filter_gender: "",
+                filter_color: "",
+                filter_availability: ""
+            }
         };
     }
 
     componentDidMount() {
+        let category = this.props.route.params?.category;
+        let brand = this.props.route.params?.brand;
         this.props.getAllProducts({
             next_url: APIs.AllProducts,
             search: "",
-            type: "",
+            filter_category: category?.id ? category?.id : "",
+            filter_brand: brand?.id ? brand?.id : "",
             callback: () => {
                 this.setState({ loading: false })
             }
@@ -69,6 +77,8 @@ class index extends Component {
     }
 
     onSearch = (text) => {
+        let category = this.props.route.params?.category;
+        let brand = this.props.route.params?.brand;
         this.setState({ search: text })
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
@@ -76,7 +86,9 @@ class index extends Component {
             this.props.getAllProducts({
                 next_url: APIs.AllProducts,
                 search: text,
-                type: "",
+                filter_category: category?.id ? category?.id : "",
+                filter_brand: brand?.id ? brand?.id : "",
+                ...this.getFilters(this.state.filters),
                 callback: () => {
                     this.setState({ refreshing: false })
                 }
@@ -94,11 +106,15 @@ class index extends Component {
     )
 
     onEndReached = () => {
-        if (this.props.products?.next_page_url)
+        let category = this.props.route.params?.category;
+        let brand = this.props.route.params?.brand;
+        if (this.props.products?.next_url)
             this.props.getAllProducts({
                 next_url: this.props.products.next_page_url,
                 search: this.state.search,
-                type: "",
+                filter_category: category?.id ? category?.id : "",
+                ...brand ? { filter_brand: brand?.id } : {},
+                ...this.getFilters(this.state.filters),
                 callback: () => {
                     this.setState({ loading: false })
                 }
@@ -106,15 +122,30 @@ class index extends Component {
     }
 
     onRefresh = () => {
+        let category = this.props.route.params?.category;
+        let brand = this.props.route.params?.brand;
         this.setState({ refreshing: true })
         this.props.getAllProducts({
             next_url: APIs.AllProducts,
             search: this.state.search,
-            type: "",
+            filter_category: category?.id ? category?.id : "",
+            filter_brand: brand?.id ? brand?.id : "",
+            ...this.getFilters(this.state.filters),
             callback: () => {
                 this.setState({ refreshing: false })
             }
         })
+    }
+
+    getFilters = (filters) => {
+        return {
+            filters: {
+                filter_sort: filters?.sortBy ? filters.sortBy : "",
+                filter_gender: filters?.gender ? filters.gender : "",
+                filter_color: filters?.color ? filters?.color : "",
+                filter_availability: filters?.avail ? filters?.avail : "",
+            }
+        }
     }
 
     render() {
@@ -131,7 +162,22 @@ class index extends Component {
                     noWish
                 />
                 <SearchBar
-                    onFilterPress={() => this.props.navigation.navigate("Filters")}
+                    onFilterPress={() => this.props.navigation.navigate("Filters", {
+                        filters: this.filters,
+                        setFilter: (filters) => {
+                            this.filters = filters;
+                            this.setState({ filters });
+                            this.setState({ loading: true })
+                            this.props.getAllProducts({
+                                next_url: APIs.AllProducts,
+                                search: this.state.search,
+                                ...this.getFilters(filters),
+                                callback: () => {
+                                    this.setState({ loading: false })
+                                }
+                            })
+                        }
+                    })}
                     placeholder={"Search TIMEZONE"}
                     filter
                     onChangeText={this.onSearch}
