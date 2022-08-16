@@ -7,15 +7,18 @@ import ProductActions from '../Actions/ProductActions';
 import AlertAction from '../Actions/AlertActions';
 
 export const ProductMiddleware = {
-    getAllProducts: ({ next_url, search, type, callback }) => {
+    getAllProducts: ({ next_url, search, filters, callback }) => {
         return async dispatch => {
             try {
                 let formData = new FormData();
+                if (filters)
+                    Object.values(filters).forEach((val, index) => {
+                        let keys = Object.keys(filters);
+                        formData.append(keys[index], val)
+                    })
                 if (search)
                     formData.append("search", search)
-                if (type)
-                    formData.append("type", type)
-
+                console.warn(formData)
                 let request = await post(next_url);
                 if (request) {
                     if (next_url == APIs.AllProducts)

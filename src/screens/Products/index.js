@@ -52,15 +52,20 @@ class index extends Component {
         this.state = {
             loading: true,
             refreshing: false,
-            search: ""
+            search: "",
+            filters: {
+                filter_sort: "",
+                filter_gender: "",
+                filter_color: "",
+                filter_availability: ""
+            }
         };
     }
 
     componentDidMount() {
         this.props.getAllProducts({
-            next_url:APIs.AllProducts,
+            next_url: APIs.AllProducts,
             search: "",
-            type: "",
             callback: () => {
                 this.setState({ loading: false })
             }
@@ -75,7 +80,7 @@ class index extends Component {
             this.props.getAllProducts({
                 next_url: APIs.AllProducts,
                 search: text,
-                type: "",
+                ...this.getFilters(this.state.filters),
                 callback: () => {
                     this.setState({ refreshing: false })
                 }
@@ -97,7 +102,7 @@ class index extends Component {
             this.props.getAllProducts({
                 next_url: this.props.products?.next_url ? this.props.products.next_url : APIs.AllProducts,
                 search: this.state.search,
-                type: "",
+                ...this.getFilters(this.state.filters),
                 callback: () => {
                     this.setState({ loading: false })
                 }
@@ -109,11 +114,22 @@ class index extends Component {
         this.props.getAllProducts({
             next_url: APIs.AllProducts,
             search: this.state.search,
-            type: "",
+            ...this.getFilters(this.state.filters),
             callback: () => {
                 this.setState({ refreshing: false })
             }
         })
+    }
+
+    getFilters = (filters) => {
+        return {
+            filters: {
+                filter_sort: filters?.sortBy ? filters.sortBy : "",
+                filter_gender: filters?.gender ? filters.gender : "",
+                filter_color: filters?.color ? filters?.color : "",
+                filter_availability: filters?.avail ? filters?.avail : "",
+            }
+        }
     }
 
     render() {
@@ -130,7 +146,20 @@ class index extends Component {
                     noWish
                 />
                 <SearchBar
-                    onFilterPress={() => this.props.navigation.navigate("Filters")}
+                    onFilterPress={() => this.props.navigation.navigate("Filters", {
+                        setFilter: (filters) => {
+                            this.setState(filters);
+                            this.setState({ loading: true })
+                            this.props.getAllProducts({
+                                next_url: APIs.AllProducts,
+                                search: this.state.search,
+                                ...this.getFilters(filters),
+                                callback: () => {
+                                    this.setState({ loading: false })
+                                }
+                            })
+                        }
+                    })}
                     placeholder={"Search TIMEZONE"}
                     filter
                     onChangeText={this.onSearch}

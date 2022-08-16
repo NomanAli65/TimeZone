@@ -5,17 +5,24 @@ import AppBar from '../../components/Appbar';
 export default class SearchFilter extends Component {
     constructor(props) {
         super(props);
+        let filter = this.props.route.params.filters;
         this.state = {
+            filter
         };
+    }
+
+    onPressApply = () => {
+        this.props.route.params.setFilter(this.state.filter);
+        this.props.navigation.goBack();
     }
 
     render() {
         return (
-            <View flex={1} 
-            backgroundColor="#fff"
-            _dark={{
-                backgroundColor:"black"
-            }}>
+            <View flex={1}
+                backgroundColor="#fff"
+                _dark={{
+                    backgroundColor: "black"
+                }}>
                 <AppBar
                     title={"Filters"}
                     back
@@ -28,14 +35,24 @@ export default class SearchFilter extends Component {
                             <Heading>
                                 Sort By
                             </Heading>
-                            <Radio.Group name="SortGroup">
+                            <Radio.Group
+                                onChange={(value) => {
+                                    this.setState({
+                                        filter: {
+                                            ...this.state.filter,
+                                            sortBy: value
+                                        }
+                                    })
+                                }}
+                                value={this.state.filter.sortBy}
+                                name="SortGroup">
                                 <Radio value="popular" my={1}>
                                     Popularity
                                 </Radio>
                                 <Radio value="latest" my={1}>
                                     Latest
                                 </Radio>
-                                <Radio value="lowHigh" my={1}>
+                                <Radio value="lowToHigh" my={1}>
                                     Price:Low to high
                                 </Radio>
                             </Radio.Group>
@@ -45,7 +62,17 @@ export default class SearchFilter extends Component {
                             <Heading>
                                 Gender
                             </Heading>
-                            <Radio.Group name="SortGroup">
+                            <Radio.Group
+                                value={this.state.filter.gender}
+                                onChange={(value) => {
+                                    this.setState({
+                                        filter: {
+                                            ...this.state.filter,
+                                            gender: value
+                                        }
+                                    })
+                                }}
+                                name="SortGroup">
                                 <Radio value="male" my={1}>
                                     Male
                                 </Radio>
@@ -62,7 +89,17 @@ export default class SearchFilter extends Component {
                             <Heading>
                                 Color
                             </Heading>
-                            <Radio.Group name="SortGroup">
+                            <Radio.Group
+                                value={this.state.filter.color}
+                                onChange={(value) => {
+                                    this.setState({
+                                        filter: {
+                                            ...this.state.filter,
+                                            color: value
+                                        }
+                                    })
+                                }}
+                                name="SortGroup">
                                 <Radio value="red" my={1}>
                                     Red
                                 </Radio>
@@ -79,21 +116,28 @@ export default class SearchFilter extends Component {
                             <Heading>
                                 Availability
                             </Heading>
-                            <Radio.Group name="SortGroup">
-                                <Radio value="days" my={1}>
-                                    In 2-3 days
-                                </Radio>
-                                <Radio value="stock" my={1}>
+                            <Radio.Group
+                                value={this.state.filter.avail}
+                                onChange={(value) => {
+                                    this.setState({
+                                        filter: {
+                                            ...this.state.filter,
+                                            avail: value
+                                        }
+                                    })
+                                }}
+                                name="SortGroup">
+                                <Radio value="1" my={1}>
                                     In-Stock
                                 </Radio>
-                                <Radio value="out" my={1}>
+                                <Radio value="0" my={1}>
                                     Out-Stock
                                 </Radio>
                             </Radio.Group>
                         </VStack>
                     </VStack>
                 </ScrollView >
-                <Button m={3} onPress={()=>this.props.navigation.goBack()}>
+                <Button m={3} onPress={() => this.onPressApply()}>
                     Apply
                 </Button>
             </View>
