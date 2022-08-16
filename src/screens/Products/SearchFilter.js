@@ -1,4 +1,4 @@
-import { Button, Divider, Heading, Radio, ScrollView, View, VStack } from 'native-base';
+import { Button, Divider, Heading, HStack, Radio, ScrollView, View, VStack } from 'native-base';
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
 
@@ -7,12 +7,21 @@ export default class SearchFilter extends Component {
         super(props);
         let filter = this.props.route.params.filters;
         this.state = {
-            filter
+            filter:filter?filter:{
+                sortBy:"",
+                gender:"",
+                color:"",
+                avail:""
+            }
         };
     }
 
     onPressApply = () => {
         this.props.route.params.setFilter(this.state.filter);
+        this.props.navigation.goBack();
+    }
+    onPressRemove = () => {
+        this.props.route.params.setFilter(null);
         this.props.navigation.goBack();
     }
 
@@ -137,9 +146,14 @@ export default class SearchFilter extends Component {
                         </VStack>
                     </VStack>
                 </ScrollView >
-                <Button m={3} onPress={() => this.onPressApply()}>
+                <HStack justifyContent={"space-between"}>
+                <Button flex={1} m={3} onPress={() => this.onPressApply()}>
                     Apply
                 </Button>
+                <Button flex={1} m={3} backgroundColor={"#000"}  onPress={() => this.onPressRemove()}>
+                    Remove 
+                </Button>
+                </HStack>
             </View>
         );
     }

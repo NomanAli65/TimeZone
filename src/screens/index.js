@@ -258,7 +258,11 @@ class index extends Component {
           <SearchBar
             placeholder={"Search TIMEZONE"}
             onChangeText={(search) => this.setState({ search })}
-            onSubmitEditing={() => this.props.navigation.navigate("Products", { search: this.state.search })}
+            onSubmitEditing={() => {
+              this.props.navigation.navigate("Products", { search: this.state.search })
+              this.setState({ search: "" })
+            }}
+            value={this.state.search}
           />
           <Box
             width={"100%"}

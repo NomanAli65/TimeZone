@@ -1,6 +1,6 @@
 import { Box, Divider, FlatList, Heading, HStack, IconButton, Image, Pressable, ScrollView, Stack, Text, View, VStack } from 'native-base';
 import React, { Component } from 'react';
-import { Dimensions, View as RNView, Image as RNImage } from "react-native";
+import { Dimensions, View as RNView, Image as RNImage, Share } from "react-native";
 import AppBar from '../../components/Appbar';
 import { AntDesign } from '@expo/vector-icons';
 import theme from '../../configs/Theme';
@@ -125,7 +125,13 @@ class ProductDetail extends Component {
                                 </HStack>
                             </VStack>
                             <HStack alignItems={"flex-start"}>
-                                <IconButton icon={<AntDesign name='sharealt' size={20} color={theme.colors.primary[100]} />} />
+                                <IconButton
+                                    onPress={() => Share.share({
+                                        title: "TIMEZONE",
+                                        url: "app.timezone.com/product_id/" + data.id,
+                                        message: "Check out this watch on timezone\n" + data.product_name + "\napp.timezone.com/product_id/" + data.id
+                                    })}
+                                    icon={<AntDesign name='sharealt' size={20} color={theme.colors.primary[100]} />} />
                                 <IconButton
                                     onPress={() => {
                                         if (!this.props.loggedIn)

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AspectRatio, Box, Button, FlatList, Heading, HStack, Icon, IconButton, Image, Pressable, ScrollView, Skeleton, Stack, Text, useColorModeValue, View, VStack } from 'native-base';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
@@ -14,9 +14,9 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
     const dispatch = useDispatch();
     const loggedIn = useSelector((state) => state.Auth.isLogin);
     const color = useColorModeValue("#5c5c5c", "#cccc");
-    const [wishlist, addToWishlist] = useState(wish?true:false);
+    const [wishlist, addToWishlist] = useState(false);
+    useEffect(() => { addToWishlist(wish)}, [wish] )
 
-    console.warn(img_url + item.image)
     if (loading)
         return (
             <Box
@@ -91,7 +91,7 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
                                 dispatch(ProductMiddleware.saveToWishlist(item))
                             }
                         }}
-                        position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name={wishlist? "heart" : 'hearto'} size={20} color={wishlist? "red" : color} />} />
+                        position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name={wishlist ? "heart" : 'hearto'} size={20} color={wishlist? "red" : color} />} />
                 </Pressable >
             </Box>
         )

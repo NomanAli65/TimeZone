@@ -44,7 +44,7 @@ const BottomNav = () => {
                     tabBarIcon: ({ size, color, focused }) => (
                         <Icon size={size} color={color} as={Ionicons} name={focused ? "cart" : "cart-outline"} />
                     ),
-                    ...cart.length != 0 ? { tabBarBadge: cart.length != 0 ? cart.length : "", tabBarBadgeStyle: { backgroundColor: "#AC9956" } } : {}
+                    ...cart.length != 0 ? { tabBarBadge: cart.length != 0 ? cart.length : "", tabBarBadgeStyle: { backgroundColor: "#303030",color:"#fff",fontSize:11 } } : {}
 
                 }} />
             <BottomNavigator.Screen name="Trade In" component={TradeStack}

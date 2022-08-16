@@ -65,9 +65,11 @@ class index extends Component {
     componentDidMount() {
         let category = this.props.route.params?.category;
         let brand = this.props.route.params?.brand;
+        let search = this.props.route.params?.search;
+        this.setState({ search })
         this.props.getAllProducts({
             next_url: APIs.AllProducts,
-            search: "",
+            search: search,
             filter_category: category?.id ? category?.id : "",
             filter_brand: brand?.id ? brand?.id : "",
             callback: () => {
@@ -165,9 +167,22 @@ class index extends Component {
                     onFilterPress={() => this.props.navigation.navigate("Filters", {
                         filters: this.filters,
                         setFilter: (filters) => {
-                            this.filters = filters;
-                            this.setState({ filters });
                             this.setState({ loading: true })
+                            if (filters) {
+                                this.filters = filters;
+                                this.setState({ filters });
+                            }
+                            else {
+                                this.filters = null;
+                                this.setState({
+                                    filters: {
+                                        filter_sort: "",
+                                        filter_gender: "",
+                                        filter_color: "",
+                                        filter_availability: ""
+                                    }
+                                });
+                            }
                             this.props.getAllProducts({
                                 next_url: APIs.AllProducts,
                                 search: this.state.search,
@@ -176,11 +191,13 @@ class index extends Component {
                                     this.setState({ loading: false })
                                 }
                             })
+
                         }
                     })}
                     placeholder={"Search TIMEZONE"}
                     filter
                     onChangeText={this.onSearch}
+                    value={this.state.search}
                 />
                 {/* <Stack space={2} p={3}>
                     <Heading>
