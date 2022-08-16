@@ -36,14 +36,14 @@ const BrandItem = ({ loading, item, halfScreen, index, name }) => {
         return (
             <Box w={"49%"} mr={2} mb={2} p={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <Pressable
-                onPress={()=>navigation.navigate("Products",{item})}
+                    onPress={() => navigation.navigate("Products", { brand: item })}
                 >
                     <Stack space={4}>
-                        <Image my={2} h={70} w={"100%"} source={item.brand_image?{ uri: img_url + item.brand_image }:require("../../assets/placeholder.png")} alt="Image Here" resizeMode='contain' />
+                        <Image my={2} h={70} w={"100%"} source={item.brand_image ? { uri: img_url + item.brand_image } : require("../../assets/placeholder.png")} alt="Image Here" resizeMode='contain' />
                         {item.brand_name ?
-                                <Heading textAlign={"center"} size={"md"}>
-                                    {formatString(item.brand_name)}
-                                </Heading>
+                            <Heading textAlign={"center"} size={"md"}>
+                                {formatString(item.brand_name)}
+                            </Heading>
                             : null}
                     </Stack>
                 </Pressable>

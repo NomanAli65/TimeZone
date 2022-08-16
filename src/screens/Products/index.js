@@ -63,9 +63,13 @@ class index extends Component {
     }
 
     componentDidMount() {
+        let category = this.props.route.params?.category;
+        let brand = this.props.route.params?.brand;
         this.props.getAllProducts({
             next_url: APIs.AllProducts,
             search: "",
+            filter_category: category?.id ? category?.id : "",
+            filter_brand: brand?.id ? brand?.id : "",
             callback: () => {
                 this.setState({ loading: false })
             }
@@ -73,6 +77,8 @@ class index extends Component {
     }
 
     onSearch = (text) => {
+        let category = this.props.route.params?.category;
+        let brand = this.props.route.params?.brand;
         this.setState({ search: text })
         clearTimeout(this.timeout);
         this.timeout = setTimeout(() => {
@@ -80,6 +86,8 @@ class index extends Component {
             this.props.getAllProducts({
                 next_url: APIs.AllProducts,
                 search: text,
+                filter_category: category?.id ? category?.id : "",
+                filter_brand: brand?.id ? brand?.id : "",
                 ...this.getFilters(this.state.filters),
                 callback: () => {
                     this.setState({ refreshing: false })
@@ -98,10 +106,14 @@ class index extends Component {
     )
 
     onEndReached = () => {
+        let category = this.props.route.params?.category;
+        let brand = this.props.route.params?.brand;
         if (this.props.products?.next_url)
             this.props.getAllProducts({
                 next_url: this.props.products?.next_url ? this.props.products.next_url : APIs.AllProducts,
                 search: this.state.search,
+                filter_category: category?.id ? category?.id : "",
+                ...brand ? { filter_brand: brand?.id } : {},
                 ...this.getFilters(this.state.filters),
                 callback: () => {
                     this.setState({ loading: false })
@@ -110,10 +122,14 @@ class index extends Component {
     }
 
     onRefresh = () => {
+        let category = this.props.route.params?.category;
+        let brand = this.props.route.params?.brand;
         this.setState({ refreshing: true })
         this.props.getAllProducts({
             next_url: APIs.AllProducts,
             search: this.state.search,
+            filter_category: category?.id ? category?.id : "",
+            filter_brand: brand?.id ? brand?.id : "",
             ...this.getFilters(this.state.filters),
             callback: () => {
                 this.setState({ refreshing: false })
@@ -147,8 +163,10 @@ class index extends Component {
                 />
                 <SearchBar
                     onFilterPress={() => this.props.navigation.navigate("Filters", {
+                        filters: this.filters,
                         setFilter: (filters) => {
-                            this.setState(filters);
+                            this.filters = filters;
+                            this.setState({ filters });
                             this.setState({ loading: true })
                             this.props.getAllProducts({
                                 next_url: APIs.AllProducts,
