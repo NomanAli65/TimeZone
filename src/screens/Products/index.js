@@ -49,29 +49,36 @@ class index extends Component {
 
     constructor(props) {
         super(props);
+        let filter = this.props.route.params?.filter;
         this.state = {
             loading: true,
             refreshing: false,
             search: "",
             filters: {
-                filter_sort: "",
+                filter_sort: filter ? filter : "",
                 filter_gender: "",
                 filter_color: "",
                 filter_availability: ""
-            }
+            },
+            colors: []
         };
     }
 
     componentDidMount() {
+        this.props.getAllColors((data) => {
+            this.setState({ colors: data })
+        })
         let category = this.props.route.params?.category;
         let brand = this.props.route.params?.brand;
         let search = this.props.route.params?.search;
+        let filter = this.props.route.params?.filter;
         this.setState({ search })
         this.props.getAllProducts({
             next_url: APIs.AllProducts,
-            search: search,
+            search: search ? search : "",
             filter_category: category?.id ? category?.id : "",
             filter_brand: brand?.id ? brand?.id : "",
+            ...this.getFilters({ sortBy: filter }),
             callback: () => {
                 this.setState({ loading: false })
             }
@@ -165,6 +172,7 @@ class index extends Component {
                 />
                 <SearchBar
                     onFilterPress={() => this.props.navigation.navigate("Filters", {
+                        colors: this.state.colors,
                         filters: this.filters,
                         setFilter: (filters) => {
                             this.setState({ loading: true })
@@ -227,6 +235,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getAllProducts: data => dispatch(ProductMiddleware.getAllProducts(data)),
+    getAllColors: callback => dispatch(ProductMiddleware.getAllColors(callback)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

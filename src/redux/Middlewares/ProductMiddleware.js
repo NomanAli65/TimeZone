@@ -23,7 +23,7 @@ export const ProductMiddleware = {
                 if (filter_category)
                     formData.append("filter_category", filter_category)
 
-                    formData.append("search", search)
+                formData.append("search", search)
                 console.warn(formData)
                 let request = await post(next_url, formData);
                 if (request) {
@@ -122,4 +122,17 @@ export const ProductMiddleware = {
             }
         };
     },
+    getAllColors: (callback) => {
+        return async dispatch => {
+            try {
+                let request = await get(APIs.GetColors);
+                if (request) {
+                    callback(request);
+                }
+            } catch (error) {
+                callback(false)
+                console.warn(error);
+            }
+        };
+    }
 };

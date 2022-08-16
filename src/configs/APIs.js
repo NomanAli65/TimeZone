@@ -28,5 +28,6 @@ export const APIs = {
   PlaceOrder: "booking",
   GetAllAddresses: "",
   SaveAddress: "",
-  TradeIn: "storeTrade"
+  TradeIn: "storeTrade",
+  GetColors:"allColors"
 };

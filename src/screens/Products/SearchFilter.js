@@ -7,11 +7,11 @@ export default class SearchFilter extends Component {
         super(props);
         let filter = this.props.route.params.filters;
         this.state = {
-            filter:filter?filter:{
-                sortBy:"",
-                gender:"",
-                color:"",
-                avail:""
+            filter: filter ? filter : {
+                sortBy: "",
+                gender: "",
+                color: "",
+                avail: ""
             }
         };
     }
@@ -26,6 +26,7 @@ export default class SearchFilter extends Component {
     }
 
     render() {
+        let colors = this.props.route.params.colors;
         return (
             <View flex={1}
                 backgroundColor="#fff"
@@ -109,15 +110,14 @@ export default class SearchFilter extends Component {
                                     })
                                 }}
                                 name="SortGroup">
-                                <Radio value="red" my={1}>
-                                    Red
-                                </Radio>
-                                <Radio value="blue" my={1}>
-                                    Blue
-                                </Radio>
-                                <Radio value="green" my={1}>
-                                    Green
-                                </Radio>
+                                {
+                                    colors.length > 0 ?
+                                        colors.map((color) => (
+                                            <Radio value={color.id} my={1}>
+                                                {color.color_name}
+                                            </Radio>
+                                        )) : null
+                                }
                             </Radio.Group>
                         </VStack>
                         <Divider />
@@ -147,12 +147,12 @@ export default class SearchFilter extends Component {
                     </VStack>
                 </ScrollView >
                 <HStack justifyContent={"space-between"}>
-                <Button flex={1} m={3} onPress={() => this.onPressApply()}>
-                    Apply
-                </Button>
-                <Button flex={1} m={3} backgroundColor={"#000"}  onPress={() => this.onPressRemove()}>
-                    Remove 
-                </Button>
+                    <Button flex={1} m={3} onPress={() => this.onPressApply()}>
+                        Apply
+                    </Button>
+                    <Button flex={1} m={3} backgroundColor={"#000"} onPress={() => this.onPressRemove()}>
+                        Remove
+                    </Button>
                 </HStack>
             </View>
         );
