@@ -4,7 +4,7 @@
     "slug": "TimeZone",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/tz_logo.png",
+    "icon": "./assets/TZ_Logo_l.png",
     "splash": {
       "image": "./assets/tz_logo_white.png",
       "resizeMode": "contain",
@@ -17,14 +17,26 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "The app accesses your photos to add images in trade feature.",
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone"
+      },
+      "bundleIdentifier": "com.app.timezone"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/tz_logo.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.TimeZone"
+      "package": "com.TimeZone",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
