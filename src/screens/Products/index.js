@@ -70,12 +70,15 @@ class index extends Component {
         })
         let category = this.props.route.params?.category;
         let brand = this.props.route.params?.brand;
-        let search = this.props.route.params?.search;
+        let search = this.props.route.params?.search ? this.props.route.params?.search : "";
         let filter = this.props.route.params?.filter;
+        this.filters = {
+            sortBy: filter,
+        }
         this.setState({ search })
         this.props.getAllProducts({
             next_url: APIs.AllProducts,
-            search: search ? search : "",
+            search: search,
             filter_category: category?.id ? category?.id : "",
             filter_brand: brand?.id ? brand?.id : "",
             ...this.getFilters({ sortBy: filter }),
@@ -217,7 +220,7 @@ class index extends Component {
                     p={3}
                     numColumns={2}
                     keyExtractor={(item) => item.name}
-                    data={this.state.loading ? [{}, {}, {}, {}] : this.props.products?.data}
+                    data={this.state.loading && this.props.products?.data?.length == 0 ? [{}, {}, {}, {}] : this.props.products?.data}
                     renderItem={this._renderItem}
                     onEndReached={this.onEndReached}
                     onEndReachedThreshold={0.1}
