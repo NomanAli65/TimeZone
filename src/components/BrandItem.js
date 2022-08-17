@@ -39,7 +39,7 @@ const BrandItem = ({ loading, item, halfScreen, index, name }) => {
                     onPress={() => navigation.navigate("Products", { brand: item })}
                 >
                     <Stack space={4}>
-                        <Image my={2} h={70} w={"100%"} source={item.brand_image ? { uri: img_url + item.brand_image } : require("../../assets/placeholder.png")} alt="Image Here" resizeMode='contain' />
+                        <Image my={2} h={70} w={"100%"} source={item.brand_image ? { uri: img_url + item.brand_image } : require("../../assets/placeholder.png")} alt="Image Here" resizeMode='cover' />
                         {item.brand_name ?
                             <Heading textAlign={"center"} size={"md"}>
                                 {formatString(item.brand_name)}

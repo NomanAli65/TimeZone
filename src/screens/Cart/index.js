@@ -61,8 +61,9 @@ class index extends Component {
                         <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
                             {item.description}
                         </Text>
-                        <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
-                            <Text color={item.discount?.discount_value ?"red.500":"primary.100"} textDecorationLine={item.discount?.discount_value ? "line-through" : "none"}>{item.price} AED</Text>
+                        <Text fontSize={"12"} color={"primary.100"} flexWrap={"wrap"} numberOfLines={3} bold>
+                            {item.price} AED
+                            {/* <Text color={item.discount?.discount_value ?"red.500":"primary.100"} textDecorationLine={item.discount?.discount_value ? "line-through" : "none"}>{item.price} AED</Text>
                             {
                                 item.discount?.discount_value ?
                                     <Text color={"primary.100"}> {
@@ -72,7 +73,7 @@ class index extends Component {
                                             item.price - (item.price / 100 * item.discount?.discount_value)
                                     } AED</Text>
                                     : null
-                            }
+                            } */}
                         </Text>
                     </Stack>
                     <IconButton
@@ -88,11 +89,14 @@ class index extends Component {
 
     getTotalPrice = (tax = 0) => {
         let total = 0;
+        // this.props.cart.forEach(itm => {
+        //     total += parseInt(itm.discount?.discount_type == "fixed" ?
+        //         itm.price - itm.discount?.discount_value
+        //         :
+        //         itm.price - (itm.price / 100 * itm.discount?.discount_value));
+        // })
         this.props.cart.forEach(itm => {
-            total += parseInt(itm.discount?.discount_type == "fixed" ?
-            itm.price - itm.discount?.discount_value
-            :
-            itm.price - (itm.price / 100 * itm.discount?.discount_value));
+            total += parseInt(itm.price);
         })
         total += total / 100 * tax;
         return total;

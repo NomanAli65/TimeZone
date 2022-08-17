@@ -176,7 +176,7 @@ class index extends Component {
             }}
           >
             <Stack space={4} alignItems="center">
-              <Image alignSelf={"center"} h={60} w={60} source={item.category_image ? { uri: img_url + item.category_image } : require("../../assets/placeholder.png")} alt="image" resizeMode='contain' />
+              <Image alignSelf={"center"} h={60} w={60} source={item.category_image ? { uri: img_url + item.category_image } : require("../../assets/placeholder.png")} alt="image" resizeMode='stretch' />
             </Stack>
           </Pressable>
         </Box>
@@ -201,7 +201,7 @@ class index extends Component {
             }}
           >
             <Stack space={4} alignItems="center">
-              <Image alignSelf={"center"} h={60} w={60} source={item.brand_image ? { uri: img_url + item.brand_image } : require("../../assets/placeholder.png")} alt="image" resizeMode='contain' />
+              <Image alignSelf={"center"} h={60} w={60} source={item.brand_image ? { uri: img_url + item.brand_image } : require("../../assets/placeholder.png")} alt="image" resizeMode='stretch' />
             </Stack>
           </Pressable>
         </Box>

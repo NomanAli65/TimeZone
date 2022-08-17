@@ -15,7 +15,7 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
     const loggedIn = useSelector((state) => state.Auth.isLogin);
     const color = useColorModeValue("#5c5c5c", "#cccc");
     const [wishlist, addToWishlist] = useState(false);
-    useEffect(() => { addToWishlist(wish)}, [wish] )
+    useEffect(() => { addToWishlist(wish) }, [wish])
 
     if (loading)
         return (
@@ -56,6 +56,9 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
                             <VStack>
                                 <HStack alignItems={"center"} space={1}>
                                     <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
+                                        PRICE <Text color={"primary.100"} >{item.price} AED</Text>
+                                    </Text>
+                                    {/* <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
                                         PRICE <Text color={item.discount?.discount_value ?"red.500":"primary.100"} textDecorationLine={item.discount?.discount_value ? "line-through" : "none"} >{item.price} AED</Text>
                                     </Text>
                                     {
@@ -70,7 +73,7 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
                                                     } AED</Text>
                                             </Text> :
                                             null
-                                    }
+                                    } */}
                                 </HStack>
                                 {/* <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
                            RETAIL PRICE <Text color={"gray.400"}>4000 AED</Text> 
@@ -86,12 +89,12 @@ const WatchItem = ({ loading, item, halfScreen, index }) => {
                             if (!loggedIn)
                                 navigation.navigate("Login")
                             else {
-                              //  wish = !wish;
+                                //  wish = !wish;
                                 addToWishlist(!wishlist);
                                 dispatch(ProductMiddleware.saveToWishlist(item))
                             }
                         }}
-                        position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name={wishlist ? "heart" : 'hearto'} size={20} color={wishlist? "red" : color} />} />
+                        position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name={wishlist ? "heart" : 'hearto'} size={20} color={wishlist ? "red" : color} />} />
                 </Pressable >
             </Box>
         )

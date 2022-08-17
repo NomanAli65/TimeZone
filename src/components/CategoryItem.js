@@ -38,7 +38,7 @@ const CategoryItem = ({ loading, item, name }) => {
                         navigation.navigate("Products", { category: item })
                     }}>
                     <Stack space={4} p={2}>
-                        <Image h={70} w={"100%"} source={item.category_image ? { uri: img_url + item.category_image } : require("../../assets/placeholder.png")} alt="image" resizeMode='contain' />
+                        <Image h={70} w={"100%"} source={item.category_image ? { uri: img_url + item.category_image } : require("../../assets/placeholder.png")} alt="image" resizeMode='cover' />
                         <Heading textAlign={"center"} size={"sm"}>
                             {formatString(item.category_name)}
                         </Heading>

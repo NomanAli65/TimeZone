@@ -111,15 +111,19 @@ class ProductDetail extends Component {
                                     {data.product_name}
                                 </Heading>
                                 <HStack alignItems={"center"} space={2}>
-                                    {data.discount?.discount_value ? <Heading textDecorationLine="none" fontSize={"xl"} color={"primary.100"}>
+                                    {/* {data.discount?.discount_value ? <Heading textDecorationLine="none" fontSize={"xl"} color={"primary.100"}>
                                         {
                                             data.discount?.discount_type == "fixed" ?
                                                 data.price - data.discount?.discount_value
                                                 :
                                                 data.price - (data.price / 100 * data.discount?.discount_value)
                                         } AED
-                                    </Heading> : null}
+                                    </Heading> : null} 
                                     <Heading fontSize={data.discount?.discount_value ? "sm" : "xl"} color={data.discount?.discount_value ? "red.500" : "primary.100"} textDecorationLine={data.discount?.discount_value ? "line-through" : "none"}>
+                                        {data.price} AED
+                                    </Heading>
+                                    */}
+                                    <Heading fontSize={"xl"} color={"primary.100"}>
                                         {data.price} AED
                                     </Heading>
                                 </HStack>
