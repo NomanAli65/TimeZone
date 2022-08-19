@@ -1,4 +1,4 @@
-import { Button, Divider, Heading, HStack, Radio, ScrollView, View, VStack } from 'native-base';
+import { Box, Button, Divider, Heading, HStack, Radio, ScrollView, View, VStack } from 'native-base';
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
 
@@ -11,7 +11,10 @@ export default class SearchFilter extends Component {
                 sortBy: "",
                 gender: "",
                 color: "",
-                avail: ""
+                avail: "",
+                material: "",
+                condition: "",
+                movement: ""
             }
         };
     }
@@ -25,8 +28,15 @@ export default class SearchFilter extends Component {
         this.props.navigation.goBack();
     }
 
+    toSentenceCase = (string = "") => {
+        let char = string.charAt(0);
+        return string.replace(char, char.toLocaleUpperCase());
+
+    }
+
     render() {
         let colors = this.props.route.params.colors;
+        let otherFilter = this.props.route.params.otherFilter;
         return (
             <View flex={1}
                 backgroundColor="#fff"
@@ -97,7 +107,7 @@ export default class SearchFilter extends Component {
                         <Divider />
                         <VStack space={2}>
                             <Heading>
-                                Color
+                                Dial Color
                             </Heading>
                             <Radio.Group
                                 value={this.state.filter.color}
@@ -114,13 +124,47 @@ export default class SearchFilter extends Component {
                                     colors.length > 0 ?
                                         colors.map((color) => (
                                             <Radio value={color.id} my={1}>
-                                                {color.color_name}
+                                                {this.toSentenceCase(color.color_name)}
                                             </Radio>
                                         )) : null
                                 }
                             </Radio.Group>
                         </VStack>
                         <Divider />
+                        {
+                            Object.values(otherFilter).map((fils, index) => (
+                                <Box>
+                                    <VStack space={2}>
+                                        <Heading>
+                                            {this.toSentenceCase(Object.keys(otherFilter)[index])}
+                                        </Heading>
+                                        <Radio.Group
+                                            value={this.state.filter[Object.keys(otherFilter)[index]]}
+                                            onChange={(value) => {
+                                                this.setState({
+                                                    filter: {
+                                                        ...this.state.filter,
+                                                        [Object.keys(otherFilter)[index]]: value
+                                                    }
+                                                })
+                                                console.warn({[Object.keys(otherFilter)[index]]: value})
+                                            }}
+                                            name="SortGroup">
+                                            {
+                                                fils.length > 0 ?
+                                                    fils.map((fil) => {
+                                                        if (fil.name)
+                                                            return (<Radio value={fil.name} my={1}>
+                                                                {this.toSentenceCase(fil.name)}
+                                                            </Radio>)
+                                                    }) : null
+                                            }
+                                        </Radio.Group>
+                                    </VStack>
+                                    <Divider />
+                                </Box>
+                            ))
+                        }
                         <VStack space={2}>
                             <Heading>
                                 Availability

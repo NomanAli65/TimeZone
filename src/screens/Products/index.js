@@ -60,13 +60,17 @@ class index extends Component {
                 filter_color: "",
                 filter_availability: ""
             },
-            colors: []
+            colors: [],
+            otherFilter: []
         };
     }
 
     componentDidMount() {
         this.props.getAllColors((data) => {
             this.setState({ colors: data })
+        })
+        this.props.getAllFilters((data) => {
+            this.setState({ otherFilter: data })
         })
         let category = this.props.route.params?.category;
         let brand = this.props.route.params?.brand;
@@ -156,6 +160,9 @@ class index extends Component {
                 filter_gender: filters?.gender ? filters.gender : "",
                 filter_color: filters?.color ? filters?.color : "",
                 filter_availability: filters?.avail ? filters?.avail : "",
+                filter_material:filters?.material ? filters?.material : "",
+                filter_movement:filters?.movement ? filters?.movement : "",
+                filter_condition:filters?.condition ? filters?.condition : "",
             }
         }
     }
@@ -176,6 +183,7 @@ class index extends Component {
                 <SearchBar
                     onFilterPress={() => this.props.navigation.navigate("Filters", {
                         colors: this.state.colors,
+                        otherFilter: this.state.otherFilter,
                         filters: this.filters,
                         setFilter: (filters) => {
                             this.setState({ loading: true })
@@ -239,6 +247,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getAllProducts: data => dispatch(ProductMiddleware.getAllProducts(data)),
     getAllColors: callback => dispatch(ProductMiddleware.getAllColors(callback)),
+    getAllFilters: callback => dispatch(ProductMiddleware.getAllFitlers(callback)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

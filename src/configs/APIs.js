@@ -29,5 +29,6 @@ export const APIs = {
   GetAllAddresses: "",
   SaveAddress: "",
   TradeIn: "storeTrade",
-  GetColors:"allColors"
+  GetColors: "allColors",
+  GetFilters: "filters"
 };

@@ -134,5 +134,18 @@ export const ProductMiddleware = {
                 console.warn(error);
             }
         };
-    }
+    },
+    getAllFitlers: (callback) => {
+        return async dispatch => {
+            try {
+                let request = await get(APIs.GetFilters);
+                if (request) {
+                    callback(request);
+                }
+            } catch (error) {
+                callback(false)
+                console.warn(error);
+            }
+        };
+    },
 };
