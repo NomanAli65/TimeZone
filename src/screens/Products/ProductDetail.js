@@ -128,6 +128,9 @@ class ProductDetail extends Component {
                                         {data.price} AED
                                     </Heading>
                                 </HStack>
+                                <Text>
+                                    {data?.ref_number ? "#" + data?.ref_number : "No reference number available"}
+                                </Text>
                             </VStack>
                             <HStack alignItems={"flex-start"}>
                                 <IconButton
@@ -154,37 +157,10 @@ class ProductDetail extends Component {
                         </Text>
                         <HStack justifyContent={"space-between"}>
                             <Text bold>
-                                Dial Color
+                                SKU
                             </Text>
                             <Text color={"primary.100"}>
-                                {this.formatString(data?.color?.color_name)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Condition
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.condition)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Case Material
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.case_material)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Availability
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {data?.availability == 1 ? "In Stock" : "Out of Stock"}
+                                {this.formatString(data?.sku)}
                             </Text>
                         </HStack>
                         <Divider />
@@ -199,10 +175,10 @@ class ProductDetail extends Component {
                         <Divider />
                         <HStack justifyContent={"space-between"}>
                             <Text bold>
-                                Gender
+                                Condition
                             </Text>
                             <Text color={"primary.100"}>
-                                {this.formatString(data?.gender)}
+                                {this.formatString(data?.condition)}
                             </Text>
                         </HStack>
                         <Divider />
@@ -235,6 +211,24 @@ class ProductDetail extends Component {
                         <Divider />
                         <HStack justifyContent={"space-between"}>
                             <Text bold>
+                                Availability
+                            </Text>
+                            <Text color={"primary.100"}>
+                                {data?.availability == 1 ? "In Stock" : "Out of Stock"}
+                            </Text>
+                        </HStack>
+                        <Divider />
+                        <HStack justifyContent={"space-between"}>
+                            <Text bold>
+                                Gender
+                            </Text>
+                            <Text color={"primary.100"}>
+                                {this.formatString(data?.gender)}
+                            </Text>
+                        </HStack>
+                        <Divider />
+                        <HStack justifyContent={"space-between"}>
+                            <Text bold>
                                 Category
                             </Text>
                             <Text color={"primary.100"}>
@@ -242,12 +236,15 @@ class ProductDetail extends Component {
                             </Text>
                         </HStack>
                         <Divider />
+                        <Heading marginTop={3} fontSize={"2xl"} >
+                            Case & Dial
+                        </Heading>
                         <HStack justifyContent={"space-between"}>
                             <Text bold>
-                                Case & Dial
+                                Dial Color
                             </Text>
                             <Text color={"primary.100"}>
-                                {this.formatString(data?.gender)}
+                                {this.formatString(data?.color?.color_name)}
                             </Text>
                         </HStack>
                         <Divider />
@@ -257,6 +254,15 @@ class ProductDetail extends Component {
                             </Text>
                             <Text color={"primary.100"}>
                                 {this.formatString(data?.case_size)}
+                            </Text>
+                        </HStack>
+                        <Divider />
+                        <HStack justifyContent={"space-between"}>
+                            <Text bold>
+                                Case Material
+                            </Text>
+                            <Text color={"primary.100"}>
+                                {this.formatString(data?.case_material)}
                             </Text>
                         </HStack>
                         <Divider />
@@ -305,7 +311,7 @@ class ProductDetail extends Component {
                             </Text>
                         </HStack>
                         <Divider />
-                        <HStack justifyContent={"space-between"}>
+                        {/* <HStack justifyContent={"space-between"}>
                             <Text bold>
                                 Strap & Bracelet
                             </Text>
@@ -313,7 +319,10 @@ class ProductDetail extends Component {
                                 {this.formatString(data?.strap)}
                             </Text>
                         </HStack>
-                        <Divider />
+                        <Divider /> */}
+                        <Heading marginTop={3} fontSize={"2xl"} >
+                            Strap & Bracelet
+                        </Heading>
                         <HStack justifyContent={"space-between"}>
                             <Text bold>
                                 Strap & Bracelet Material
@@ -325,7 +334,7 @@ class ProductDetail extends Component {
                         <Divider />
                         <HStack justifyContent={"space-between"}>
                             <Text bold>
-                                Brand Color
+                                Band Color
                             </Text>
                             <Text color={"primary.100"}>
                                 {this.formatString(data?.band_color)}
