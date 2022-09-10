@@ -75,10 +75,29 @@ class ProductDetail extends Component {
         }
     }
 
+    checkAndRender = (heading, value) => {
+        if (value) {
+            return (
+                <>
+                    <HStack justifyContent={"space-between"}>
+                        <Text bold>
+                            {heading}
+                        </Text>
+                        <Text color={"primary.100"}>
+                            {this.formatString(value)}
+                        </Text>
+                    </HStack>
+                    <Divider />
+                </>
+            )
+        }
+        else null
+    }
+
+
     render() {
         let data = this.props.route.params?.item;
         let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
-        console.warn(data)
         return (
             <View flex={1}
                 backgroundColor="#fff"
@@ -107,7 +126,7 @@ class ProductDetail extends Component {
                     }
                     <VStack space={3} p={4}>
                         <HStack justifyContent={"space-between"} >
-                            <VStack>
+                            <VStack flex={1}>
                                 <Heading>
                                     {data.product_name}
                                 </Heading>
@@ -125,11 +144,11 @@ class ProductDetail extends Component {
                                     </Heading>
                                     */}
                                     <Heading fontSize={"xl"} color={"primary.100"}>
-                                        {data.price} AED
+                                        <Heading fontSize={"md"} color={"black"}>PRICE:</Heading>  {data.price} AED
                                     </Heading>
                                 </HStack>
                                 <Text>
-                                    {data?.ref_number ? "#" + data?.ref_number : "No reference number available"}
+                                    <Text>Reference Number:</Text>  {data?.ref_number ? "#" + data?.ref_number : "No reference number available"}
                                 </Text>
                             </VStack>
                             <HStack alignItems={"flex-start"}>
@@ -155,200 +174,32 @@ class ProductDetail extends Component {
                         <Text>
                             {data.description}
                         </Text>
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                SKU
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.sku)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Brand
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.brand?.brand_name)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Condition
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.condition)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Box & Papers
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.box)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Year
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.year)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Manufactured In
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.manufactured_in)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Availability
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {data?.availability == 1 ? "In Stock" : "Out of Stock"}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Gender
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.gender)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Category
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.category?.category_name)}
-                            </Text>
-                        </HStack>
-                        <Divider />
+                        {this.checkAndRender("SKU", data?.sku)}
+                        {this.checkAndRender("Brand", data?.brand?.brand_name)}
+                        {this.checkAndRender("Condition", data?.condition)}
+                        {this.checkAndRender("Box & Papers", data?.box)}
+                        {this.checkAndRender("Year", data?.year)}
+                        {this.checkAndRender("Manufactured In", data?.manufactured_in)}
+                        {this.checkAndRender("Availability", data?.availability == 1 ? "In Stock" : "Out of Stock")}
+                        {this.checkAndRender("Gender", data?.gender)}
+                        {this.checkAndRender("Category", data?.category?.category_name)}
                         <Heading marginTop={3} fontSize={"2xl"} >
                             Case & Dial
                         </Heading>
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Dial Color
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.color?.color_name)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Case Size
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.case_size)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Case Material
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.case_material)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Hour Marker
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.hours_marked)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Case Back
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.case_back)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Case Shape
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.case_shape)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Water Resistance
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.water_resistance)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Movement
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.movement)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        {/* <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Strap & Bracelet
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.strap)}
-                            </Text>
-                        </HStack>
-                        <Divider /> */}
+                        {this.checkAndRender("Dial Color", data?.color?.color_name)}
+                        {this.checkAndRender("Case Size", data?.case_size)}
+                        {this.checkAndRender("Case Material", data?.case_material)}
+                        {this.checkAndRender("Hour Marker", data?.hours_marked)}
+                        {this.checkAndRender("Case Back", data?.case_back)}
+                        {this.checkAndRender("Case Shape", data?.case_shape)}
+                        {this.checkAndRender("Water Resistance", data?.water_resistance)}
+                        {this.checkAndRender("Movement", data?.movement)}
                         <Heading marginTop={3} fontSize={"2xl"} >
                             Strap & Bracelet
                         </Heading>
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Strap & Bracelet Material
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.strap_material)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Band Color
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.band_color)}
-                            </Text>
-                        </HStack>
-                        <Divider />
-                        <HStack justifyContent={"space-between"}>
-                            <Text bold>
-                                Buckle Type
-                            </Text>
-                            <Text color={"primary.100"}>
-                                {this.formatString(data?.buckle_type)}
-                            </Text>
-                        </HStack>
+                        {this.checkAndRender("Strap & Bracelet Material", data?.strap_material)}
+                        {this.checkAndRender("Band Color", data?.band_color)}
+                        {this.checkAndRender("Buckle Type", data?.buckle_type)}
                         {
                             data.videos.length > 0 ?
                                 <Box w={"100%"} h={200}>
