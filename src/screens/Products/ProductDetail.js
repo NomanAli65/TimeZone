@@ -10,7 +10,8 @@ import { img_url } from "../../configs/APIs";
 import ProductActions from '../../redux/Actions/ProductActions';
 import { connect } from 'react-redux';
 import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
-
+import numbro from "numbro";
+import ImageView from "react-native-image-viewing";
 
 //TODO:Add Video player
 
@@ -29,7 +30,8 @@ class ProductDetail extends Component {
         let data = this.props.route.params?.item;
         this.state = {
             wishlist: Boolean(data.wishlist),
-            selectedImage: img_url + data.image
+            selectedImage: img_url + data.image,
+            imageModal: false
         };
     }
 
@@ -37,8 +39,8 @@ class ProductDetail extends Component {
     _renderItem = ({ item }) => {
         return (
             <Pressable onPress={() => this.setState({ selectedImage: img_url + item.media })}>
-                <Box w={160} h={120} alignItems="center" mr={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
-                    <Image alignSelf={"center"} h={"100%"} w={"100%"} source={{ uri: img_url + item.media }} alt="image" resizeMode='contain' />
+                <Box w={110} h={90} alignItems="center" mr={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
+                    <Image alignSelf={"center"} h={"100%"} w={"100%"} source={{ uri: img_url + item.media }} alt="image" resizeMode='cover' />
                 </Box>
             </Pressable>
         )
@@ -98,6 +100,14 @@ class ProductDetail extends Component {
     render() {
         let data = this.props.route.params?.item;
         let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
+        let formatted_price = numbro(data?.price).formatCurrency({
+            thousandSeparated: true,
+            abbreviations: {
+                thousand: "k",
+                million: "m"
+            },
+            currencySymbol: "AED "
+        })
         return (
             <View flex={1}
                 backgroundColor="#fff"
@@ -112,7 +122,7 @@ class ProductDetail extends Component {
                         noWish
                         title={"TIMEZONE"}
                     />
-                    <RNView style={{ width }}>
+                    <RNView onTouchEnd={() => this.setState({ imageModal: true })} style={{ width }}>
                         <RNImage source={{ uri: this.state.selectedImage }} style={{ width, height: 250 }} resizeMode="cover" />
                     </RNView>
                     {data.images.length > 0 ?
@@ -144,7 +154,7 @@ class ProductDetail extends Component {
                                     </Heading>
                                     */}
                                     <Heading fontSize={"xl"} color={"primary.100"}>
-                                        <Heading fontSize={"md"} color={"black"}>PRICE:</Heading>  {data.price} AED
+                                        <Heading fontSize={"md"} color={"black"}>PRICE:</Heading>  {formatted_price}
                                     </Heading>
                                 </HStack>
                                 <Text>
@@ -241,6 +251,20 @@ class ProductDetail extends Component {
                         </Box>
                     </Pressable>
                 </HStack>
+                {
+                    data?.images.length > 0 ?
+                        <ImageView
+                            images={data?.images?.map(img => ({ uri: img_url + img.media }))}
+                            imageIndex={0}
+                            visible={this.state.imageModal}
+                            onRequestClose={() => this.setState({ imageModal: false })}
+                            FooterComponent={({ imageIndex }) => (
+                                <Text textAlign={"center"} m={3} fontSize={"xl"} color={"#fff"}>{(imageIndex + 1) + " of " + data?.images?.length}</Text>
+                            )}
+                        /> :
+                        null
+                }
+
             </View>
         );
     }

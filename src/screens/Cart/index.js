@@ -6,6 +6,7 @@ import LGButton from '../../components/LGButton';
 import ProductActions from '../../redux/Actions/ProductActions';
 import { connect } from 'react-redux';
 import { img_url } from '../../configs/APIs';
+import numbro from "numbro";
 
 
 const data = [
@@ -50,19 +51,27 @@ class index extends Component {
 
 
     _renderItem = ({ item }) => {
+        let formatted_price = numbro(item?.price).formatCurrency({
+            thousandSeparated: true,
+            abbreviations: {
+                thousand: "k",
+                million: "m"
+            },
+            currencySymbol: "AED "
+        })
         return (
             <Box _dark={{ backgroundColor: "gray.800" }} w={"100%"} alignItems="center" mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <HStack space={1} w={"full"} p={2}>
-                    <Image alignSelf={"center"} h={90} w={"30%"} source={item.image ? { uri: img_url + item.image } : require("../../../assets/placeholder.png")} alt="Watch image" resizeMode='contain' />
+                    <Image alignSelf={"center"} h={90} w={"30%"} mr={2} source={item.image ? { uri: img_url + item.image } : require("../../../assets/placeholder.png")} alt="Watch image" resizeMode='cover' borderRadius={5} />
                     <Stack space={1} w={"55%"}>
                         <Heading size={"sm"}>
                             {item.product_name}
                         </Heading>
                         <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
-                            {item.description}
+                            <Text>Reference Number:</Text>  {item?.ref_number ? "#" + item?.ref_number : "No reference number available"}
                         </Text>
                         <Text fontSize={"12"} color={"primary.100"} flexWrap={"wrap"} numberOfLines={3} bold>
-                            {item.price} AED
+                            {formatted_price}
                             {/* <Text color={item.discount?.discount_value ?"red.500":"primary.100"} textDecorationLine={item.discount?.discount_value ? "line-through" : "none"}>{item.price} AED</Text>
                             {
                                 item.discount?.discount_value ?
@@ -99,7 +108,15 @@ class index extends Component {
             total += parseInt(itm.price);
         })
         total += total / 100 * tax;
-        return total;
+        let formatted_price = numbro(total).formatCurrency({
+            thousandSeparated: true,
+            abbreviations: {
+                thousand: "k",
+                million: "m"
+            },
+            currencySymbol: "AED "
+        })
+        return formatted_price;
     }
 
     render() {

@@ -8,6 +8,7 @@ import { AlertTypes } from '../../redux/ActionTypes/AlertActions';
 import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import { UserMiddleware } from '../../redux/Middlewares/UserMiddleware';
 import { img_url } from '../../configs/APIs';
+import numbro from "numbro";
 
 class Checkout extends Component {
     constructor(props) {
@@ -28,19 +29,27 @@ class Checkout extends Component {
     }
 
     _renderItem = ({ item }) => {
+        let formatted_price = numbro(item?.price).formatCurrency({
+            thousandSeparated: true,
+            abbreviations: {
+                thousand: "k",
+                million: "m"
+            },
+            currencySymbol: "AED "
+        })
         return (
             <Box _dark={{ backgroundColor: "gray.800" }} w={"100%"} alignItems="center" mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <HStack space={1} w={"full"} p={2}>
-                    <Image alignSelf={"center"} h={90} w={"30%"} source={item.image ? { uri: img_url + item.image } : require("../../../assets/placeholder.png")} alt="Watch image" resizeMode='contain' />
+                    <Image alignSelf={"center"} h={90} w={"30%"} mr={2} borderRadius={5} source={item.image ? { uri: img_url + item.image } : require("../../../assets/placeholder.png")} alt="Watch image" resizeMode='cover' />
                     <Stack space={1} w={"70%"}>
-                        <Heading size={"sm"}>
+                        <Heading size={"sm"} flexWrap={"wrap"} mr={2}>
                             {item.product_name}
                         </Heading>
                         <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
-                            {item.description}
+                            <Text>Reference Number:</Text>  {item?.ref_number ? "#" + item?.ref_number : "No reference number available"}
                         </Text>
                         <Text fontSize={"12"} color={"primary.100"} flexWrap={"wrap"} numberOfLines={3} bold>
-                            {item.price} AED
+                            {formatted_price}
                             {/* <Text color={item.discount?.discount_value ? "red.500" : "primary.100"} textDecorationLine={item.discount?.discount_value ? "line-through" : "none"}>{item.price} AED</Text>
                             {
                                 item.discount?.discount_value ?
@@ -71,7 +80,15 @@ class Checkout extends Component {
             total += parseInt(itm.price);
         })
         total += total / 100 * tax;
-        return total;
+        let formatted_price = numbro(total).formatCurrency({
+            thousandSeparated: true,
+            abbreviations: {
+                thousand: "k",
+                million: "m"
+            },
+            currencySymbol: "AED "
+        })
+        return formatted_price;
     }
 
     PlaceOrder = () => {

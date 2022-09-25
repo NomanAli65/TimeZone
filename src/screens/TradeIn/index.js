@@ -112,7 +112,7 @@ class index extends Component {
                 }
 
                 <Input value={this.state.name} placeholder='Watch Name' onChangeText={(name) => this.setState({ name, invalid: "" })} />
-                <Input value={this.state.model} placeholder='Watch Model' onChangeText={(model) => this.setState({ model, invalid: "" })} />
+                <Input value={this.state.model} placeholder='Watch Refrence Number' onChangeText={(model) => this.setState({ model, invalid: "" })} />
                 <HStack>
                   <Heading fontSize={"md"}>
                     Add Photos

@@ -118,6 +118,7 @@ class index extends Component {
             loading={this.state.loading}
             item={item}
             halfScreen
+            description
         />
     )
 
