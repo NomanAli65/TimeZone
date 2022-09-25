@@ -43,7 +43,7 @@ class index extends Component {
         allowsEditing: false,
         aspect: [2, 3],
         quality: 1,
-        allowsMultipleSelection:true
+        allowsMultipleSelection: true
       });
 
       if (!result.cancelled) {
