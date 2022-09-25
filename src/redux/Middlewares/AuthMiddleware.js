@@ -72,6 +72,7 @@ export const AuthMiddleware = {
                 let formData = new FormData();
                 formData.append("name", data.f_name + " " + data.l_name);
                 formData.append("email", data.email);
+                formData.append("phone", data.phone);
                 formData.append("password", data.password);
                 formData.append("confirm_password", data.c_password);
                 formData.append("device_id", "");
@@ -113,6 +114,7 @@ export const AuthMiddleware = {
             try {
                 let formData = new FormData();
                 formData.append("name", data.name);
+                formData.append("phone", data.phone);
                 formData.append("profile_pic", data.pic);
                 formData.append("country", data.country);
                 formData.append("city", data.city);

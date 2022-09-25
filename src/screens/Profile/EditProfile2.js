@@ -12,7 +12,8 @@ class EditProfile2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: this.props.user?.user.name,
+            name: this.props.user?.user?.name,
+            phone:this.props.user?.user?.phone,
             country: this.props.user?.user.country,
             city: this.props.user?.user.city,
             address: this.props.user?.user.address,
@@ -52,7 +53,7 @@ class EditProfile2 extends Component {
         if (type == "camera") {
             let result = await ImagePicker.launchCameraAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
+                allowsEditing: false,
                 aspect: [2, 3],
                 quality: 1,
             });
@@ -72,7 +73,7 @@ class EditProfile2 extends Component {
         else {
             let result = await ImagePicker.launchImageLibraryAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
+                allowsEditing: false,
                 aspect: [2, 3],
                 quality: 1,
             });
@@ -121,6 +122,12 @@ class EditProfile2 extends Component {
                                     value={this.state.name}
                                     onChangeText={(name) => this.setState({ name, invalid: "" })}
                                 />
+                                <Input
+                                    onChangeText={(phone) => {
+                                        this.setState({ phone, invalid: "" })
+                                    }}
+                                    value={this.state.phone || ""}
+                                    InputLeftElement={<Icon as={Ionicons} name='call' size={5} color="#bbb" ml={2} />} placeholder="Phone number" />
                                 {/* <Input InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Last Name" /> */}
                                 <Input InputLeftElement={<Icon as={MaterialCommunityIcons} name='home-map-marker' size={5} color="#bbb" ml={2} />} placeholder="Country"
                                     value={this.state.country}

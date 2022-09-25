@@ -40,9 +40,10 @@ class index extends Component {
     if (type == "camera") {
       let result = await ImagePicker.launchCameraAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
+        allowsEditing: false,
         aspect: [2, 3],
         quality: 1,
+        allowsMultipleSelection:true
       });
 
       if (!result.cancelled) {
@@ -60,9 +61,10 @@ class index extends Component {
     else {
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
+        allowsEditing: false,
         aspect: [2, 3],
         quality: 1,
+        allowsMultipleSelection:true,
       });
 
       if (!result.cancelled) {

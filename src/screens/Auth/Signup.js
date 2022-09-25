@@ -14,6 +14,7 @@ class Signup extends Component {
         f_name: "",
         l_name: "",
         email: "",
+        phone: "",
         password: "",
         c_password: "",
         no_match: false,
@@ -28,10 +29,11 @@ class Signup extends Component {
             f_name,
             l_name,
             email,
+            phone,
             password,
             c_password
         } = this.state;
-        if (!f_name || !l_name || !email || !password || !c_password) {
+        if (!f_name || !l_name || !email || !phone || !password || !c_password) {
             this.setState({ invalid: "Please enter your detaills" })
             return;
         }
@@ -43,6 +45,7 @@ class Signup extends Component {
             f_name,
             l_name,
             email,
+            phone,
             password,
             c_password,
             onRequest: () => {
@@ -90,6 +93,11 @@ class Signup extends Component {
                                         this.setState({ email, invalid: "" })
                                     }}
                                     InputLeftElement={<Icon as={Ionicons} name='mail' size={5} color="#bbb" ml={2} />} placeholder="Email" />
+                                <Input
+                                    onChangeText={(phone) => {
+                                        this.setState({ phone, invalid: "" })
+                                    }}
+                                    InputLeftElement={<Icon as={Ionicons} name='call' size={5} color="#bbb" ml={2} />} placeholder="Phone number" />
                                 <FormControl isInvalid={this.state.no_match || this.state.invalid}>
                                     <Input
                                         onChangeText={(password) => {

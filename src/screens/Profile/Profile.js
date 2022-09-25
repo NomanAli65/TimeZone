@@ -38,6 +38,10 @@ class Profile extends Component {
                             <Text bold fontSize="md">{this.props.user?.user?.email}</Text>
                         </HStack>
                         <HStack w="100%" justifyContent={"space-between"} alignItems="center">
+                            <Text >Phone</Text>
+                            <Text bold fontSize="md">{this.props.user?.user?.phone}</Text>
+                        </HStack>
+                        <HStack w="100%" justifyContent={"space-between"} alignItems="center">
                             <Text >Country</Text>
                             <Text bold fontSize="md">{this.props.user?.user?.country}</Text>
                         </HStack>
