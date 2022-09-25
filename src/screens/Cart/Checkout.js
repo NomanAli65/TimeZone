@@ -230,13 +230,13 @@ class Checkout extends Component {
                                         <Text bold>
                                             Tax
                                         </Text>
-                                        <Text color={"primary.100"} bold>{this.props.user?.vat?.vat_percent} %</Text>
+                                        <Text color={"primary.100"} bold>{this.props.route?.params?.tax} %</Text>
                                     </HStack>
                                     <HStack justifyContent={"space-between"}>
                                         <Text bold>
                                             Total
                                         </Text>
-                                        <Text color={"primary.100"} bold>{this.getTotalPrice(this.props.user?.vat?.vat_percent)} AED</Text>
+                                        <Text color={"primary.100"} bold>{this.getTotalPrice(this.props.route?.params?.tax)} AED</Text>
                                     </HStack>
                                 </VStack>
                             </VStack>

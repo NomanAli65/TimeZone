@@ -7,6 +7,7 @@ import ProductActions from '../../redux/Actions/ProductActions';
 import { connect } from 'react-redux';
 import { img_url } from '../../configs/APIs';
 import numbro from "numbro";
+import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 
 
 const data = [
@@ -46,9 +47,21 @@ class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            tax: this.props.user?.vat?.vat_percent
         };
     }
 
+    componentDidMount() {
+        this.props.navigation.addListener("focus", () => {
+            this.props.getTax({
+                onSuccess: (success) => {
+                    if (success) {
+                        this.setState({ tax: success?.vat_percent })
+                    }
+                }
+            });
+        })
+    }
 
     _renderItem = ({ item }) => {
         let formatted_price = numbro(item?.price).formatCurrency({
@@ -146,7 +159,7 @@ class index extends Component {
                         null
                 }
                 {
-                    this.props.cart.length != 0 && this.props.user?.vat?.vat_percent ?
+                    this.props.cart.length != 0 && this.state.tax ?
                         <Box p={3}>
                             <HStack justifyContent={"space-between"}>
                                 <Text bold>Subtotal</Text>
@@ -154,16 +167,16 @@ class index extends Component {
                             </HStack>
                             <HStack justifyContent={"space-between"}>
                                 <Text bold>Tax</Text>
-                                <Text bold color={"primary.100"}>{this.props.user.vat.vat_percent} %</Text>
+                                <Text bold color={"primary.100"}>{this.state.tax} %</Text>
                             </HStack>
                             <HStack mb={3} justifyContent={"space-between"}>
                                 <Text bold>Total</Text>
-                                <Text bold color={"primary.100"}>{this.getTotalPrice(this.props.user.vat.vat_percent)} AED</Text>
+                                <Text bold color={"primary.100"}>{this.getTotalPrice(this.state.tax)} AED</Text>
                             </HStack>
                             <LGButton
                                 onPress={() => {
                                     if (this.props.user?.user)
-                                        this.props.navigation.navigate("Checkout")
+                                        this.props.navigation.navigate("Checkout", { tax: this.state.tax })
                                     else
                                         this.props.navigation.navigate("Login")
                                 }}
@@ -185,6 +198,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     removeFromCart: data => dispatch(ProductActions.RemoveFromCart(data)),
+    getTax: (data) => dispatch(AuthMiddleware.getTax(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

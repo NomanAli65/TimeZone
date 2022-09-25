@@ -132,5 +132,20 @@ export const AuthMiddleware = {
                 console.warn(error);
             }
         };
+    },
+    getTax: (data) => {
+        return async dispatch => {
+            try {
+                let request = await get(APIs.GetVAT);
+                if (request) {
+                    data.onSuccess(request);
+                }
+                else
+                    data.onSuccess(false);
+            } catch (error) {
+                data.onSuccess(false);
+                console.warn(error);
+            }
+        };
     }
 };
