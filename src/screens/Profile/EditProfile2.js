@@ -28,7 +28,7 @@ class EditProfile2 extends Component {
     }
 
     UpdateProfile = () => {
-        let { name, country, city, address, pic } = this.state;
+        let { name, country, city, address, pic, phone } = this.state;
 
         if (!name || !country || !city || !address) {
             this.setState({ invalid: "Please fill all fields" });
@@ -41,6 +41,7 @@ class EditProfile2 extends Component {
             city,
             address,
             pic,
+            phone,
             old_data: this.props.user,
             onSuccess: (success) => {
                 if (success) {

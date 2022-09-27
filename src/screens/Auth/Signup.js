@@ -1,6 +1,6 @@
 import { Box, Button, Heading, HStack, IconButton, Input, Icon, Stack, Text, View, FormControl, WarningOutlineIcon, ScrollView, Image } from 'native-base';
 import React, { Component } from 'react';
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
 import { ImageBackground } from 'react-native';
 import theme from '../../configs/Theme';
@@ -17,6 +17,9 @@ class Signup extends Component {
         phone: "",
         password: "",
         c_password: "",
+        country: "",
+        city: "",
+        address: "",
         no_match: false,
         invalid: "",
         show_pass: false,
@@ -30,6 +33,9 @@ class Signup extends Component {
             l_name,
             email,
             phone,
+            city,
+            country,
+            address,
             password,
             c_password
         } = this.state;
@@ -46,6 +52,9 @@ class Signup extends Component {
             l_name,
             email,
             phone,
+            city,
+            country,
+            address,
             password,
             c_password,
             onRequest: () => {
@@ -98,6 +107,18 @@ class Signup extends Component {
                                         this.setState({ phone, invalid: "" })
                                     }}
                                     InputLeftElement={<Icon as={Ionicons} name='call' size={5} color="#bbb" ml={2} />} placeholder="Phone number" />
+                                <Input InputLeftElement={<Icon as={MaterialCommunityIcons} name='home-map-marker' size={5} color="#bbb" ml={2} />} placeholder="Country"
+                                    value={this.state.country}
+                                    onChangeText={(country) => this.setState({ country, invalid: "" })}
+                                />
+                                <Input InputLeftElement={<Icon as={MaterialCommunityIcons} name='home-map-marker' size={5} color="#bbb" ml={2} />} placeholder="City"
+                                    value={this.state.city}
+                                    onChangeText={(city) => this.setState({ city, invalid: "" })}
+                                />
+                                <Input InputLeftElement={<Icon as={MaterialCommunityIcons} name='home-map-marker' size={5} color="#bbb" ml={2} />} placeholder="Address"
+                                    value={this.state.address}
+                                    onChangeText={(address) => this.setState({ address, invalid: "" })}
+                                />
                                 <FormControl isInvalid={this.state.no_match || this.state.invalid}>
                                     <Input
                                         onChangeText={(password) => {

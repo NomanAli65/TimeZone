@@ -76,7 +76,9 @@ export const AuthMiddleware = {
                 formData.append("password", data.password);
                 formData.append("confirm_password", data.c_password);
                 formData.append("device_id", "");
-                console.warn(formData)
+                formData.append("country", data.country);
+                formData.append("city", data.city);
+                formData.append("address", data.address);
                 let request = await post(APIs.Register, formData);
                 if (request) {
                     data.onSuccess(true, request.message);
@@ -115,7 +117,8 @@ export const AuthMiddleware = {
                 let formData = new FormData();
                 formData.append("name", data.name);
                 formData.append("phone", data.phone);
-                formData.append("profile_pic", data.pic);
+                if (data.pic)
+                    formData.append("profile_pic", data.pic);
                 formData.append("country", data.country);
                 formData.append("city", data.city);
                 formData.append("address", data.address);

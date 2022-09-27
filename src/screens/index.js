@@ -12,6 +12,7 @@ import { img_url } from '../configs/APIs';
 import GeneralActions from '../redux/Actions/GeneralActions';
 import AuthAction from '../redux/Actions/AuthActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import GetToken from './Auth/GetToken';
 
 const { width } = Dimensions.get("window");
 
@@ -120,7 +121,9 @@ class index extends Component {
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    //let token = await GetToken();
+   // console.warn(token)
     this.LoginIfRegistered();
     this.props.getDashboard({
       onSuccess: () => {

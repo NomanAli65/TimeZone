@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import AuthAction from '../../redux/Actions/AuthActions';
 import theme from '../../configs/Theme';
 import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
+import GetToken from './GetToken';
 
 class Login extends Component {
 
@@ -20,7 +21,7 @@ class Login extends Component {
         show_pass: false
     }
 
-    Login = () => {
+    Login = async () => {
         let {
             email,
             password,
@@ -29,6 +30,8 @@ class Login extends Component {
             this.setState({ isInvalid: "Enter email and password" })
             return;
         }
+        // let token = await GetToken();
+        // console.warn(token)
         this.props.Login({
             email,
             password,
@@ -43,6 +46,7 @@ class Login extends Component {
             }
         });
     }
+
 
     render() {
         return (
