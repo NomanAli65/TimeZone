@@ -196,7 +196,7 @@ class ProductDetail extends Component {
                         <Heading marginTop={3} fontSize={"2xl"} >
                             Case & Dial
                         </Heading>
-                        {this.checkAndRender("Dial Color", data?.color?.color_name)}
+                        {this.checkAndRender("Dial Color", data?.color)}
                         {this.checkAndRender("Case Size", data?.case_size)}
                         {this.checkAndRender("Case Material", data?.case_material)}
                         {this.checkAndRender("Hour Marker", data?.hours_marked)}
