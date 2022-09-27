@@ -4,7 +4,7 @@
     "slug": "TimeZone",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/square-logo.png",
+    "icon": "./assets/TZ.png",
     "splash": {
       "image": "./assets/tz_logo_white.png",
       "resizeMode": "contain",
