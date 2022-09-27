@@ -5,22 +5,25 @@ import { MaterialCommunityIcons, MaterialIcons, Ionicons } from "@expo/vector-ic
 import LGButton from '../../components/LGButton';
 import { connect } from 'react-redux';
 import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePickers from 'expo-image-picker';
 import { img_url } from '../../configs/APIs';
+import { ImagePicker } from 'expo-image-multiple-picker'
+import { Modal } from "react-native";
 
 class EditProfile2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
             name: this.props.user?.user?.name,
-            phone:this.props.user?.user?.phone,
+            phone: this.props.user?.user?.phone,
             country: this.props.user?.user.country,
             city: this.props.user?.user.city,
             address: this.props.user?.user.address,
             pic: null,
             invalid: "",
             loading: "",
-            isOpen: false
+            isOpen: false,
+            picker: false
         };
     }
 
@@ -51,13 +54,12 @@ class EditProfile2 extends Component {
     pickImage = async (type) => {
         // No permissions request is necessary for launching the image library
         if (type == "camera") {
-            let result = await ImagePicker.launchCameraAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            let result = await ImagePickers.launchCameraAsync({
+                mediaTypes: ImagePickers.MediaTypeOptions.Images,
                 allowsEditing: false,
                 aspect: [2, 3],
                 quality: 1,
             });
-
             if (!result.cancelled) {
                 let uri = result.uri;
                 // let info=await FileSystem.getInfoAsync(uri,{size:true});
@@ -71,24 +73,25 @@ class EditProfile2 extends Component {
             }
         }
         else {
-            let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: false,
-                aspect: [2, 3],
-                quality: 1,
-            });
+            this.setState({ picker: true })
+            // let result = await ImagePicker.launchImageLibraryAsync({
+            //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            //     allowsEditing: false,
+            //     aspect: [2, 3],
+            //     quality: 1,
+            // });
 
-            if (!result.cancelled) {
-                let uri = result.uri;
-                //  let info=await FileSystem.getInfoAsync(uri,{size:true});
-                let name = uri.split("/")[uri.split("/").length - 1]
-                let file = {
-                    uri,
-                    name,
-                    type: result.type + "/jpeg",
-                }
-                this.setState({ pic: file })
-            }
+            // if (!result.cancelled) {
+            //     let uri = result.uri;
+            //     //  let info=await FileSystem.getInfoAsync(uri,{size:true});
+            //     let name = uri.split("/")[uri.split("/").length - 1]
+            //     let file = {
+            //         uri,
+            //         name,
+            //         type: result.type + "/jpeg",
+            //     }
+            //     this.setState({ pic: file })
+            // }
         }
 
     };
@@ -181,6 +184,55 @@ class EditProfile2 extends Component {
                         </AlertDialog.Footer>
                     </AlertDialog.Content>
                 </AlertDialog>
+                <Modal
+                    visible={this.state.picker}
+                    animationType="slide"
+                    onRequestClose={() => this.setState({ picker: false })}
+                >
+                    <View style={{ flex: 1 }}>
+                        <ImagePicker
+                            theme={{
+                                header: (header) => (
+                                    <HStack bg="black" px="1" py="3" justifyContent="space-between" alignItems="center" w="100%">
+                                        <HStack alignItems="center">
+                                            <IconButton
+                                                onPress={() => this.setState({ picker: false })}
+                                                icon={<Icon size="sm" as={MaterialIcons} name="chevron-left" color="white" />} />
+                                            <Text color="white" fontSize="20" fontWeight="bold" textAlign={"center"}>
+                                                {header?.album?.title ? header?.album?.title : "Select images"}
+                                            </Text>
+                                        </HStack>
+                                        {header?.imagesPicked ?
+                                            <HStack alignItems="center">
+                                                {/* <Text color="white" fontSize="20" fontWeight="bold" textAlign={"center"}>
+                                                    {header?.imagesPicked}
+                                                </Text> */}
+                                                <IconButton
+                                                    onPress={() => {
+                                                        this.setState({ picker: false })
+                                                        header.save()
+                                                    }}
+                                                    icon={<Icon as={MaterialIcons} name="check" size="sm" color="white" />} />
+                                            </HStack>
+                                            : null}
+                                    </HStack>
+                                ),
+                            }}
+                            galleryColumns={3}
+                            onSave={(assets) => {
+                                if (assets.length > 0) {
+                                    let img = assets.map((val) => ({
+                                        uri: val.uri,
+                                        name: val.filename,
+                                        type: "image/jpeg",
+                                    }))
+                                    this.setState({ pic: img[0] })
+                                }
+                            }}
+                            onCancel={() => console.log('no permissions or user go back')}
+                        />
+                    </View>
+                </Modal>
             </View>
         );
     }

@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { View, ScrollView, Text, Heading, Select, Input, VStack, HStack, TextArea, Box, Image, Icon, Pressable, FormControl, WarningOutlineIcon, Button, AlertDialog } from "native-base";
+import { View, ScrollView, Text, Heading, Select, Input, VStack, HStack, TextArea, Box, Image, Icon, Pressable, FormControl, WarningOutlineIcon, Button, AlertDialog, IconButton } from "native-base";
+import { Modal } from "react-native";
 import AppBar from '../../components/Appbar';
 import LGButton from '../../components/LGButton';
 import { Entypo } from "@expo/vector-icons";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePickers from 'expo-image-picker';
 import { connect } from 'react-redux';
 import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
 import * as FileSystem from "expo-file-system";
+import { ImagePicker } from 'expo-image-multiple-picker'
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 class index extends Component {
   constructor(props) {
@@ -22,7 +25,8 @@ class index extends Component {
       brand: "",
       invalid: "",
       loading: true,
-      isOpen: false
+      isOpen: false,
+      picker: false
     };
   }
 
@@ -38,8 +42,8 @@ class index extends Component {
   pickImage = async (type) => {
     // No permissions request is necessary for launching the image library
     if (type == "camera") {
-      let result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      let result = await ImagePickers.launchCameraAsync({
+        mediaTypes: ImagePickers.MediaTypeOptions.Images,
         allowsEditing: false,
         aspect: [2, 3],
         quality: 1,
@@ -59,25 +63,26 @@ class index extends Component {
       }
     }
     else {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: false,
-        aspect: [2, 3],
-        quality: 1,
-        allowsMultipleSelection:true,
-      });
+      this.setState({ picker: true })
+      // let result = await ImagePicker.launchImageLibraryAsync({
+      //   mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      //   allowsEditing: false,
+      //   aspect: [2, 3],
+      //   quality: 1,
+      //   allowsMultipleSelection: true,
+      // });
 
-      if (!result.cancelled) {
-        let uri = result.uri;
-        //  let info=await FileSystem.getInfoAsync(uri,{size:true});
-        let name = uri.split("/")[uri.split("/").length - 1]
-        let file = {
-          uri,
-          name,
-          type: result.type + "/jpeg",
-        }
-        this.setState({ images: [file, ...this.state.images] })
-      }
+      // if (!result.cancelled) {
+      //   let uri = result.uri;
+      //   //  let info=await FileSystem.getInfoAsync(uri,{size:true});
+      //   let name = uri.split("/")[uri.split("/").length - 1]
+      //   let file = {
+      //     uri,
+      //     name,
+      //     type: result.type + "/jpeg",
+      //   }
+      //   this.setState({ images: [file, ...this.state.images] })
+      // }
     }
 
   };
@@ -236,6 +241,57 @@ class index extends Component {
             </AlertDialog.Content>
           </AlertDialog>
         </View>
+        <Modal
+          visible={this.state.picker}
+          animationType="slide"
+          onRequestClose={() => this.setState({ picker: false })}
+        >
+          <View style={{ flex: 1 }}>
+            <ImagePicker
+              theme={{
+                header: (header) => (
+                  <HStack bg="black" px="1" py="3" justifyContent="space-between" alignItems="center" w="100%">
+                    <HStack alignItems="center">
+                      <IconButton
+                        onPress={() => this.setState({ picker: false })}
+                        icon={<Icon size="sm" as={MaterialIcons} name="chevron-left" color="white" />} />
+                      <Text color="white" fontSize="20" fontWeight="bold" textAlign={"center"}>
+                        {header?.album?.title ? header?.album?.title : "Select images"}
+                      </Text>
+                    </HStack>
+                    {header?.imagesPicked ?
+                      <HStack alignItems="center">
+                        <Text color="white" fontSize="20" fontWeight="bold" textAlign={"center"}>
+                          {header?.imagesPicked}
+                        </Text>
+                        <IconButton
+                          onPress={() => {
+                            this.setState({ picker: false })
+                            header.save()
+                          }}
+                          icon={<Icon as={MaterialIcons} name="check" size="sm" color="white" />} />
+                      </HStack>
+                      : null}
+                  </HStack>
+                )
+              }}
+              multiple
+              galleryColumns={3}
+              onSave={(assets) => {
+                if (assets.length > 0) {
+                  let imgs = assets.map((val) => ({
+                    uri: val.uri,
+                    name: val.filename,
+                    type: "image/jpeg",
+                  }))
+                  console.warn(imgs)
+                  this.setState({ images: [...this.state.images, ...imgs] })
+                }
+              }}
+              onCancel={() => console.log('no permissions or user go back')}
+            />
+          </View>
+        </Modal>
       </ScrollView>
     );
   }
