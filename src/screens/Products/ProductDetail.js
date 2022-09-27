@@ -13,9 +13,6 @@ import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import numbro from "numbro";
 import ImageView from "react-native-image-viewing";
 
-//TODO:Add Video player
-
-
 const { width } = Dimensions.get("window");
 
 const data = [
@@ -34,7 +31,6 @@ class ProductDetail extends Component {
             imageModal: false
         };
     }
-
 
     _renderItem = ({ item }) => {
         return (

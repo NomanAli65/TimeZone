@@ -123,8 +123,8 @@ export default class SearchFilter extends Component {
                                 {
                                     colors.length > 0 ?
                                         colors.map((color) => (
-                                            <Radio value={color.id} my={1}>
-                                                {this.toSentenceCase(color.color_name)}
+                                            <Radio value={color} my={1}>
+                                                {this.toSentenceCase(color)}
                                             </Radio>
                                         )) : null
                                 }
