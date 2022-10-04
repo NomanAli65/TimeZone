@@ -27,7 +27,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/tz_logo.png",
+        "foregroundImage": "./assets/TZ.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.TimeZone",
