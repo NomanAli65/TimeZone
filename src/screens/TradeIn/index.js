@@ -63,7 +63,9 @@ class index extends Component {
       }
     }
     else {
-      this.setState({ picker: true })
+      const perm = await ImagePickers.requestMediaLibraryPermissionsAsync();
+      if (perm.granted)
+        this.setState({ picker: true })
       // let result = await ImagePicker.launchImageLibraryAsync({
       //   mediaTypes: ImagePicker.MediaTypeOptions.Images,
       //   allowsEditing: false,
@@ -176,14 +178,9 @@ class index extends Component {
               selectedValue={this.state.condition}
               onValueChange={(itemValue) => this.setState({ condition: itemValue })}
             >
-              <Select.Item label="3/10" value="3" />
-              <Select.Item label="4/10" value="4" />
-              <Select.Item label="5/10" value="5" />
-              <Select.Item label="6/10" value="6" />
-              <Select.Item label="7/10" value="7" />
-              <Select.Item label="8/10" value="8" />
-              <Select.Item label="9/10" value="9" />
-              <Select.Item label="10/10" value="10" />
+              <Select.Item label="unworn" value="unworn" />
+              <Select.Item label="mint" value="mint" />
+              <Select.Item label="old" value="old" />
             </Select>
             <Select
               flex={0.5}

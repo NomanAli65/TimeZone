@@ -132,6 +132,15 @@ class index extends Component {
         return formatted_price;
     }
 
+    getTotalTax = (tax = 0) => {
+        let total = 0;
+        this.props.cart.forEach(itm => {
+            total += parseInt(itm.price);
+        })
+        total = total / 100 * tax;
+        return total;
+    }
+
     render() {
         return (
             <View flex={1} backgroundColor="#fff" _dark={{ backgroundColor: "black" }}>
@@ -161,17 +170,17 @@ class index extends Component {
                 {
                     this.props.cart.length != 0 && this.state.tax ?
                         <Box p={3}>
-                            <HStack justifyContent={"space-between"}>
+                            {/* <HStack justifyContent={"space-between"}>
                                 <Text bold>Subtotal</Text>
                                 <Text bold color={"primary.100"}>{this.getTotalPrice()} AED</Text>
-                            </HStack>
+                            </HStack> */}
                             <HStack justifyContent={"space-between"}>
                                 <Text bold>Tax</Text>
-                                <Text bold color={"primary.100"}>{this.state.tax} %</Text>
+                                <Text bold color={"primary.100"}>{this.getTotalTax(this.state.tax)}</Text>
                             </HStack>
                             <HStack mb={3} justifyContent={"space-between"}>
                                 <Text bold>Total</Text>
-                                <Text bold color={"primary.100"}>{this.getTotalPrice(this.state.tax)} AED</Text>
+                                <Text bold color={"primary.100"}>{this.getTotalPrice()} AED</Text>
                             </HStack>
                             <LGButton
                                 onPress={() => {

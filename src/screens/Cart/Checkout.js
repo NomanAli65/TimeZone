@@ -145,6 +145,15 @@ class Checkout extends Component {
         })
     }
 
+    getTotalTax = (tax = 0) => {
+        let total = 0;
+        this.props.cart.forEach(itm => {
+            total += parseInt(itm.price);
+        })
+        total = total / 100 * tax;
+        return total;
+    }
+
     render() {
         return (
             <ScrollView
@@ -220,17 +229,17 @@ class Checkout extends Component {
                                 />
                                 <Divider />
                                 <VStack>
-                                    <HStack justifyContent={"space-between"}>
+                                    {/* <HStack justifyContent={"space-between"}>
                                         <Text bold>
                                             Subtotal
                                         </Text>
                                         <Text color={"primary.100"} bold>{this.getTotalPrice()} AED</Text>
-                                    </HStack>
+                                    </HStack> */}
                                     <HStack justifyContent={"space-between"}>
                                         <Text bold>
                                             Tax
                                         </Text>
-                                        <Text color={"primary.100"} bold>{this.props.route?.params?.tax} %</Text>
+                                        <Text color={"primary.100"} bold>{this.getTotalTax(this.props.route?.params?.tax)} </Text>
                                     </HStack>
                                     <HStack justifyContent={"space-between"}>
                                         <Text bold>
