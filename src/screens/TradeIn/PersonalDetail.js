@@ -1,4 +1,4 @@
-import { Alert, Button, FormControl, HStack, Input, InputGroup, InputLeftAddon, Pressable, ScrollView, Select, Text, View, VStack } from 'native-base';
+import { Alert, Button, FormControl, Heading, HStack, Image, Input, InputGroup, InputLeftAddon, Pressable, ScrollView, Select, Text, View, VStack } from 'native-base';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import AppBar from '../../components/Appbar';
@@ -99,14 +99,18 @@ class PersonalDetail extends Component {
                             onPress={this.onPress}
                             title={"Get A Qoute"}
                         />
-                        <Pressable>
-                            <Text>
-                                Terms & Condition
-                            </Text>
-                        </Pressable>
-                        <Text>
+                        <Heading>
+                            Terms & Conditions
+                        </Heading>
+                        {/* <Text>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                        </Text>
+                        </Text> */}
+                        <Image
+                            width={"100%"}
+                            height={200}
+                            resizeMode="stretch"
+                            source={require("../../../assets/terms.png")}
+                        />
                     </VStack>
                 </View>
             </ScrollView>
@@ -121,7 +125,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     TradeIn: (data) => dispatch(GeneralMiddleware.TradeIn(data)),
-    showAlert:(data)=>dispatch(AlertAction.ShowAlert(data)),
+    showAlert: (data) => dispatch(AlertAction.ShowAlert(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PersonalDetail);

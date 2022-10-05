@@ -43,9 +43,10 @@
     },
     "plugins": [
       [
-        "expo-image-picker",
+        "expo-media-library",
         {
-          "photosPermission": "The app accesses your photos to add images in trade feature."
+          "photosPermission": "The app accesses your photos to add images in trade feature.",
+          "isAccessMediaLocationEnabled": true
         }
       ]
     ]

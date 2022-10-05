@@ -281,7 +281,6 @@ class index extends Component {
                     name: val.filename,
                     type: "image/jpeg",
                   }))
-                  console.warn(imgs)
                   this.setState({ images: [...this.state.images, ...imgs] })
                 }
               }}
