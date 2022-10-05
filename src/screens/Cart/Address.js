@@ -9,8 +9,10 @@ import { connect } from 'react-redux';
 class Address extends Component {
 
     state = {
-        title: "",
-        address: "",
+        country: this.props.user?.user.country,
+        city: this.props.user?.user.city,
+        address: this.props.user?.user.address,
+        title: "My address",
         invalid: "",
         loading: false
     }
@@ -19,12 +21,14 @@ class Address extends Component {
         let {
             title,
             address,
+            city,
+            country
         } = this.state;
         if (!title || !address) {
             this.setState({ invalid: "Please fill all fields" })
             return;
         }
-        this.props.route.params.setAddress(title, address)
+        this.props.route.params.setAddress(title, address + ", " + city + ", " + country)
         this.props.navigation.goBack();
 
     }
@@ -48,14 +52,28 @@ class Address extends Component {
                     <FormControl isInvalid={this.state.invalid} marginY={50}>
                         <VStack w="100%" space="md">
                             <Input
+                                value={this.state.title}
                                 maxLength={20}
                                 InputLeftElement={<Icon as={MaterialCommunityIcons} name='home-map-marker' size={5} color="#bbb" ml={2} />} placeholder="Title"
                                 onChangeText={(title) => this.setState({ title, invalid: "" })}
                             />
                             <Input
+                                value={this.state.address}
                                 maxLength={20}
                                 InputLeftElement={<Icon as={MaterialCommunityIcons} name='home-map-marker' size={5} color="#bbb" ml={2} />} placeholder="Address"
                                 onChangeText={(address) => this.setState({ address, invalid: "" })}
+                            />
+                            <Input
+                                value={this.state.city}
+                                maxLength={20}
+                                InputLeftElement={<Icon as={MaterialCommunityIcons} name='home-map-marker' size={5} color="#bbb" ml={2} />} placeholder="City"
+                                onChangeText={(city) => this.setState({ city, invalid: "" })}
+                            />
+                            <Input
+                                value={this.state.country}
+                                maxLength={20}
+                                InputLeftElement={<Icon as={MaterialCommunityIcons} name='home-map-marker' size={5} color="#bbb" ml={2} />} placeholder="Country"
+                                onChangeText={(country) => this.setState({ country, invalid: "" })}
                             />
                             {/* <Input InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Card holder name" /> */}
                         </VStack>
@@ -77,7 +95,7 @@ class Address extends Component {
 
 
 const mapStateToProps = state => ({
-
+    user: state.Auth.user
 })
 
 const mapDispatchToProps = dispatch => ({

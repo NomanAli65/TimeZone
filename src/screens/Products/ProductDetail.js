@@ -59,6 +59,7 @@ class ProductDetail extends Component {
 
         if (now && this.props.loggedIn) {
             if (index == -1) {
+//                this.props.emptyCart();
                 this.props.addToCart(data)
             }
             this.props.navigation.navigate("Checkout")
@@ -154,7 +155,7 @@ class ProductDetail extends Component {
                                     </Heading>
                                 </HStack>
                                 <Text>
-                                    <Text>Reference Number:</Text>  {data?.ref_number ? "#" + data?.ref_number : "No reference number available"}
+                                    <Text>Reference Number:</Text>  {data?.ref_number ? data?.ref_number : "No reference number available"}
                                 </Text>
                             </VStack>
                             <HStack alignItems={"flex-start"}>
@@ -274,6 +275,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     addToCart: data => dispatch(ProductActions.AddToCart(data)),
+    emptyCart: data => dispatch(ProductActions.EmptyCart()),
     removeFromCart: data => dispatch(ProductActions.RemoveFromCart(data)),
     addToWish: data => dispatch(ProductMiddleware.saveToWishlist(data))
 });

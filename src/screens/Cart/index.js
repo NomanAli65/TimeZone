@@ -47,16 +47,18 @@ class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tax: this.props.user?.vat?.vat_percent
+            tax: this.props.user?.vat?.vat_percent,
+            loading: false
         };
     }
 
     componentDidMount() {
         this.props.navigation.addListener("focus", () => {
+            this.setState({ loading: true })
             this.props.getTax({
                 onSuccess: (success) => {
                     if (success) {
-                        this.setState({ tax: success?.vat_percent })
+                        this.setState({ tax: success?.vat_percent, loading: false })
                     }
                 }
             });
@@ -176,7 +178,7 @@ class index extends Component {
                             </HStack> */}
                             <HStack justifyContent={"space-between"}>
                                 <Text bold>Tax</Text>
-                                <Text bold color={"primary.100"}>{this.getTotalTax(this.state.tax)}</Text>
+                                <Text bold color={"primary.100"}>{this.state.loading?"Getting updated tax":this.getTotalTax(this.state.tax)}</Text>
                             </HStack>
                             <HStack mb={3} justifyContent={"space-between"}>
                                 <Text bold>Total</Text>
