@@ -184,6 +184,11 @@ class index extends Component {
                             </HStack>
                             <LGButton
                                 onPress={() => {
+                                    if (!this.state.tax) {
+                                        alert("Wait while tax is calculating")
+                                        return;
+                                    }
+
                                     if (this.props.user?.user)
                                         this.props.navigation.navigate("Checkout", { tax: this.state.tax })
                                     else

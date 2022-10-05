@@ -109,27 +109,31 @@ class Checkout extends Component {
             return;
         }
         this.setState({ loading: true })
+        let total = 0;
+        this.props.cart.forEach(itm => {
+            total += parseInt(itm.price);
+        })
         let cart = this.props.cart.map(item => {
             return ({
                 product_id: item.id,
-                discount_amount: parseInt(item.discount?.discount_type == "fixed" ?
+                discount_amount: parseInt(item.discount ? (item.discount?.discount_type == "fixed" ?
                     item.discount?.discount_value
                     :
-                    (item.price / 100 * item.discount?.discount_value)),
+                    (item.price / 100 * item.discount?.discount_value)) : 0),
                 price: item.price,
-                product_total: parseInt(item.discount?.discount_type == "fixed" ?
+                product_total: parseInt(item.discount ? (item.discount?.discount_type == "fixed" ?
                     item.price - item.discount?.discount_value
                     :
-                    item.price - (item.price / 100 * item.discount?.discount_value)),
+                    item.price - (item.price / 100 * item.discount?.discount_value)) : item.price),
             })
         })
         let b_pickup = this.state.b_pickup ? 1 : 0;
         this.props.placeOrder({
             b_pickup,
             cart,
-            sub_total: this.getTotalPrice(),
+            sub_total: total,
             tax_amount: this.getTotalPrice() / 100 * this.props.user.vat.vat_percent,
-            total: this.getTotalPrice(this.props.user.vat.vat_percent),
+            total: total,
             address: this.state.address,
             source_id: this.props.all_methods.find(val => val.is_default == "1").stripe_card_id,
             onSuccess: (success) => {

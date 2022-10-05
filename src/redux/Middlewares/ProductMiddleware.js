@@ -91,6 +91,7 @@ export const ProductMiddleware = {
                 //     formData.append("cartData[]", element);
                 // })
                 formData.append("b_pickup", data.b_pickup);
+
                 let request = await post(APIs.PlaceOrder, formData);
                 if (request) {
                     dispatch(ProductActions.EmptyCart());

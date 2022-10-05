@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, Heading, Select, Input, VStack, HStack, TextArea, Box, Image, Icon, Pressable, FormControl, WarningOutlineIcon, Button, AlertDialog, IconButton } from "native-base";
-import { Modal } from "react-native";
+import { Modal, PermissionsAndroid } from "react-native";
 import AppBar from '../../components/Appbar';
 import LGButton from '../../components/LGButton';
 import { Entypo } from "@expo/vector-icons";
@@ -63,8 +63,8 @@ class index extends Component {
       }
     }
     else {
-      const perm = await ImagePickers.requestMediaLibraryPermissionsAsync();
-      if (perm.granted)
+      let perm = await PermissionsAndroid.request("android.permission.READ_EXTERNAL_STORAGE");
+      if (perm == PermissionsAndroid.RESULTS.GRANTED)
         this.setState({ picker: true })
       // let result = await ImagePicker.launchImageLibraryAsync({
       //   mediaTypes: ImagePicker.MediaTypeOptions.Images,
