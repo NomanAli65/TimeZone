@@ -123,7 +123,7 @@ class index extends Component {
 
   async componentDidMount() {
     //let token = await GetToken();
-   // console.warn(token)
+    // console.warn(token)
     this.LoginIfRegistered();
     this.props.getDashboard({
       onSuccess: () => {
@@ -351,7 +351,7 @@ class index extends Component {
               <FlatList
                 horizontal
                 keyExtractor={(item) => item.id}
-                data={!this.state.loading ? this.props.dashboard?.latest_watches : dummy_data}
+                data={!this.state.loading ? this.props.dashboard?.featured_watches : dummy_data}
                 renderItem={this._renderItem}
                 ListEmptyComponent={
                   <Box ml={'32'}>

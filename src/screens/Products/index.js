@@ -1,4 +1,4 @@
-import { FlatList, Heading, Stack, View } from 'native-base';
+import { Heading, Stack, View } from 'native-base';
 import React, { Component, } from 'react';
 import AppBar from '../../components/Appbar';
 import SearchBar from '../../components/SearchBar';
@@ -8,7 +8,7 @@ import WatchItem from '../../components/WatchItem';
 import { connect } from 'react-redux';
 import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import { APIs } from '../../configs/APIs';
-import ProductActions from '../../redux/Actions/ProductActions';
+import { FlatList } from 'react-native';
 
 const { width } = Dimensions.get("window");
 
@@ -160,9 +160,9 @@ class index extends Component {
                 filter_gender: filters?.gender ? filters.gender : "",
                 filter_color: filters?.color ? filters?.color : "",
                 filter_availability: filters?.avail ? filters?.avail : "",
-                filter_material:filters?.material ? filters?.material : "",
-                filter_movement:filters?.movement ? filters?.movement : "",
-                filter_condition:filters?.condition ? filters?.condition : "",
+                filter_material: filters?.material ? filters?.material : "",
+                filter_movement: filters?.movement ? filters?.movement : "",
+                filter_condition: filters?.condition ? filters?.condition : "",
             }
         }
     }
@@ -222,17 +222,18 @@ class index extends Component {
                     <Heading>
                         Popular Watches
                     </Heading> */}
-                <FlatList
-                    onRefresh={this.onRefresh}
-                    refreshing={this.state.refreshing}
-                    p={3}
-                    numColumns={2}
-                    keyExtractor={(item) => item.name}
-                    data={this.state.loading && this.props.products?.data?.length == 0 ? [{}, {}, {}, {}] : this.props.products?.data}
-                    renderItem={this._renderItem}
-                    onEndReached={this.onEndReached}
-                    onEndReachedThreshold={0.1}
-                />
+                <View p={3}>
+                    <FlatList
+                        onRefresh={this.onRefresh}
+                        refreshing={this.state.refreshing}
+                        numColumns={2}
+                        keyExtractor={(item) => item.name}
+                        data={this.state.loading && this.props.products?.data?.length == 0 ? [{}, {}] : this.props.products?.data}
+                        renderItem={this._renderItem}
+                        onEndReached={this.onEndReached}
+                        onEndReachedThreshold={0.1}
+                    />
+                </View>
                 {/* </Stack> */}
             </View>
         );

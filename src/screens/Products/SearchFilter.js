@@ -180,10 +180,10 @@ export default class SearchFilter extends Component {
                                     })
                                 }}
                                 name="SortGroup">
-                                <Radio value="1" my={1}>
+                                <Radio value="0" my={1}>
                                     In-Stock
                                 </Radio>
-                                <Radio value="0" my={1}>
+                                <Radio value="1" my={1}>
                                     Out-Stock
                                 </Radio>
                             </Radio.Group>
