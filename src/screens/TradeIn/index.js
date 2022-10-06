@@ -178,9 +178,9 @@ class index extends Component {
               selectedValue={this.state.condition}
               onValueChange={(itemValue) => this.setState({ condition: itemValue })}
             >
-              <Select.Item label="unworn" value="unworn" />
-              <Select.Item label="mint" value="mint" />
-              <Select.Item label="old" value="old" />
+              <Select.Item label="Unworn" value="unworn" />
+              <Select.Item label="Mint" value="mint" />
+              <Select.Item label="Old" value="old" />
             </Select>
             <Select
               flex={0.5}

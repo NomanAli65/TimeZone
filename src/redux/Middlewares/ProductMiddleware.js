@@ -62,13 +62,12 @@ export const ProductMiddleware = {
     saveToWishlist: (data) => {
         return async dispatch => {
             try {
-                dispatch(ProductActions.AddRemToWishlist(data));
                 let formData = new FormData();
                 formData.append("product_id", data.id)
                 // dispatch(GeneralActions.ShowLoading());
                 let request = await post(APIs.AddToWishlist, formData);
                 if (request) {
-
+                    dispatch(ProductActions.AddRemToWishlist({ ...request, product: data }));
                 }
                 // dispatch(GeneralActions.HideLoading());
             } catch (error) {

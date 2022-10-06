@@ -60,7 +60,7 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
                         <Stack space={1} p={3} pt={0}>
                             <Heading
                                 numberOfLines={2}
-                                // height={45} 
+                                height={halfScreen ? 35 : 45}
                                 size={halfScreen ? "sm" : "md"}>
                                 {item?.product_name}
                             </Heading>
@@ -70,9 +70,14 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
                                         {item?.description}
                                     </Text>
                                     :
-                                    <Text fontSize={halfScreen ? "11" : "12"} flexWrap={"wrap"} numberOfLines={halfScreen ? 2 : 3}>
-                                        <Text>Reference Number:</Text>  {item?.ref_number ? item?.ref_number : "No reference number available"}
-                                    </Text>
+                                    <Box>
+                                        <Text fontSize={halfScreen ? "11" : "12"} flexWrap={"wrap"} numberOfLines={halfScreen ? 2 : 3}>
+                                            Reference Number:
+                                        </Text>
+                                        <Text fontSize={halfScreen ? "11" : "12"} flexWrap={"wrap"} numberOfLines={halfScreen ? 2 : 3}>
+                                            {"\n" + item?.ref_number ? item?.ref_number : "No reference number available"}
+                                        </Text>
+                                    </Box>
                             }
                             {/* <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
                             Price on Request

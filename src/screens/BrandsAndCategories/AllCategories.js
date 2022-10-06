@@ -204,7 +204,7 @@ class AllCategories extends Component {
                         placeholder={"Search Categories"}
                         onChangeText={this.onSearch}
                     />
-                    {!this.state.refreshing && !this.state.search ?
+                    {/* {!this.state.refreshing && !this.state.search ?
                         this.state.loading ?
                             <Skeleton
                                 h={250}
@@ -230,7 +230,7 @@ class AllCategories extends Component {
                                     renderItem={this._renderBanner}
                                 />
                             </Box>
-                        : null}
+                        : null} */}
                     <Stack space={4} px={3}>
                         <FlatList
                             // p={3}

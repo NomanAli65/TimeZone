@@ -89,14 +89,14 @@ class index extends Component {
                     w={"90%"} alignItems="center" backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" m={"5%"}>
                     <Stack space={4}>
                         <Image h={200} w={'96'}
-                            source={item.product?.image ? { uri: img_url + item.product?.image } : require("../../../assets/placeholder.png")}
+                            source={item?.product?.image ? { uri: img_url + item.product?.image } : require("../../../assets/placeholder.png")}
                             alt="Watch image" resizeMode='cover' />
                         <Stack space={1} p={3}>
                             <Heading size={"md"}>
-                                {item.product.product_name}
+                                {item?.product?.product_name}
                             </Heading>
                             <Text flexWrap={"wrap"} numberOfLines={3}>
-                                {item.product?.ref_number}
+                                {item?.product?.ref_number}
                             </Text>
                         </Stack>
                     </Stack>

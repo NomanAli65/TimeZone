@@ -315,7 +315,7 @@ class index extends Component {
             <Stack space={2}>
               <HStack justifyContent={"space-between"}>
                 <Heading>
-                  Top Brands
+                  Brands
                 </Heading>
                 <Button
                   onPress={() => this.props.navigation.navigate("AllBrands")}
@@ -365,7 +365,7 @@ class index extends Component {
             <Stack space={2}>
               <HStack justifyContent={"space-between"}>
                 <Heading>
-                  Top Categories
+                  Categories
                 </Heading>
                 <Button
                   onPress={() => this.props.navigation.navigate("TopCategories")}

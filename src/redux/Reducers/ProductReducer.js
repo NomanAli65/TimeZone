@@ -36,10 +36,20 @@ const ProductReducer = (state = initialSate, action) => {
             state = { ...state, wishlist: { ...action.payload, data: [...state.wishlist?.data, ...action.payload.data] } };
             break;
         case ProductTypes.ADD_PRODUCT_WISHLIST:
-            if (state.wishlist?.data) {
+            if (state.wishlist?.data?.length > 0) {
                 let index = state.wishlist.data.findIndex((value) => value.product_id == action.payload.product_id);
-                let wish_copy = [...state.wishlist.data];
-                wish_copy.splice(index, 1);
+                if (index > -1) {
+                    let wish_copy = [...state.wishlist.data];
+                    wish_copy.splice(index, 1);
+                    state = { ...state, wishlist: { ...state.wishlist, data: wish_copy } };
+                }
+                else {
+                    let wish_copy = [...state.wishlist.data, action.payload];
+                    state = { ...state, wishlist: { ...state.wishlist, data: wish_copy } };
+                }
+            }
+            else {
+                let wish_copy = [...state.wishlist.data, action.payload];
                 state = { ...state, wishlist: { ...state.wishlist, data: wish_copy } };
             }
             break;

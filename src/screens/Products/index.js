@@ -1,4 +1,4 @@
-import { Heading, Stack, View } from 'native-base';
+import { Heading, Stack, View, Box } from 'native-base';
 import React, { Component, } from 'react';
 import AppBar from '../../components/Appbar';
 import SearchBar from '../../components/SearchBar';
@@ -222,18 +222,17 @@ class index extends Component {
                     <Heading>
                         Popular Watches
                     </Heading> */}
-                <View p={3}>
-                    <FlatList
-                        onRefresh={this.onRefresh}
-                        refreshing={this.state.refreshing}
-                        numColumns={2}
-                        keyExtractor={(item) => item.name}
-                        data={this.state.loading && this.props.products?.data?.length == 0 ? [{}, {}] : this.props.products?.data}
-                        renderItem={this._renderItem}
-                        onEndReached={this.onEndReached}
-                        onEndReachedThreshold={0.1}
-                    />
-                </View>
+                <FlatList
+                    onRefresh={this.onRefresh}
+                    refreshing={this.state.refreshing}
+                    numColumns={2}
+                    style={{ marginHorizontal: "3%" }}
+                    keyExtractor={(item) => item.name}
+                    data={this.state.loading && this.props.products?.data?.length == 0 ? [{}, {}] : this.props.products?.data}
+                    renderItem={this._renderItem}
+                    onEndReached={this.onEndReached}
+                    onEndReachedThreshold={0.1}
+                />
                 {/* </Stack> */}
             </View>
         );

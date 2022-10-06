@@ -78,7 +78,7 @@ export default class SearchFilter extends Component {
                             </Radio.Group>
                         </VStack>
                         <Divider />
-                        <VStack space={2}>
+                        {/* <VStack space={2}>
                             <Heading>
                                 Gender
                             </Heading>
@@ -104,7 +104,7 @@ export default class SearchFilter extends Component {
                                 </Radio>
                             </Radio.Group>
                         </VStack>
-                        <Divider />
+                        <Divider /> */}
                         <VStack space={2}>
                             <Heading>
                                 Dial Color

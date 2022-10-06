@@ -101,7 +101,7 @@ class TopCategories extends Component {
             >
                 <View flex={1}>
                     <AppBar
-                        title={"Top Categories"}
+                        title={"Categories"}
                         noCart
                         noWish
                         back
