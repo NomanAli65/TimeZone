@@ -46,7 +46,7 @@ class Checkout extends Component {
                             {item.product_name}
                         </Heading>
                         <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
-                            <Text>Reference Number:</Text>  {item?.ref_number ? "#" + item?.ref_number : "No reference number available"}
+                            <Text>Reference Number:</Text>  {item?.ref_number ? item?.ref_number : "No reference number available"}
                         </Text>
                         <Text fontSize={"12"} color={"primary.100"} flexWrap={"wrap"} numberOfLines={3} bold>
                             {formatted_price}
@@ -241,7 +241,7 @@ class Checkout extends Component {
                                     </HStack> */}
                                     <HStack justifyContent={"space-between"}>
                                         <Text bold>
-                                            Tax
+                                            VAT
                                         </Text>
                                         <Text color={"primary.100"} bold>{this.getTotalTax(this.props.route?.params?.tax)} </Text>
                                     </HStack>

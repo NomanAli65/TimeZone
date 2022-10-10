@@ -12,16 +12,15 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 export default function Navigation() {
   const showAlert = useSelector((state) => state.Alert.showAlert)
   const alertOptions = useSelector((state) => state.Alert.alertOptions)
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
-  useEffect(()=>{
-    if(showAlert)
-    {
-      setTimeout(()=>{
-        dispatch({type:AlertTypes.HIDE_ALERT})
-      },2000)
+  useEffect(() => {
+    if (showAlert) {
+      setTimeout(() => {
+        dispatch({ type: AlertTypes.HIDE_ALERT })
+      }, 2000)
     }
-  },[showAlert])
+  }, [showAlert])
 
   return (
     <NavigationContainer>
@@ -43,21 +42,22 @@ export default function Navigation() {
         /> */}
         {
           showAlert ?
-          <View style={{...StyleSheet.absoluteFill,backgroundColor:"rgba(0,0,0,0.2)"}}>
-            <Alert variant={"subtle"} w="96%" status={alertOptions?.status?alertOptions.status:"success"} position={"absolute"} bottom={60} borderRadius={10} alignSelf="center">
-              <VStack space={1} flexShrink={1} w="100%" alignItems="center">
-                <Alert.Icon size="md" />
-                <Text fontSize="md" fontWeight="medium">
-                  {alertOptions?.title}
-                </Text>
+            <View style={{ ...StyleSheet.absoluteFill, backgroundColor: "rgba(0,0,0,0.2)" }}>
+              <Alert variant={"subtle"} w="96%" status={alertOptions?.status ? alertOptions.status : "success"} backgroundColor="primary.100" position={"absolute"} bottom={60} borderRadius={10} alignSelf="center">
+                <VStack space={1} flexShrink={1} w="100%" alignItems="center">
+                  <Alert.Icon color={"black"} size="md" />
+                  <Text fontSize="md" fontWeight="medium" color={"white"}>
+                    {alertOptions?.title}
+                  </Text>
 
-                <Box _text={{
-                  textAlign: "center"
-                }}>
-                  {alertOptions?.message}
-                </Box>
-              </VStack>
-            </Alert>
+                  <Box _text={{
+                    textAlign: "center",
+                    color: "white"
+                  }}>
+                    {alertOptions?.message}
+                  </Box>
+                </VStack>
+              </Alert>
             </View>
             : null}
       </NativeBaseProvider>

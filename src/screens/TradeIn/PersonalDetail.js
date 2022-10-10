@@ -105,11 +105,17 @@ class PersonalDetail extends Component {
                         {/* <Text>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                         </Text> */}
+                        {/* <Image
+                            width={"100%"}
+                            height={100}
+                            resizeMode="contain"
+                            source={require("../../../assets/trade1.png")}
+                        /> */}
                         <Image
                             width={"100%"}
                             height={200}
                             resizeMode="stretch"
-                            source={require("../../../assets/terms.png")}
+                            source={require("../../../assets/trade2.png")}
                         />
                     </VStack>
                 </View>

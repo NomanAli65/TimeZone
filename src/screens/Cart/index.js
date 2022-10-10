@@ -83,7 +83,7 @@ class index extends Component {
                             {item.product_name}
                         </Heading>
                         <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
-                            <Text>Reference Number:</Text>  {item?.ref_number ? "#" + item?.ref_number : "No reference number available"}
+                            <Text>Reference Number:</Text>  {item?.ref_number ? item?.ref_number : "No reference number available"}
                         </Text>
                         <Text fontSize={"12"} color={"primary.100"} flexWrap={"wrap"} numberOfLines={3} bold>
                             {formatted_price}
@@ -177,7 +177,7 @@ class index extends Component {
                                 <Text bold color={"primary.100"}>{this.getTotalPrice()} AED</Text>
                             </HStack> */}
                             <HStack justifyContent={"space-between"}>
-                                <Text bold>Tax</Text>
+                                <Text bold>VAT</Text>
                                 <Text bold color={"primary.100"}>{this.state.loading?"Getting updated tax":this.getTotalTax(this.state.tax)}</Text>
                             </HStack>
                             <HStack mb={3} justifyContent={"space-between"}>

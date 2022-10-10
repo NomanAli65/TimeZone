@@ -69,6 +69,9 @@ export const ProductMiddleware = {
                 if (request) {
                     dispatch(ProductActions.AddRemToWishlist({ ...request, product: data }));
                 }
+                else {
+                    dispatch(ProductActions.AddRemToWishlist({ ...data, product_id: data.id }))
+                }
                 // dispatch(GeneralActions.HideLoading());
             } catch (error) {
                 // dispatch(GeneralActions.HideLoading());

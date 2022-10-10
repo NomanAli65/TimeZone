@@ -157,12 +157,13 @@ class index extends Component {
         return {
             filters: {
                 filter_sort: filters?.sortBy ? filters.sortBy : "",
-                filter_gender: filters?.gender ? filters.gender : "",
+                // filter_gender: filters?.gender ? filters.gender : "",
                 filter_color: filters?.color ? filters?.color : "",
                 filter_availability: filters?.avail ? filters?.avail : "",
                 filter_material: filters?.material ? filters?.material : "",
                 filter_movement: filters?.movement ? filters?.movement : "",
                 filter_condition: filters?.condition ? filters?.condition : "",
+                filter_category: filters?.categories ? filters?.categories : "",
             }
         }
     }

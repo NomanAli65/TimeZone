@@ -147,14 +147,13 @@ export default class SearchFilter extends Component {
                                                         [Object.keys(otherFilter)[index]]: value
                                                     }
                                                 })
-                                                console.warn({[Object.keys(otherFilter)[index]]: value})
                                             }}
                                             name="SortGroup">
                                             {
                                                 fils.length > 0 ?
                                                     fils.map((fil) => {
                                                         if (fil.name)
-                                                            return (<Radio value={fil.name} my={1}>
+                                                            return (<Radio value={Object.keys(otherFilter)[index] == "categories" ? fil.cat_id : fil.name} my={1}>
                                                                 {this.toSentenceCase(fil.name)}
                                                             </Radio>)
                                                     }) : null
