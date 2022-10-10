@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Heading, HStack, Radio, ScrollView, View, VStack } from 'native-base';
+import { Box, Button, Checkbox, Divider, Heading, HStack, Radio, ScrollView, View, VStack } from 'native-base';
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
 
@@ -20,8 +20,9 @@ export default class SearchFilter extends Component {
     }
 
     onPressApply = () => {
-        this.props.route.params.setFilter(this.state.filter);
-        this.props.navigation.goBack();
+        console.warn(this.state.filter);
+         this.props.route.params.setFilter(this.state.filter);
+         this.props.navigation.goBack();
     }
     onPressRemove = () => {
         this.props.route.params.setFilter(null);
@@ -55,27 +56,35 @@ export default class SearchFilter extends Component {
                             <Heading>
                                 Sort By
                             </Heading>
-                            <Radio.Group
+                            <Checkbox.Group
                                 onChange={(value) => {
-                                    this.setState({
-                                        filter: {
-                                            ...this.state.filter,
-                                            sortBy: value
-                                        }
-                                    })
+                                    if (this.state.filter.sortBy == value[1])
+                                        this.setState({
+                                            filter: {
+                                                ...this.state.filter,
+                                                sortBy: ""
+                                            }
+                                        })
+                                    else
+                                        this.setState({
+                                            filter: {
+                                                ...this.state.filter,
+                                                sortBy: value[1]
+                                            }
+                                        })
                                 }}
-                                value={this.state.filter.sortBy}
+                                value={[this.state.filter.sortBy]}
                                 name="SortGroup">
-                                <Radio value="popular" my={1}>
+                                <Checkbox value="popular" isChecked={this.state.filter.sortBy == "popular"} my={1}>
                                     Popularity
-                                </Radio>
-                                <Radio value="latest" my={1}>
+                                </Checkbox>
+                                <Checkbox value="latest" isChecked={this.state.filter.sortBy == "latest"} my={1}>
                                     Latest
-                                </Radio>
-                                <Radio value="lowToHigh" my={1}>
+                                </Checkbox>
+                                <Checkbox value="lowToHigh" isChecked={this.state.filter.sortBy == "lowToHigh"} my={1}>
                                     Price:Low to high
-                                </Radio>
-                            </Radio.Group>
+                                </Checkbox>
+                            </Checkbox.Group>
                         </VStack>
                         <Divider />
                         {/* <VStack space={2}>
@@ -109,26 +118,34 @@ export default class SearchFilter extends Component {
                             <Heading>
                                 Dial Color
                             </Heading>
-                            <Radio.Group
-                                value={this.state.filter.color}
+                            <Checkbox.Group
+                                value={[this.state.filter.color]}
                                 onChange={(value) => {
-                                    this.setState({
-                                        filter: {
-                                            ...this.state.filter,
-                                            color: value
-                                        }
-                                    })
+                                    if (this.state.filter.color == value[1])
+                                        this.setState({
+                                            filter: {
+                                                ...this.state.filter,
+                                                color: ""
+                                            }
+                                        })
+                                    else
+                                        this.setState({
+                                            filter: {
+                                                ...this.state.filter,
+                                                color: value[1]
+                                            }
+                                        })
                                 }}
                                 name="SortGroup">
                                 {
                                     colors.length > 0 ?
                                         colors.map((color) => (
-                                            <Radio value={color} my={1}>
+                                            <Checkbox isChecked={this.state.filter.color == color} value={color} my={1}>
                                                 {this.toSentenceCase(color)}
-                                            </Radio>
+                                            </Checkbox>
                                         )) : null
                                 }
-                            </Radio.Group>
+                            </Checkbox.Group>
                         </VStack>
                         <Divider />
                         {
@@ -138,27 +155,37 @@ export default class SearchFilter extends Component {
                                         <Heading>
                                             {this.toSentenceCase(Object.keys(otherFilter)[index])}
                                         </Heading>
-                                        <Radio.Group
-                                            value={this.state.filter[Object.keys(otherFilter)[index]]}
+                                        <Checkbox.Group
+                                            value={[this.state.filter[Object.keys(otherFilter)[index]]]}
                                             onChange={(value) => {
-                                                this.setState({
-                                                    filter: {
-                                                        ...this.state.filter,
-                                                        [Object.keys(otherFilter)[index]]: value
-                                                    }
-                                                })
+                                                if (this.state.filter[Object.keys(otherFilter)[index]] == value[1])
+                                                    this.setState({
+                                                        filter: {
+                                                            ...this.state.filter,
+                                                            [Object.keys(otherFilter)[index]]: ""
+                                                        }
+                                                    })
+                                                else
+                                                    this.setState({
+                                                        filter: {
+                                                            ...this.state.filter,
+                                                            [Object.keys(otherFilter)[index]]: value[1]
+                                                        }
+                                                    })
                                             }}
                                             name="SortGroup">
                                             {
                                                 fils.length > 0 ?
                                                     fils.map((fil) => {
                                                         if (fil.name)
-                                                            return (<Radio value={Object.keys(otherFilter)[index] == "categories" ? fil.cat_id : fil.name} my={1}>
+                                                            return (<Checkbox
+                                                                isChecked={Object.keys(otherFilter)[index] != (Object.keys(otherFilter)[index] == "categories" ? fil.cat_id : fil.name)}
+                                                                value={Object.keys(otherFilter)[index] == "categories" ? fil.cat_id : fil.name} my={1}>
                                                                 {this.toSentenceCase(fil.name)}
-                                                            </Radio>)
+                                                            </Checkbox>)
                                                     }) : null
                                             }
-                                        </Radio.Group>
+                                        </Checkbox.Group>
                                     </VStack>
                                     <Divider />
                                 </Box>
@@ -168,24 +195,32 @@ export default class SearchFilter extends Component {
                             <Heading>
                                 Availability
                             </Heading>
-                            <Radio.Group
-                                value={this.state.filter.avail}
+                            <Checkbox.Group
+                                value={[this.state.filter.avail]}
                                 onChange={(value) => {
-                                    this.setState({
-                                        filter: {
-                                            ...this.state.filter,
-                                            avail: value
-                                        }
-                                    })
+                                    if (this.state.filter.avail == value[1])
+                                        this.setState({
+                                            filter: {
+                                                ...this.state.filter,
+                                                avail: ""
+                                            }
+                                        })
+                                    else
+                                        this.setState({
+                                            filter: {
+                                                ...this.state.filter,
+                                                avail: value[1]
+                                            }
+                                        })
                                 }}
                                 name="SortGroup">
-                                <Radio value="0" my={1}>
+                                <Checkbox value="0" my={1} isChecked={this.state.filter.avail == "0"}>
                                     In-Stock
-                                </Radio>
-                                <Radio value="1" my={1}>
+                                </Checkbox>
+                                <Checkbox value="1" my={1} isChecked={this.state.filter.avail == "1"}>
                                     Out-Stock
-                                </Radio>
-                            </Radio.Group>
+                                </Checkbox>
+                            </Checkbox.Group>
                         </VStack>
                     </VStack>
                 </ScrollView >
