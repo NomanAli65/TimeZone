@@ -19,7 +19,7 @@ class index extends Component {
       name: "",
       model: "",
       price: "",
-      condition: 1,
+      condition: null,
       box_paper: "",
       comments: "",
       brand: "",
