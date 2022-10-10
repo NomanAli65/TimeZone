@@ -77,20 +77,20 @@ class History extends Component {
             return (
                 <Box _dark={{ backgroundColor: "gray.800" }} w={"100%"} alignItems="center" mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                     <HStack space={1} w={"full"} p={2}>
-                        <Image alignSelf={"center"} maxH={90} maxW={"30%"} source={{ uri: img_url + item.order_detail[0].product_detail.image }} alt="image" resizeMode='contain' />
+                        <Image alignSelf={"center"} maxH={90} maxW={"30%"} source={{ uri: img_url + item?.order_detail[0]?.product_detail?.image }} alt="image" resizeMode='contain' />
                         <Stack space={1} w={"70%"}>
                             <Heading size={"sm"}>
-                                {item.order_detail[0].product_detail.product_name}
+                                {item?.order_detail[0]?.product_detail?.product_name}
                             </Heading>
                             <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
-                                {item.order_detail[0].product_detail.description}
+                                {item?.order_detail[0]?.product_detail?.description}
                             </Text>
                             <HStack justifyContent={"space-between"}>
                                 <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
-                                    <Text color={"primary.100"}>{item.total} AED</Text>
+                                    <Text color={"primary.100"}>{item?.total} AED</Text>
                                 </Text>
                                 <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3}>
-                                    <Text color={"gray.400"}>{item.created_at ? new Date(item.created_at).toDateString() : ""}</Text>
+                                    <Text color={"gray.400"}>{item?.created_at ? new Date(item?.created_at).toDateString() : ""}</Text>
                                 </Text>
                             </HStack>
                         </Stack>
