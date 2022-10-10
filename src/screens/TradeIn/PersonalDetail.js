@@ -13,7 +13,7 @@ class PersonalDetail extends Component {
             pname: this.props.user?.user?.name,
             email: this.props.user?.user?.email,
             invalid: "",
-            phone: "",
+            phone: this.props.user?.user?.phone,
             code: "",
             loading: false
         };

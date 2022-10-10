@@ -11,8 +11,9 @@ export const GeneralMiddleware = {
                 dispatch(GeneralActions.ShowLoading());
                 let request = await get(APIs.Dashboard);
                 if (request) {
-                    dispatch(GeneralActions.SetDashboardData(request))
+                    dispatch(GeneralActions.SetDashboardData(null))
                     onSuccess(true)
+                    dispatch(GeneralActions.SetDashboardData(request))
                     return;
                 }
                 onSuccess(false)

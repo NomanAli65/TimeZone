@@ -59,7 +59,7 @@ class ProductDetail extends Component {
 
         if (now && this.props.loggedIn) {
             if (index == -1) {
-//                this.props.emptyCart();
+                //                this.props.emptyCart();
                 this.props.addToCart(data)
             }
             this.props.navigation.navigate("Checkout")
@@ -207,6 +207,7 @@ class ProductDetail extends Component {
                         {this.checkAndRender("Strap & Bracelet Material", data?.strap_material)}
                         {this.checkAndRender("Band Color", data?.band_color)}
                         {this.checkAndRender("Buckle Type", data?.buckle_type)}
+                        <Text color="red.900" m={3}>This is preowned watch</Text>
                         {
                             data.videos.length > 0 ?
                                 <Box w={"100%"} h={200}>

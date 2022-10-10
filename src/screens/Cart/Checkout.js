@@ -9,6 +9,7 @@ import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import { UserMiddleware } from '../../redux/Middlewares/UserMiddleware';
 import { img_url } from '../../configs/APIs';
 import numbro from "numbro";
+import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 
 class Checkout extends Component {
     constructor(props) {
@@ -17,15 +18,25 @@ class Checkout extends Component {
             b_pickup: false,
             title: "My Address",
             address: this.props.user?.user?.address + ", " + this.props.user?.user.city + ", " + this.props.user?.user.country,
-            loading: false
+            loading: false,
+            tax:this.props.route?.params?.tax,
+            tax_loading:true
         };
     }
 
     componentDidMount() {
+        this.setState({ loading: true })
         this.props.getAllMethods({
             onSuccess: () => {
             }
         })
+        this.props.getTax({
+            onSuccess: (success) => {
+                if (success) {
+                    this.setState({ tax: success?.vat_percent,tax_loading:false })
+                }
+            }
+        });
     }
 
     _renderItem = ({ item }) => {
@@ -243,13 +254,13 @@ class Checkout extends Component {
                                         <Text bold>
                                             VAT
                                         </Text>
-                                        <Text color={"primary.100"} bold>{this.getTotalTax(this.props.route?.params?.tax)} </Text>
+                                        <Text color={"primary.100"} bold>{this.getTotalTax(this.state.tax)} </Text>
                                     </HStack>
                                     <HStack justifyContent={"space-between"}>
                                         <Text bold>
                                             Total
                                         </Text>
-                                        <Text color={"primary.100"} bold>{this.getTotalPrice(this.props.route?.params?.tax)} AED</Text>
+                                        <Text color={"primary.100"} bold>{this.getTotalPrice()} AED</Text>
                                     </HStack>
                                 </VStack>
                             </VStack>
@@ -281,7 +292,7 @@ const mapDispatchToProps = dispatch => ({
     showAlert: (payload) => dispatch({ type: AlertTypes.SHOW_ALERT, payload }),
     placeOrder: (payload) => dispatch(ProductMiddleware.PlaceOrder(payload)),
     getAllMethods: data => dispatch(UserMiddleware.getAllMethods(data)),
-
+    getTax: (data) => dispatch(AuthMiddleware.getTax(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
