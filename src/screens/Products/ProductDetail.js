@@ -207,7 +207,7 @@ class ProductDetail extends Component {
                         {this.checkAndRender("Strap & Bracelet Material", data?.strap_material)}
                         {this.checkAndRender("Band Color", data?.band_color)}
                         {this.checkAndRender("Buckle Type", data?.buckle_type)}
-                        <Text color="red.900" m={3}>This is preowned watch</Text>
+                        <Text color="red.700" my={3} fontSize={"md"}>This is preowned watch</Text>
                         {
                             data.videos.length > 0 ?
                                 <Box w={"100%"} h={200}>

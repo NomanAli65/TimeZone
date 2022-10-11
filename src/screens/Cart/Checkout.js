@@ -25,7 +25,6 @@ class Checkout extends Component {
     }
 
     componentDidMount() {
-        this.setState({ loading: true })
         this.props.getAllMethods({
             onSuccess: () => {
             }
@@ -53,12 +52,13 @@ class Checkout extends Component {
                 <HStack space={1} w={"full"} p={2}>
                     <Image alignSelf={"center"} h={90} w={"30%"} mr={2} borderRadius={5} source={item.image ? { uri: img_url + item.image } : require("../../../assets/placeholder.png")} alt="Watch image" resizeMode='cover' />
                     <Stack space={1} w={"70%"}>
-                        <Heading size={"sm"} flexWrap={"wrap"} mr={2}>
+                        <Heading size={"sm"} flexWrap={"wrap"} mr={2} height={35}>
                             {item.product_name}
                         </Heading>
                         <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
-                            <Text>Reference Number:</Text>  {item?.ref_number ? item?.ref_number : "No reference number available"}
+                            Reference Number:
                         </Text>
+                        <Text mt={-2}>{item?.ref_number ? item?.ref_number : "No reference number available"}</Text>
                         <Text fontSize={"12"} color={"primary.100"} flexWrap={"wrap"} numberOfLines={3} bold>
                             {formatted_price}
                             {/* <Text color={item.discount?.discount_value ? "red.500" : "primary.100"} textDecorationLine={item.discount?.discount_value ? "line-through" : "none"}>{item.price} AED</Text>

@@ -152,7 +152,7 @@ class TopCategories extends Component {
                                                         {category.category_name}
                                                     </Heading>
                                                     <Button
-                                                        onPress={() => this.props.navigation.navigate("Products")}
+                                                        onPress={() => this.props.navigation.navigate("Products",{category})}
                                                         variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
                                                         View More
                                                     </Button>

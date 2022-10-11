@@ -79,12 +79,13 @@ class index extends Component {
                 <HStack space={1} w={"full"} p={2}>
                     <Image alignSelf={"center"} h={90} w={"30%"} mr={2} source={item.image ? { uri: img_url + item.image } : require("../../../assets/placeholder.png")} alt="Watch image" resizeMode='cover' borderRadius={5} />
                     <Stack space={1} w={"55%"}>
-                        <Heading size={"sm"}>
+                        <Heading size={"sm"} height={35}>
                             {item.product_name}
                         </Heading>
                         <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
-                            <Text>Reference Number:</Text>  {item?.ref_number ? item?.ref_number : "No reference number available"}
+                            Reference Number:
                         </Text>
+                        <Text mt={-2}>{item?.ref_number ? item?.ref_number : "No reference number available"}</Text>
                         <Text fontSize={"12"} color={"primary.100"} flexWrap={"wrap"} numberOfLines={3} bold>
                             {formatted_price}
                             {/* <Text color={item.discount?.discount_value ?"red.500":"primary.100"} textDecorationLine={item.discount?.discount_value ? "line-through" : "none"}>{item.price} AED</Text>
@@ -178,7 +179,7 @@ class index extends Component {
                             </HStack> */}
                             <HStack justifyContent={"space-between"}>
                                 <Text bold>VAT</Text>
-                                <Text bold color={"primary.100"}>{this.state.loading?"Getting updated tax":this.getTotalTax(this.state.tax)}</Text>
+                                <Text bold color={"primary.100"}>{this.state.loading ? "Getting updated tax" : this.getTotalTax(this.state.tax)}</Text>
                             </HStack>
                             <HStack mb={3} justifyContent={"space-between"}>
                                 <Text bold>Total</Text>
