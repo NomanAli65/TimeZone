@@ -11,7 +11,7 @@ const StackNavigator = createNativeStackNavigator();
 const TradeStack = () => {
     return (
         <StackNavigator.Navigator
-            initialRouteName="PersonalDetail"
+            initialRouteName="Trade"
             screenOptions={{
                 headerShown: false
             }}>

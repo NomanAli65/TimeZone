@@ -190,7 +190,7 @@ class ProductDetail extends Component {
                         {this.checkAndRender("Year", data?.year)}
                         {this.checkAndRender("Style", data?.style)}
                         {this.checkAndRender("Manufactured In", data?.manufactured_in)}
-                        {this.checkAndRender("Availability", data?.availability == 1 ? "In Stock" : "Out of Stock")}
+                        {/* {this.checkAndRender("Availability", data?.availability == 1 ? "In Stock" : "Out of Stock")} */}
                         {this.checkAndRender("Gender", data?.gender)}
                         {this.checkAndRender("Category", data?.category?.category_name)}
                         {this.checkAndRender("Warranty In-House", data?.weight)}
