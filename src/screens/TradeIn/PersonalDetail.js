@@ -85,7 +85,9 @@ class PersonalDetail extends Component {
                                     </Select> */}
                                 <InputGroup>
                                     <InputLeftAddon children={"+971"} />
-                                    <Input keyboardType='phone-pad' flex={1} placeholder={"1234567890"} onChangeText={(phone) => this.setState({ phone, invalid: "" })} />
+                                    <Input
+                                        value={this.state.phone}
+                                        keyboardType='phone-pad' flex={1} placeholder={"1234567890"} onChangeText={(phone) => this.setState({ phone, invalid: "" })} />
                                 </InputGroup>
                                 {/* </HStack> */}
                             </VStack>
@@ -93,15 +95,20 @@ class PersonalDetail extends Component {
                                 {this.state.invalid}
                             </FormControl.ErrorMessage>
                         </FormControl>
+                        <Button
+                        onPress={()=>this.props.navigation.navigate("TermsAndCondition")}
+                        mt={-5} _text={{color:"primary.100"}} flex={0} alignSelf={"flex-end"} variant={"unstyled"}>
+                            Terms & Conditions
+                        </Button>
                         <LGButton
                             isLoading={this.state.loading}
                             isLoadingText="Submitting"
                             onPress={this.onPress}
                             title={"Get A Qoute"}
                         />
-                        <Heading>
+                        {/* <Heading>
                             Terms & Conditions
-                        </Heading>
+                        </Heading> */}
                         {/* <Text>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                         </Text> */}
@@ -110,13 +117,14 @@ class PersonalDetail extends Component {
                             height={100}
                             resizeMode="contain"
                             source={require("../../../assets/trade1.png")}
-                        /> */}
+                        /> 
                         <Image
                             width={"100%"}
                             height={200}
                             resizeMode="stretch"
                             source={require("../../../assets/trade2.png")}
                         />
+                        */}
                     </VStack>
                 </View>
             </ScrollView>

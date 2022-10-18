@@ -85,7 +85,7 @@ class index extends Component {
                     _dark={{
                         backgroundColor: "gray.800"
                     }}
-                    // onTouchEnd={() => this.props.navigation.navigate("ProductDetail", { item: item.product })}
+                    onTouchEnd={() => this.props.navigation.navigate("ProductDetail", { item: item.product })}
                     w={"90%"} alignItems="center" backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" m={"5%"}>
                     <Stack space={4}>
                         <Image h={200} w={'96'}
@@ -159,7 +159,7 @@ class index extends Component {
                 />
                 {
                     !this.props.user?.user ?
-                        <Box flex={1} p={5} justifyContent="center"  position="absolute" top={0} left={0} bottom={0} right={0} backgroundColor="white">
+                        <Box flex={1} p={5} justifyContent="center" position="absolute" top={0} left={0} bottom={0} right={0} backgroundColor="white">
                             <Center>
                                 <Heading mb={3} fontSize={17} textAlign="center">
                                     Please login to add products in wishlist and see your wishlist

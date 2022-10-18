@@ -74,7 +74,7 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
                                         <Text fontSize={halfScreen ? "11" : "12"} flexWrap={"wrap"} numberOfLines={halfScreen ? 2 : 3}>
                                             Reference Number:
                                         </Text>
-                                        <Text fontSize={halfScreen ? "11" : "12"} flexWrap={"wrap"} numberOfLines={halfScreen ? 2 : 3}>
+                                        <Text fontSize={halfScreen ? "11" : "12"} flexWrap={"wrap"} numberOfLines={1}>
                                             {"\n" + item?.ref_number ? item?.ref_number : "No reference number available"}
                                         </Text>
                                     </Box>

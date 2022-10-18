@@ -96,6 +96,7 @@ class ProductDetail extends Component {
 
     render() {
         let data = this.props.route.params?.item;
+        console.warn(data)
         let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
         let formatted_price = numbro(data?.price).formatCurrency({
             thousandSeparated: true,
@@ -122,14 +123,15 @@ class ProductDetail extends Component {
                     <RNView onTouchEnd={() => this.setState({ imageModal: true })} style={{ width }}>
                         <RNImage source={{ uri: this.state.selectedImage }} style={{ width, height: 250 }} resizeMode="cover" />
                     </RNView>
-                    {data.images.length > 0 ?
-                        <FlatList
-                            p={3}
-                            horizontal
-                            data={data.images}
-                            renderItem={this._renderItem}
-                        />
-                        : null
+                    {
+                        data?.images?.length > 0 ?
+                            <FlatList
+                                p={3}
+                                horizontal
+                                data={data.images}
+                                renderItem={this._renderItem}
+                            />
+                            : null
                     }
                     <VStack space={3} p={4}>
                         <HStack justifyContent={"space-between"} >
@@ -186,10 +188,12 @@ class ProductDetail extends Component {
                         {this.checkAndRender("Condition", data?.condition)}
                         {this.checkAndRender("Box & Papers", data?.box)}
                         {this.checkAndRender("Year", data?.year)}
+                        {this.checkAndRender("Style", data?.style)}
                         {this.checkAndRender("Manufactured In", data?.manufactured_in)}
                         {this.checkAndRender("Availability", data?.availability == 1 ? "In Stock" : "Out of Stock")}
                         {this.checkAndRender("Gender", data?.gender)}
                         {this.checkAndRender("Category", data?.category?.category_name)}
+                        {this.checkAndRender("Warranty In-House", data?.weight)}
                         <Heading marginTop={3} fontSize={"2xl"} >
                             Case & Dial
                         </Heading>
@@ -204,12 +208,13 @@ class ProductDetail extends Component {
                         <Heading marginTop={3} fontSize={"2xl"} >
                             Strap & Bracelet
                         </Heading>
+                        {this.checkAndRender("Bracelet", data?.strap)}
                         {this.checkAndRender("Strap & Bracelet Material", data?.strap_material)}
                         {this.checkAndRender("Band Color", data?.band_color)}
                         {this.checkAndRender("Buckle Type", data?.buckle_type)}
                         <Text color="red.700" my={3} fontSize={"md"}>This is preowned watch</Text>
                         {
-                            data.videos.length > 0 ?
+                            data?.videos?.length > 0 ?
                                 <Box w={"100%"} h={200}>
                                     <Video
                                         useNativeControls
@@ -250,7 +255,7 @@ class ProductDetail extends Component {
                     </Pressable>
                 </HStack>
                 {
-                    data?.images.length > 0 ?
+                    data?.images?.length > 0 ?
                         <ImageView
                             images={data?.images?.map(img => ({ uri: img_url + img.media }))}
                             imageIndex={0}
