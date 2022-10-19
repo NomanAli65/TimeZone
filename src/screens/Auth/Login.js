@@ -38,7 +38,7 @@ class Login extends Component {
             return;
         }
 
-        const token = (await Notifications.getDevicePushTokenAsync()).data;
+        const token = (await Notifications.getExpoPushTokenAsync()).data;
         this.props.Login({
             email,
             password,
