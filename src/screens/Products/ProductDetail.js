@@ -212,7 +212,10 @@ class ProductDetail extends Component {
                         {this.checkAndRender("Strap & Bracelet Material", data?.strap_material)}
                         {this.checkAndRender("Band Color", data?.band_color)}
                         {this.checkAndRender("Buckle Type", data?.buckle_type)}
-                        <Text color="red.700" my={3} fontSize={"md"}>This is preowned watch</Text>
+                        <Text color="red.700" my={3} fontSize={"md"}>We are not an official dealer for the products we sell and have no affiliation
+                            with the manufacturer. We sell Pre-Owned watches. All brand names, trademark and photos are the property of their respective
+                            owners & are used for identification purposes only.
+                        </Text>
                         {
                             data?.videos?.length > 0 ?
                                 <Box w={"100%"} h={200}>
