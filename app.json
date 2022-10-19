@@ -2,6 +2,7 @@
   "expo": {
     "name": "TIMEZONE",
     "slug": "TimeZone",
+    "scheme": "TimeZone://",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/TZ.png",
@@ -55,6 +56,18 @@
         {
           "icon": "./assets/TZ.png",
           "color": "#ffffff"
+        }
+      ],
+      [
+        "react-native-fbsdk-next",
+        {
+          "appID": "495885272460928",
+          "clientToken": "cf69f8b1c92383d4061c57db76f48d32",
+          "displayName": "TimeZone",
+          "advertiserIDCollectionEnabled": false,
+          "autoLogAppEventsEnabled": false,
+          "isAutoInitEnabled": true,
+          "iosUserTrackingPermission": "This identifier will be used to deliver personalized ads to you."
         }
       ]
     ]

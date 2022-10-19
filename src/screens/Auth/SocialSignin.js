@@ -1,5 +1,5 @@
 import { Button, Icon, View, VStack } from 'native-base';
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as Google from 'expo-auth-session/providers/google';
 import * as Facebook from 'expo-auth-session/providers/facebook';
 import * as WebBrowser from 'expo-web-browser';
@@ -7,6 +7,7 @@ import { AntDesign, Ionicons, FontAwesome5, Fontisto } from "@expo/vector-icons"
 import { ResponseType } from 'expo-auth-session';
 import { post } from '../../configs/AxiosConfig';
 import axios from 'axios';
+import { Settings, LoginManager, Profile } from 'react-native-fbsdk-next';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -19,10 +20,10 @@ function SocialSignin(props) {
         webClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
     });
 
-    const [requestFb, responseFB, promptAsyncFB] = Facebook.useAuthRequest({
-        clientId: 'cf69f8b1c92383d4061c57db76f48d32',
-        responseType: ResponseType.Code,
-    });
+    useEffect(() => {
+        Settings.setAppID('495885272460928');
+        Settings.initializeSDK();
+    }, [])
 
     const _GoogleSignin = async () => {
         let result = await promptAsync();
@@ -33,27 +34,27 @@ function SocialSignin(props) {
                 }
             })
             let { name, picture, email, } = userData?.data;
-            console.warn(name, picture, email,)
+            alert(name + "\n" + picture + "\n" + email,)
         }
         else if (result.error)
             alert("Error occured. Please try again")
     }
 
     const _FacebookSignin = async () => {
-        let result = await promptAsyncFB();
-        console.warn(result.error)
-        if (result.authentication?.accessToken) {
-            console.warn("ok")
-            // let userData = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-            //     headers: {
-            //         Authorization: "Bearer " + result.authentication?.accessToken
-            //     }
-            // })
-            // let { name, picture, email, } = userData?.data;
-            // console.warn(name, picture, email,)
-        }
-        else if (result.error)
-            alert("Error occured. Please try again")
+        LoginManager.logInWithPermissions(["public_profile"]).then(
+            function (result) {
+                if (result.isCancelled) {
+                    console.log("Login cancelled");
+                } else {
+                    Profile.getCurrentProfile().then((prof) => {
+                        alert(prof.email + "\n" + prof.name + "\n" + prof.imageURL);
+                    })
+                }
+            },
+            function (error) {
+                console.log("Login fail with error: " + error);
+            }
+        );
     }
 
     return (
