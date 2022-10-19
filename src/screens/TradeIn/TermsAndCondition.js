@@ -13,12 +13,12 @@ class TermsAndCondition extends Component {
         return (
             <ScrollView backgroundColor="#fff" _dark={{ backgroundColor: "black" }}>
                 <View flex={1}>
-                    <AppBar
+                    {/* <AppBar
                         noCart
                         noWish
                         back
                         title={"Terms And Condition"}
-                    />
+                    /> */}
                     <VStack p={3} space={5} alignItems="center">
                         <Heading textAlign={"center"} bold fontSize={"3xl"}>Hassle Free Used {"\n"} Watches for Sale In Dubai</Heading>
                         <Image resizeMode='contain' size={12} source={require("../../../assets/virtual-evaluation.png")} />

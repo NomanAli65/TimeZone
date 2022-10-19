@@ -36,7 +36,8 @@
         "android.permission.READ_EXTERNAL_STORAGE",
         "android.permission.WRITE_EXTERNAL_STORAGE",
         "android.permission.RECORD_AUDIO"
-      ]
+      ],
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -48,7 +49,8 @@
           "photosPermission": "The app accesses your photos to add images in trade feature.",
           "isAccessMediaLocationEnabled": true
         }
-      ]
+      ],
+      "@react-native-google-signin/google-signin"
     ]
   }
 }

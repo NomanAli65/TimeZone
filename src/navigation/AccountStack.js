@@ -10,6 +10,8 @@ import AddCard from "../screens/PaymentMethods/AddCard";
 import ChangePass2 from "../screens/Profile/ChangePass2";
 import EditProfile2 from "../screens/Profile/EditProfile2";
 import History from "../screens/Orders/History";
+import PrivacyPolicy from "../screens/Profile/PrivacyPolicy";
+import TermsAndConditions from "../screens/Profile/TermsAndConditions";
 
 
 const StackNavigator = createNativeStackNavigator();
@@ -29,6 +31,8 @@ const AccountStack = () => {
             <StackNavigator.Screen name="Payments" component={Payments} />
             <StackNavigator.Screen name="AddCard" component={AddCard} />
             <StackNavigator.Screen name="OrderHistory" component={History} />
+            <StackNavigator.Screen name="TermsAndCondition" component={TermsAndConditions} />
+            <StackNavigator.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
         </StackNavigator.Navigator>
     );
 };

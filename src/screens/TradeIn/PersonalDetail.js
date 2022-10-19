@@ -5,6 +5,7 @@ import AppBar from '../../components/Appbar';
 import LGButton from '../../components/LGButton';
 import AlertAction from '../../redux/Actions/AlertActions';
 import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
+import TermsAndCondition from './TermsAndCondition';
 
 class PersonalDetail extends Component {
     constructor(props) {
@@ -95,17 +96,18 @@ class PersonalDetail extends Component {
                                 {this.state.invalid}
                             </FormControl.ErrorMessage>
                         </FormControl>
-                        <Button
-                        onPress={()=>this.props.navigation.navigate("TermsAndCondition")}
-                        mt={-5} _text={{color:"primary.100"}} flex={0} alignSelf={"flex-end"} variant={"unstyled"}>
-                            Terms & Conditions
-                        </Button>
                         <LGButton
                             isLoading={this.state.loading}
                             isLoadingText="Submitting"
                             onPress={this.onPress}
                             title={"Get A Qoute"}
                         />
+                        <TermsAndCondition/>
+                        {/* <Button
+                            onPress={() => this.props.navigation.navigate("TermsAndCondition")}
+                            mt={-5} _text={{ color: "primary.100" }} flex={0} alignSelf={"flex-end"} variant={"unstyled"}>
+                            Terms & Conditions
+                        </Button> */}
                         {/* <Heading>
                             Terms & Conditions
                         </Heading> */}

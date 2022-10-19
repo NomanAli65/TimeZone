@@ -23,6 +23,8 @@ const routeNames = [
     "My Account",
     "Order History",
     "Payment Methods",
+    "Terms & Conditions",
+    "Privacy Policy",
     "Help",
 ]
 
@@ -43,6 +45,10 @@ class index extends Component {
                 return "help";
             case "Payment Methods":
                 return "payment";
+            case "Terms & Conditions":
+                return "content-paste";
+            case "Privacy Policy":
+                return "privacy-tip";
             default:
                 return undefined;
         }
@@ -58,6 +64,10 @@ class index extends Component {
                 return "Help";
             case "Payment Methods":
                 return "Payments";
+            case "Terms & Conditions":
+                return "TermsAndCondition";
+            case "Privacy Policy":
+                return "PrivacyPolicy";
             default:
                 return undefined;
         }
@@ -96,6 +106,10 @@ class index extends Component {
                                     rounded="md"
                                     bg={"transparent"}
                                     onPress={(event) => {
+                                        if (name == "Terms & Conditions" || name == "Privacy Policy") {
+                                            this.props.navigation.navigate(this.getScreenName(name));
+                                            return;
+                                        }
                                         if (this.props.user?.user)
                                             this.props.navigation.navigate(this.getScreenName(name));
                                         else
@@ -133,7 +147,7 @@ class index extends Component {
                         {
                             this.props.user?.user ?
                                 <VStack space="5">
-                                    <Pressable px="5" py="3" onPress={()=>this.onLogout()}>
+                                    <Pressable px="5" py="3" onPress={() => this.onLogout()}>
                                         <HStack space="7" alignItems="center">
                                             <Icon
                                                 color="gray.500"

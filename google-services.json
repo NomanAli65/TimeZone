@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "230281440299",
+    "project_id": "timezone-27286",
+    "storage_bucket": "timezone-27286.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230281440299:android:a63cab9de017b2dc6d4e6e",
+        "android_client_info": {
+          "package_name": "com.TimeZone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.TimeZone",
+            "certificate_hash": "fc361af2a6e378116c0246a272eb50c82f07819b"
+          }
+        },
+        {
+          "client_id": "230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHabHDWJ2dGvo77Urdh8k_N7n3s_QElc4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

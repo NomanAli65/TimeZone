@@ -1104,6 +1104,27 @@
     xcode "^3.0.1"
     xml2js "0.4.23"
 
+"@expo/config-plugins@^4.1.5":
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-4.1.5.tgz#9d357d2cda9c095e511b51583ede8a3b76174068"
+  integrity sha512-RVvU40RtZt12HavuDAe+LDIq9lHj7sheOfMEHdmpJ/uTA8pgvkbc56XF6JHQD+yRr6+uhhb+JnAasGq49dsQbw==
+  dependencies:
+    "@expo/config-types" "^45.0.0"
+    "@expo/json-file" "8.2.36"
+    "@expo/plist" "0.0.18"
+    "@expo/sdk-runtime-versions" "^1.0.0"
+    "@react-native/normalize-color" "^2.0.0"
+    chalk "^4.1.2"
+    debug "^4.3.1"
+    find-up "~5.0.0"
+    getenv "^1.0.0"
+    glob "7.1.6"
+    resolve-from "^5.0.0"
+    semver "^7.3.5"
+    slash "^3.0.0"
+    xcode "^3.0.1"
+    xml2js "0.4.23"
+
 "@expo/config-plugins@~5.0.0":
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-5.0.1.tgz#66bc8d15785bdcd3598e466344f8c0518390179d"
@@ -1134,6 +1155,11 @@
   version "44.0.0"
   resolved "https://registry.yarnpkg.com/@expo/config-types/-/config-types-44.0.0.tgz#d3480fe2c99f9e895dae4ebba58b74ed72d03e26"
   integrity sha512-d+gpdKOAhqaD5RmcMzGgKzNtvE1w+GCqpFQNSXLliYlXjj+Tv0eL8EPeAdPtvke0vowpPFwd5McXLA90dgY6Jg==
+
+"@expo/config-types@^45.0.0":
+  version "45.0.0"
+  resolved "https://registry.yarnpkg.com/@expo/config-types/-/config-types-45.0.0.tgz#963c2fdce8fbcbd003758b92ed8a25375f437ef6"
+  integrity sha512-/QGhhLWyaGautgEyU50UJr5YqKJix5t77ePTwreOVAhmZH+ff3nrrtYTTnccx+qF08ZNQmfAyYMCD3rQfzpiJA==
 
 "@expo/config-types@^46.0.0":
   version "46.0.2"
@@ -1994,6 +2020,11 @@
     sudo-prompt "^9.0.0"
     wcwidth "^1.0.1"
 
+"@react-native-google-signin/google-signin@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@react-native-google-signin/google-signin/-/google-signin-8.0.1.tgz#b03e7fa07013800ec4cff47881e7704a9d8d917f"
+  integrity sha512-ZsHzul3FWM/En3Upx7++KNPVMJxPuzX1H6LWMDiwxlgMmJxpvKpq7UsW4vE3O8x6E6gLfbCFKpjRZXojwXaI+g==
+
 "@react-native/assets@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@react-native/assets/-/assets-1.0.0.tgz#c6f9bf63d274bafc8e970628de24986b30a55c8e"
@@ -2820,7 +2851,7 @@ base-64@0.1.0:
   resolved "https://registry.yarnpkg.com/base-64/-/base-64-0.1.0.tgz#780a99c84e7d600260361511c4877613bf24f6bb"
   integrity sha512-Y5gU45svrR5tI2Vt/X9GPd3L0HNIKzGu202EjxrXMpuc2V2CiKgemAbUUsqYmZJvPtCXoUKjNZwBJzsNScUbXA==
 
-base64-js@^1.1.2, base64-js@^1.2.3, base64-js@^1.5.1:
+base64-js@^1.1.2, base64-js@^1.2.3, base64-js@^1.3.0, base64-js@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
   integrity sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==
@@ -3835,6 +3866,13 @@ expo-notifications@~0.14.0:
     fs-extra "^9.1.0"
     unimodules-task-manager-interface "~7.1.0"
     uuid "^3.4.0"
+
+expo-random@~12.1.1:
+  version "12.1.2"
+  resolved "https://registry.yarnpkg.com/expo-random/-/expo-random-12.1.2.tgz#ed4e7f85728b609bcb373bc4c4a1a05192ec44b9"
+  integrity sha512-ajB+Mwff9PdglsyLliaU4K9BtVwKvAVVI2hQhnvlS3QgsAhHf+jQVUfAysQJHuioF6ADMEsab/kRUy4Dy03aoQ==
+  dependencies:
+    base64-js "^1.3.0"
 
 expo-secure-store@~11.1.0:
   version "11.1.1"
@@ -6261,6 +6299,14 @@ react-native-fast-image@^8.5.11:
   resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.5.11.tgz#e3dc969d0e4e8df026646bf18194465aa55cbc2b"
   integrity sha512-cNW4bIJg3nvKaheG8vGMfqCt5LMWX9MS5+wMudgKIHbGO51spRr4sgnlhVgwHLcZ5aeNOVJ8CPRxDIWKRq/0QA==
 
+react-native-fbsdk-next@^11.0.0:
+  version "11.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-fbsdk-next/-/react-native-fbsdk-next-11.0.0.tgz#8a9c126d92251f0e9fcf5ccd6dca648bc03ed236"
+  integrity sha512-F0rNqfSByO7MG0n2J8rDdqBsqu2P5+nFkEnBuOh+HN1UDnxpF6lbt4N38oWN1v32h+Gb0TL0wiJnperbGuu5tQ==
+  dependencies:
+    "@expo/config-plugins" "^4.1.5"
+    xml2js "^0.4.23"
+
 react-native-gesture-handler@~2.1.0:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.1.3.tgz#b96f1e61932d5062cb1023259e1649d65f78338b"
@@ -7584,7 +7630,7 @@ xml-js@^1.6.11:
   dependencies:
     sax "^1.2.4"
 
-xml2js@0.4.23:
+xml2js@0.4.23, xml2js@^0.4.23:
   version "0.4.23"
   resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.23.tgz#a0c69516752421eb2ac758ee4d4ccf58843eac66"
   integrity sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==
