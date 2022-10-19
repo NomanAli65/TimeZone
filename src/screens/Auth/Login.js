@@ -8,7 +8,8 @@ import AuthAction from '../../redux/Actions/AuthActions';
 import theme from '../../configs/Theme';
 import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 import GetToken from './GetToken';
-//import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import SocialSignin from './SocialSignin';
+import * as Notifications from "expo-notifications";
 
 
 class Login extends Component {
@@ -36,11 +37,12 @@ class Login extends Component {
             this.setState({ isInvalid: "Enter email and password" })
             return;
         }
-        // let token = await GetToken();
-        // console.warn(token)
+
+        const token = (await Notifications.getDevicePushTokenAsync()).data;
         this.props.Login({
             email,
             password,
+            token,
             onRequest: () => {
                 this.setState({ loading: true })
             },
@@ -51,18 +53,6 @@ class Login extends Component {
                 this.props.navigation.navigate("Dashboard")
             }
         });
-    }
-
-    // _GoogleSignin =async () => {
-    //     let request=await GoogleSignin.signIn({});
-    //     if(request?.user)
-    //     {
-    //         alert(JSON.stringify(request.user))
-    //     }
-    // }
-
-    _FacebookSignin = () => {
-
     }
 
 
@@ -134,7 +124,8 @@ class Login extends Component {
                             rounded="full"
                             bg="#4267B2" />
                     </HStack> */}
-                        <Button
+                        <SocialSignin />
+                        {/* <Button
                             onPress={this._FacebookSignin}
                             marginBottom={5} h="12" backgroundColor="#4267B2" leftIcon={<Icon as={Fontisto} name="facebook" size="4" />}>
                             Facebook
@@ -143,7 +134,7 @@ class Login extends Component {
                             onPress={this._GoogleSignin}
                             backgroundColor={"#DB4437"} h="12" leftIcon={<Icon as={AntDesign} name="google" size="4" />}>
                             Google
-                        </Button>
+                        </Button> */}
                     </View>
                     <HStack alignItems="center" justifyContent="center">
                         <Text>

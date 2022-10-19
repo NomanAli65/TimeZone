@@ -12,6 +12,7 @@ import {
     Icon,
     Avatar,
     View,
+    ScrollView,
 } from "native-base";
 import { connect } from 'react-redux';
 import { img_url } from '../../configs/APIs';
@@ -87,106 +88,108 @@ class index extends Component {
                     noCart
                     noLeftIcon
                 />
-                <VStack space={10} p={3}>
-                    <VStack alignItems={"center"} space={4}>
-                        <Avatar
-                            size="2xl"
-                            source={this.props.user?.user?.profile_pic ? { uri: img_url + this.props.user?.user?.profile_pic } : require("../../../assets/user_place.png")}
-                        />
-                        <Heading>
-                            {this.props.user?.user?.name}
-                        </Heading>
-                    </VStack>
-                    <VStack divider={<Divider />} space="4">
-                        <VStack space="3">
-                            {routeNames.map((name, index) => (
-                                <Pressable
-                                    px="5"
-                                    py="3"
-                                    rounded="md"
-                                    bg={"transparent"}
-                                    onPress={(event) => {
-                                        if (name == "Terms & Conditions" || name == "Privacy Policy") {
-                                            this.props.navigation.navigate(this.getScreenName(name));
-                                            return;
-                                        }
-                                        if (this.props.user?.user)
-                                            this.props.navigation.navigate(this.getScreenName(name));
-                                        else
-                                            this.props.navigation.navigate("Login");
-                                        // this.props.showAlert({
-                                        //     title: "Warning",
-                                        //     message: "Please login to continue",
-                                        //     status: "error"
-                                        // })
-                                    }}
-                                >
-                                    <HStack space="7" alignItems="center">
-                                        <Icon
-                                            color={
-                                                "gray.500"
-                                            }
-                                            size="5"
-                                            as={<MaterialIcons name={this.getIcon(name)} />}
-                                        />
-                                        <Text
-                                            fontWeight="500"
-                                            color={
-                                                "gray.700"
-                                            }
-                                            _dark={{
-                                                color: "gray.400"
-                                            }}
-                                        >
-                                            {name}
-                                        </Text>
-                                    </HStack>
-                                </Pressable>
-                            ))}
+                <ScrollView>
+                    <VStack space={10} p={3}>
+                        <VStack alignItems={"center"} space={4}>
+                            <Avatar
+                                size="2xl"
+                                source={this.props.user?.user?.profile_pic ? { uri: img_url + this.props.user?.user?.profile_pic } : require("../../../assets/user_place.png")}
+                            />
+                            <Heading>
+                                {this.props.user?.user?.name ? this.props.user?.user?.name : "Login"}
+                            </Heading>
                         </VStack>
-                        {
-                            this.props.user?.user ?
-                                <VStack space="5">
-                                    <Pressable px="5" py="3" onPress={() => this.onLogout()}>
+                        <VStack divider={<Divider />} space="4">
+                            <VStack space="3">
+                                {routeNames.map((name, index) => (
+                                    <Pressable
+                                        px="5"
+                                        py="3"
+                                        rounded="md"
+                                        bg={"transparent"}
+                                        onPress={(event) => {
+                                            if (name == "Terms & Conditions" || name == "Privacy Policy") {
+                                                this.props.navigation.navigate(this.getScreenName(name));
+                                                return;
+                                            }
+                                            if (this.props.user?.user)
+                                                this.props.navigation.navigate(this.getScreenName(name));
+                                            else
+                                                this.props.navigation.navigate("Login");
+                                            // this.props.showAlert({
+                                            //     title: "Warning",
+                                            //     message: "Please login to continue",
+                                            //     status: "error"
+                                            // })
+                                        }}
+                                    >
                                         <HStack space="7" alignItems="center">
                                             <Icon
-                                                color="gray.500"
+                                                color={
+                                                    "gray.500"
+                                                }
                                                 size="5"
-                                                as={<MaterialCommunityIcons name="logout" />}
+                                                as={<MaterialIcons name={this.getIcon(name)} />}
                                             />
                                             <Text
+                                                fontWeight="500"
+                                                color={
+                                                    "gray.700"
+                                                }
                                                 _dark={{
                                                     color: "gray.400"
                                                 }}
-                                                fontWeight="500"
-                                                color="gray.700">
-                                                Logout
+                                            >
+                                                {name}
                                             </Text>
                                         </HStack>
                                     </Pressable>
-                                </VStack>
-                                : <VStack space="5">
-                                    <Pressable onPress={() => this.props.navigation.navigate("Login")} px="5" py="3">
-                                        <HStack space="7" alignItems="center">
-                                            <Icon
-                                                color="gray.500"
-                                                size="5"
-                                                as={<MaterialCommunityIcons name="logout" />}
-                                            />
-                                            <Text
-                                                _dark={{
-                                                    color: "gray.400"
-                                                }}
-                                                fontWeight="500"
-                                                color="gray.700">
-                                                Login
-                                            </Text>
-                                        </HStack>
-                                    </Pressable>
-                                </VStack>
-                        }
+                                ))}
+                            </VStack>
+                            {
+                                this.props.user?.user ?
+                                    <VStack space="5">
+                                        <Pressable px="5" py="3" onPress={() => this.onLogout()}>
+                                            <HStack space="7" alignItems="center">
+                                                <Icon
+                                                    color="gray.500"
+                                                    size="5"
+                                                    as={<MaterialCommunityIcons name="logout" />}
+                                                />
+                                                <Text
+                                                    _dark={{
+                                                        color: "gray.400"
+                                                    }}
+                                                    fontWeight="500"
+                                                    color="gray.700">
+                                                    Logout
+                                                </Text>
+                                            </HStack>
+                                        </Pressable>
+                                    </VStack>
+                                    : <VStack space="5">
+                                        <Pressable onPress={() => this.props.navigation.navigate("Login")} px="5" py="3">
+                                            <HStack space="7" alignItems="center">
+                                                <Icon
+                                                    color="gray.500"
+                                                    size="5"
+                                                    as={<MaterialCommunityIcons name="logout" />}
+                                                />
+                                                <Text
+                                                    _dark={{
+                                                        color: "gray.400"
+                                                    }}
+                                                    fontWeight="500"
+                                                    color="gray.700">
+                                                    Login
+                                                </Text>
+                                            </HStack>
+                                        </Pressable>
+                                    </VStack>
+                            }
+                        </VStack>
                     </VStack>
-                </VStack>
+                </ScrollView>
             </View>
         );
     }

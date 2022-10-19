@@ -50,7 +50,13 @@
           "isAccessMediaLocationEnabled": true
         }
       ],
-      "@react-native-google-signin/google-signin"
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/TZ.png",
+          "color": "#ffffff"
+        }
+      ]
     ]
   }
 }

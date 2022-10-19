@@ -12,7 +12,7 @@ export const AuthMiddleware = {
                 let formData = new FormData();
                 formData.append("email", data.email);
                 formData.append("password", data.password);
-                formData.append("device_id", "");
+                formData.append("device_id", data.token);
                 let request = await post(APIs.Login, formData);
                 if (request) {
                     data.onSuccess(true, "");
