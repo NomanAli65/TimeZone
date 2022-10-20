@@ -60,7 +60,7 @@
         "expo-media-library",
         {
           "photosPermission": "The app accesses your photos to add images in trade feature.",
-          "isAccessMediaLocationEnabled": true
+          "isAccessMediaLocationEnabled": "true"
         }
       ],
       [
@@ -76,9 +76,9 @@
           "appID": "495885272460928",
           "clientToken": "cf69f8b1c92383d4061c57db76f48d32",
           "displayName": "TimeZone",
-          "advertiserIDCollectionEnabled": false,
-          "autoLogAppEventsEnabled": false,
-          "isAutoInitEnabled": true,
+          "advertiserIDCollectionEnabled": "false",
+          "autoLogAppEventsEnabled": "false",
+          "isAutoInitEnabled": "true",
           "iosUserTrackingPermission": "This identifier will be used to deliver personalized ads to you."
         }
       ]
