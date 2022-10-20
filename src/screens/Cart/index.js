@@ -179,11 +179,11 @@ class index extends Component {
                             </HStack> */}
                             <HStack justifyContent={"space-between"}>
                                 <Text bold>VAT</Text>
-                                <Text bold color={"primary.100"}>{this.state.loading ? "Getting updated tax" : this.getTotalTax(this.state.tax)}</Text>
+                                <Text bold color={"primary.100"}>{this.state.loading ? "Getting updated tax" : "AED " + this.getTotalTax(this.state.tax)}</Text>
                             </HStack>
                             <HStack mb={3} justifyContent={"space-between"}>
                                 <Text bold>Total</Text>
-                                <Text bold color={"primary.100"}>{this.getTotalPrice()} AED</Text>
+                                <Text bold color={"primary.100"}>{this.getTotalPrice()}</Text>
                             </HStack>
                             <LGButton
                                 onPress={() => {

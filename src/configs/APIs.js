@@ -7,6 +7,7 @@ export const img_url = 'https://timezonedubai.com/timezone/public/images/';
 
 export const APIs = {
   Login: "login",
+  SocialSignin: "social_login",
   Register: "register",
   ForgotPassword: "sendMail",
   ResetPassword: "resetPassword",

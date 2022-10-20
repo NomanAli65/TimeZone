@@ -20,6 +20,10 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
 
     useEffect(() => {
         addToWishlist(wish);
+    }, [wish])
+
+    useEffect(() => {
+        addToWishlist(wish);
         let formatted_price = numbro(item?.price).formatCurrency({
             thousandSeparated: true,
             abbreviations: {
@@ -29,7 +33,7 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
             currencySymbol: "AED "
         })
         setPrice(formatted_price)
-    }, [wish])
+    }, [])
 
     if (loading)
         return (

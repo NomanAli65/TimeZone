@@ -19,8 +19,8 @@ class Checkout extends Component {
             title: "My Address",
             address: this.props.user?.user?.address + ", " + this.props.user?.user.city + ", " + this.props.user?.user.country,
             loading: false,
-            tax:this.props.route?.params?.tax,
-            tax_loading:true
+            tax: this.props.route?.params?.tax,
+            tax_loading: true
         };
     }
 
@@ -32,7 +32,7 @@ class Checkout extends Component {
         this.props.getTax({
             onSuccess: (success) => {
                 if (success) {
-                    this.setState({ tax: success?.vat_percent,tax_loading:false })
+                    this.setState({ tax: success?.vat_percent, tax_loading: false })
                 }
             }
         });
@@ -254,7 +254,7 @@ class Checkout extends Component {
                                         <Text bold>
                                             VAT
                                         </Text>
-                                        <Text color={"primary.100"} bold>{this.getTotalTax(this.state.tax)} </Text>
+                                        <Text color={"primary.100"} bold>AED {this.getTotalTax(this.state.tax)} </Text>
                                     </HStack>
                                     <HStack justifyContent={"space-between"}>
                                         <Text bold>

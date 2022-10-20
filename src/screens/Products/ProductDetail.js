@@ -105,7 +105,8 @@ class ProductDetail extends Component {
                 million: "m"
             },
             currencySymbol: "AED "
-        })
+        });
+        //data?.availability == 1 ? "In Stock" : "Out of Stock"
         return (
             <View flex={1}
                 backgroundColor="#fff"
@@ -190,7 +191,7 @@ class ProductDetail extends Component {
                         {this.checkAndRender("Year", data?.year)}
                         {this.checkAndRender("Style", data?.style)}
                         {this.checkAndRender("Manufactured In", data?.manufactured_in)}
-                        {/* {this.checkAndRender("Availability", data?.availability == 1 ? "In Stock" : "Out of Stock")} */}
+                        {this.checkAndRender("Availability", "In Stock")}
                         {this.checkAndRender("Gender", data?.gender)}
                         {this.checkAndRender("Category", data?.category?.category_name)}
                         {this.checkAndRender("Warranty In-House", data?.weight)}
@@ -212,7 +213,7 @@ class ProductDetail extends Component {
                         {this.checkAndRender("Strap & Bracelet Material", data?.strap_material)}
                         {this.checkAndRender("Band Color", data?.band_color)}
                         {this.checkAndRender("Buckle Type", data?.buckle_type)}
-                        <Text color="red.700" my={3} fontSize={"md"}>We are not an official dealer for the products we sell and have no affiliation
+                        <Text my={3} fontSize={"md"} textAlign="center">We are not an official dealer for the products we sell and have no affiliation
                             with the manufacturer. We sell Pre-Owned watches. All brand names, trademark and photos are the property of their respective
                             owners & are used for identification purposes only.
                         </Text>

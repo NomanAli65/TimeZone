@@ -35,8 +35,8 @@ export const post = async (url, data, config = {}, message = "") => {
     if (request.data.success == true) {
       if (request.data.data)
         return request.data.data;
-     // else
-       // store.dispatch(AlertAction.ShowAlert({ title: "Warning", message: request.data.message }))
+      // else
+      // store.dispatch(AlertAction.ShowAlert({ title: "Warning", message: request.data.message }))
       // alert(request.data.message);
     } else {
       if (request.data.message)

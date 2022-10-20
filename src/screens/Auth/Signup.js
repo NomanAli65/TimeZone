@@ -6,6 +6,7 @@ import { ImageBackground } from 'react-native';
 import theme from '../../configs/Theme';
 import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 import { connect } from 'react-redux';
+import * as Notifications from "expo-notifications";
 
 class Signup extends Component {
 
@@ -27,7 +28,7 @@ class Signup extends Component {
         loading: false
     }
 
-    Signup = () => {
+    Signup =async () => {
         let {
             f_name,
             l_name,
@@ -47,6 +48,7 @@ class Signup extends Component {
             this.setState({ no_match: true })
             return;
         }
+        const token = (await Notifications.getExpoPushTokenAsync()).data;
         this.props.Signup({
             f_name,
             l_name,
@@ -57,6 +59,7 @@ class Signup extends Component {
             address,
             password,
             c_password,
+            token,
             onRequest: () => {
                 this.setState({ loading: true })
             },

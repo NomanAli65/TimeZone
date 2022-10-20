@@ -24,10 +24,6 @@ class Login extends Component {
         show_pass: false
     }
 
-    componentDidMount() {
-
-    }
-
     Login = async () => {
         let {
             email,

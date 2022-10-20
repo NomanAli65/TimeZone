@@ -27,6 +27,30 @@ export const AuthMiddleware = {
             }
         };
     },
+    SocialSignin: (data) => {
+        return async dispatch => {
+            try {
+                let formData = new FormData();
+                formData.append("email", data.email);
+                formData.append("username", data.name);
+                formData.append("device_id", data.token);
+                if(data?.pic)
+                formData.append("profile_pic", data.pic);
+
+                let request = await post(APIs.SocialSignin, formData);
+                if (request) {
+                    data.onSuccess(true, "");
+                    dispatch(AuthAction.Login(request))
+                    await AsyncStorage.setItem("@TZ-USER", JSON.stringify(request));
+                }
+                else
+                    data.onSuccess(false, request.message);
+            } catch (error) {
+                data.onSuccess(false);
+                console.warn(error);
+            }
+        };
+    },
     ForgotPassword: (data) => {
         return async dispatch => {
             try {
@@ -79,6 +103,7 @@ export const AuthMiddleware = {
                 formData.append("country", data.country);
                 formData.append("city", data.city);
                 formData.append("address", data.address);
+                formData.append("device_id", data.token);
                 let request = await post(APIs.Register, formData);
                 if (request) {
                     data.onSuccess(true, request.message);

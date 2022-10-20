@@ -7,13 +7,36 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useDispatch, useSelector } from "react-redux";
 import BottomNav from "./BottomNavigation";
 import { AlertTypes } from '../redux/ActionTypes/AlertActions';
-import AwesomeAlert from 'react-native-awesome-alerts';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from "expo-notifications";
+import AuthAction from '../redux/Actions/AuthActions';
+import * as SplashScreen from 'expo-splash-screen';
 
 export default function Navigation() {
   const showAlert = useSelector((state) => state.Alert.showAlert)
   const alertOptions = useSelector((state) => state.Alert.alertOptions)
+  const [appIsReady, setAppIsReady] = useState(false);
   const dispatch = useDispatch();
+
+
+  const LoginIfRegistered = async () => {
+    try {
+      let result = await AsyncStorage.getItem("@TZ-USER");
+      if (result) {
+        let user = JSON.parse(result);
+        dispatch(AuthAction.Login(user))
+        setAppIsReady(true);
+        await SplashScreen.hideAsync();
+      }
+    } catch (error) {
+      console.warn(error)
+    }
+  }
+
+  useEffect(() => {
+    LoginIfRegistered();
+    registerForPushNotificationsAsync();
+  }, [])
 
   useEffect(() => {
     if (showAlert) {
@@ -21,7 +44,6 @@ export default function Navigation() {
         dispatch({ type: AlertTypes.HIDE_ALERT })
       }, 2000)
     }
-    registerForPushNotificationsAsync();
   }, [showAlert])
 
   const registerForPushNotificationsAsync = async () => {
@@ -45,10 +67,16 @@ export default function Navigation() {
     };
   }
 
+
+
   return (
     <NavigationContainer>
       <NativeBaseProvider theme={theme} config={config}>
-        <BottomNav />
+        {
+          appIsReady ?
+            <BottomNav />
+            : null
+        }
         {/* <AwesomeAlert
           show={showAlert}
           showProgress={false}

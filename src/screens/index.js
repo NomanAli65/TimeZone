@@ -33,25 +33,13 @@ class index extends Component {
   async componentDidMount() {
     //let token = await GetToken();
     // console.warn(token)
-    this.LoginIfRegistered();
+   // this.LoginIfRegistered();
     this.props.getDashboard({
       onSuccess: () => {
         this.setState({ loading: false })
       }
     });
     // BackHandler.addEventListener("hardwareBackPress", this.BackPress());
-  }
-
-  LoginIfRegistered = async () => {
-    try {
-      let result = await AsyncStorage.getItem("@TZ-USER");
-      if (result) {
-        let user = JSON.parse(result);
-        this.props.Login(user);
-      }
-    } catch (error) {
-      console.warn(error)
-    }
   }
 
   componentWillUnmount() {
@@ -137,6 +125,7 @@ class index extends Component {
 
   onRefresh = () => {
     this.setState({ refreshing: true })
+    this.props.emptyDashboard()
     this.props.getDashboard({
       onSuccess: () => {
         this.setState({ refreshing: false })
@@ -335,6 +324,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getDashboard: data => dispatch(GeneralMiddleware.getDashboardData(data)),
+  emptyDashboard: () => dispatch(GeneralActions.SetDashboardData(null)),
   StopLoading: () => dispatch(GeneralActions.HideLoading()),
   Login: (data) => dispatch(AuthAction.Login(data))
 });

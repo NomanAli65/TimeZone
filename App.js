@@ -27,7 +27,6 @@ export default function App() {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
       if (fontsLoaded[0]) {
-        await SplashScreen.hideAsync()
         setAppIsReady(true)
       }
     }
