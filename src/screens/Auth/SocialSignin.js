@@ -4,7 +4,7 @@ import * as Google from 'expo-auth-session/providers/google';
 import * as Facebook from 'expo-auth-session/providers/facebook';
 import * as WebBrowser from 'expo-web-browser';
 import { AntDesign, Ionicons, FontAwesome5, Fontisto } from "@expo/vector-icons";
-import { ResponseType } from 'expo-auth-session';
+import { makeRedirectUri, ResponseType } from 'expo-auth-session';
 import { post } from '../../configs/AxiosConfig';
 import axios from 'axios';
 import * as Notifications from "expo-notifications";
@@ -26,15 +26,32 @@ function SocialSignin(props) {
         // iosClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
         androidClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
         webClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
+        redirectUri: makeRedirectUri({
+            scheme: "timezone",
+            useProxy: true
+        })
+    }, {
+        scheme: "timezone",
+        useProxy: true
     });
+    
     const [requestFB, responseFB, promptAsyncFB] = Facebook.useAuthRequest({
         clientId: "495885272460928",
         responseType: ResponseType.Token,
+        redirectUri: makeRedirectUri({
+            scheme: "timezone",
+            useProxy: true
+        })
+    }, {
+        scheme: "timezone",
+        useProxy: true
     });
 
     const _GoogleSignin = async () => {
         try {
-            let result = await promptAsync();
+            let result = await promptAsync({
+                useProxy: true
+            });
             if (result.authentication?.accessToken) {
                 setLoading(true)
                 let userData = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -69,7 +86,9 @@ function SocialSignin(props) {
 
     const _FacebookSignin = async () => {
         try {
-            let result = await promptAsyncFB();
+            let result = await promptAsyncFB({
+                useProxy: true
+            });
             if (result.params?.access_token) {
                 console.warn()
                 setFBLoading(true)
