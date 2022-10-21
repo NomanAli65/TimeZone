@@ -27,15 +27,15 @@ export default function Navigation() {
         dispatch(AuthAction.Login(user))
         setAppIsReady(true);
         await SplashScreen.hideAsync();
-      }else{
-        dispatch(AuthAction.Login(user))
+      }
+      else {
+        console.warn("red")
         setAppIsReady(true);
         await SplashScreen.hideAsync();
-       }
+      }
     } catch (error) {
-        dispatch(AuthAction.Login(user))
-        setAppIsReady(true);
-        await SplashScreen.hideAsync();
+      setAppIsReady(true);
+      await SplashScreen.hideAsync();
       console.warn(error)
     }
   }
