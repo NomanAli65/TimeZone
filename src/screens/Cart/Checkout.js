@@ -191,7 +191,7 @@ class Checkout extends Component {
                                     <Heading ml={2} flex={1}>
                                         Delivery Address
                                     </Heading>
-                                    <Icon as={Entypo} name='edit' size={6} onPress={() => this.props.navigation.navigate("Address", { setAddress: (title, address) => this.setState({ address, title }) })} />
+                                    <Icon as={Entypo} name='edit' size={6} onPress={() => this.props.navigation.navigate("AllAddress", { setAddress: (title, address) => this.setState({ address, title }) })} />
                                 </HStack>
                                 <VStack>
                                     <Text bold>
@@ -260,7 +260,7 @@ class Checkout extends Component {
                                         <Text bold>
                                             Total
                                         </Text>
-                                        <Text color={"primary.100"} bold>{this.getTotalPrice()} AED</Text>
+                                        <Text color={"primary.100"} bold>{this.getTotalPrice()}</Text>
                                     </HStack>
                                 </VStack>
                             </VStack>

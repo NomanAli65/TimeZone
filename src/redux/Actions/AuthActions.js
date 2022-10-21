@@ -21,6 +21,12 @@ class AuthAction {
             payload: payload,
         };
     };
+    static GetAddresses = payload => {
+        return {
+            type: AuthTypes.GET_ADDRESSES,
+            payload: payload,
+        };
+    };
 }
 
 export default AuthAction;

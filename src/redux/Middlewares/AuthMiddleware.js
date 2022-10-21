@@ -175,5 +175,42 @@ export const AuthMiddleware = {
                 console.warn(error);
             }
         };
-    }
+    },
+    getAllAddress: ({ callback }) => {
+        return async dispatch => {
+            try {
+                let request = await get(APIs.GetAllAddresses);
+                if (request) {
+                    dispatch(AuthAction.GetAddresses(request));
+
+                    callback();
+                }
+            } catch (error) {
+                callback()
+                console.warn(error);
+            }
+        };
+    },
+    addAddress: ({ callback, data }) => {
+        return async dispatch => {
+            try {
+                let formData=new FormData();
+                formData.append("user_id",data.user_id);
+                formData.append("title",data.title);
+                formData.append("address",data.address);
+                formData.append("city",data.city);
+                formData.append("country",data.country);
+                let request = await post(APIs.AddAddress,formData);
+                if (request) {
+                    console.warn(request)
+                    //dispatch(AuthAction.GetAddresses([request,...data.addresses]));
+
+                    callback();
+                }
+            } catch (error) {
+                callback()
+                console.warn(error);
+            }
+        };
+    },
 };

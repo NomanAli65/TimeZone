@@ -28,11 +28,11 @@ function SocialSignin(props) {
         webClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
         redirectUri: makeRedirectUri({
             scheme: "timezone",
-            useProxy: true
+            //useProxy: true
         })
     }, {
         scheme: "timezone",
-        useProxy: true
+       // useProxy: true
     });
     
     const [requestFB, responseFB, promptAsyncFB] = Facebook.useAuthRequest({
@@ -50,7 +50,7 @@ function SocialSignin(props) {
     const _GoogleSignin = async () => {
         try {
             let result = await promptAsync({
-                useProxy: true
+              //  useProxy: true
             });
             if (result.authentication?.accessToken) {
                 setLoading(true)

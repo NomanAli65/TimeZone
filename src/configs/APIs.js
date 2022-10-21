@@ -32,5 +32,7 @@ export const APIs = {
   TradeIn: "storeTrade",
   GetColors: "allColors",
   GetFilters: "filters",
-  GetVAT:"vat"
+  GetVAT:"vat",
+  AllAddresses:"getAllAddress",
+  AddAddress:"addUserAddress"
 };

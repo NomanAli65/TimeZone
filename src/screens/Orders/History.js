@@ -6,6 +6,7 @@ import LGButton from '../../components/LGButton';
 import { connect } from 'react-redux';
 import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import { APIs, img_url } from '../../configs/APIs';
+import numbro from 'numbro';
 
 
 const data = [
@@ -61,6 +62,14 @@ class History extends Component {
     }
 
     _renderItem = ({ item }) => {
+        let formatted_price = numbro(item?.total).formatCurrency({
+            thousandSeparated: true,
+            abbreviations: {
+                thousand: "k",
+                million: "m"
+            },
+            currencySymbol: "AED "
+        });
         if (this.state.loading)
             return (
                 <Box _dark={{ backgroundColor: "gray.800" }} w={"100%"} alignItems="center" mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
@@ -87,7 +96,7 @@ class History extends Component {
                             </Text>
                             <HStack justifyContent={"space-between"}>
                                 <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
-                                    <Text color={"primary.100"}>{item?.total} AED</Text>
+                                    <Text color={"primary.100"}>{formatted_price}</Text>
                                 </Text>
                                 <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3}>
                                     <Text color={"gray.400"}>{item?.created_at ? new Date(item?.created_at).toDateString() : ""}</Text>

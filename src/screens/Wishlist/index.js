@@ -85,24 +85,27 @@ class index extends Component {
                     _dark={{
                         backgroundColor: "gray.800"
                     }}
-                    onTouchEnd={() => this.props.navigation.navigate("ProductDetail", { item: item.product })}
                     w={"90%"} alignItems="center" backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" m={"5%"}>
-                    <Stack space={4}>
-                        <Image h={200} w={'96'}
-                            source={item?.product?.image ? { uri: img_url + item.product?.image } : require("../../../assets/placeholder.png")}
-                            alt="Watch image" resizeMode='cover' />
-                        <Stack space={1} p={3}>
-                            <Heading size={"md"}>
-                                {item?.product?.product_name}
-                            </Heading>
-                            <Text flexWrap={"wrap"} numberOfLines={3}>
-                                {item?.product?.ref_number}
-                            </Text>
+                    <Pressable
+                        onPress={() => this.props.navigation.navigate("ProductDetail", { item: item.product })}
+                    >
+                        <Stack space={4}>
+                            <Image h={200} w={'96'}
+                                source={item?.product?.image ? { uri: img_url + item.product?.image } : require("../../../assets/placeholder.png")}
+                                alt="Watch image" resizeMode='cover' />
+                            <Stack space={1} p={3}>
+                                <Heading size={"md"}>
+                                    {item?.product?.product_name}
+                                </Heading>
+                                <Text flexWrap={"wrap"} numberOfLines={3}>
+                                    {item?.product?.ref_number}
+                                </Text>
+                            </Stack>
                         </Stack>
-                    </Stack>
-                    <IconButton
-                        onPress={() => this.onDelete(item.product)}
-                        position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name='heart' size={20} color="red" />} />
+                        <IconButton
+                            onPress={() => this.onDelete(item.product)}
+                            position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name='heart' size={20} color="red" />} />
+                    </Pressable>
                 </Box>
             )
     }

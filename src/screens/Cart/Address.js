@@ -5,14 +5,15 @@ import LGButton from '../../components/LGButton';
 import theme from '../../configs/Theme';
 import { UserMiddleware } from '../../redux/Middlewares/UserMiddleware';
 import { connect } from 'react-redux';
+import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 
 class Address extends Component {
 
     state = {
-        country: this.props.user?.user.country,
-        city: this.props.user?.user.city,
-        address: this.props.user?.user.address,
-        title: "My address",
+        country: "",//this.props.user?.user.country,
+        city: "",//this.props.user?.user.city,
+        address: "",//this.props.user?.user.address,
+        title:"",//"My address",
         invalid: "",
         loading: false
     }
@@ -28,7 +29,17 @@ class Address extends Component {
             this.setState({ invalid: "Please fill all fields" })
             return;
         }
-        this.props.route.params.setAddress(title, address + ", " + city + ", " + country)
+        this.setState({ loading: true })
+        this.props.addAddress({
+            title,
+            address,
+            city,
+            country,
+            addresses: this.props.addresses,
+            callback: () => {
+                this.setState({ loading: false })
+            }
+        })
         this.props.navigation.goBack();
 
     }
@@ -95,11 +106,12 @@ class Address extends Component {
 
 
 const mapStateToProps = state => ({
-    user: state.Auth.user
+    user: state.Auth.user,
+    addresses: state.Auth.addresses,
 })
 
 const mapDispatchToProps = dispatch => ({
-    AddCard: data => dispatch(UserMiddleware.AddMethod(data)),
+    addAddress: data => dispatch(AuthMiddleware.addAddress(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Address);
