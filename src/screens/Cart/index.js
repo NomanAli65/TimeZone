@@ -141,7 +141,15 @@ class index extends Component {
             total += parseInt(itm.price);
         })
         total = total / 100 * tax;
-        return total;
+        let formatted_price = numbro(total).formatCurrency({
+            thousandSeparated: true,
+            abbreviations: {
+                thousand: "k",
+                million: "m"
+            },
+            currencySymbol: "AED "
+        })
+        return formatted_price;
     }
 
     render() {
@@ -179,7 +187,7 @@ class index extends Component {
                             </HStack> */}
                             <HStack justifyContent={"space-between"}>
                                 <Text bold>VAT</Text>
-                                <Text bold color={"primary.100"}>{this.state.loading ? "Getting updated tax" : "AED " + this.getTotalTax(this.state.tax)}</Text>
+                                <Text bold color={"primary.100"}>{this.state.loading ? "Getting updated tax" : this.getTotalTax(this.state.tax)}</Text>
                             </HStack>
                             <HStack mb={3} justifyContent={"space-between"}>
                                 <Text bold>Total</Text>

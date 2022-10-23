@@ -96,7 +96,6 @@ class ProductDetail extends Component {
 
     render() {
         let data = this.props.route.params?.item;
-        console.warn(data)
         let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
         let formatted_price = numbro(data?.price).formatCurrency({
             thousandSeparated: true,

@@ -166,7 +166,15 @@ class Checkout extends Component {
             total += parseInt(itm.price);
         })
         total = total / 100 * tax;
-        return total;
+        let formatted_price = numbro(total).formatCurrency({
+            thousandSeparated: true,
+            abbreviations: {
+                thousand: "k",
+                million: "m"
+            },
+            currencySymbol: "AED "
+        })
+        return formatted_price;
     }
 
     render() {
@@ -254,7 +262,7 @@ class Checkout extends Component {
                                         <Text bold>
                                             VAT
                                         </Text>
-                                        <Text color={"primary.100"} bold>AED {this.getTotalTax(this.state.tax)} </Text>
+                                        <Text color={"primary.100"} bold>{this.getTotalTax(this.state.tax)} </Text>
                                     </HStack>
                                     <HStack justifyContent={"space-between"}>
                                         <Text bold>

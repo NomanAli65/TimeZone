@@ -34,8 +34,8 @@ export const AuthMiddleware = {
                 formData.append("email", data.email);
                 formData.append("username", data.name);
                 formData.append("device_id", data.token);
-                if(data?.pic)
-                formData.append("profile_pic", data.pic);
+                if (data?.pic)
+                    formData.append("profile_pic", data.pic);
 
                 let request = await post(APIs.SocialSignin, formData);
                 if (request) {
@@ -191,20 +191,58 @@ export const AuthMiddleware = {
             }
         };
     },
-    addAddress: ({ callback, data }) => {
+    addAddress: ({ callback, ...data }) => {
         return async dispatch => {
             try {
-                let formData=new FormData();
-                formData.append("user_id",data.user_id);
-                formData.append("title",data.title);
-                formData.append("address",data.address);
-                formData.append("city",data.city);
-                formData.append("country",data.country);
-                let request = await post(APIs.AddAddress,formData);
+                let formData = new FormData();
+                formData.append("user_id", data.user_id);
+                formData.append("title", data.title);
+                formData.append("address", data.address);
+                formData.append("city", data.city);
+                formData.append("country", data.country);
+                let request = await post(APIs.AddAddress, formData);
                 if (request) {
-                    console.warn(request)
+                    console.warn("Add Address======>",request)
                     //dispatch(AuthAction.GetAddresses([request,...data.addresses]));
 
+                    callback();
+                }
+            } catch (error) {
+                callback()
+                console.warn(error);
+            }
+        };
+    },
+    editAddress: ({ callback, ...data }) => {
+        return async dispatch => {
+            try {
+                let formData = new FormData();
+                formData.append("id", data.id);
+                formData.append("title", data.title);
+                formData.append("address", data.address);
+                formData.append("city", data.city);
+                formData.append("country", data.country);
+                let request = await post(APIs.EditAddress, formData);
+                if (request) {
+                    console.warn("Edit Address======>",request)
+                    //dispatch(AuthAction.GetAddresses([request,...data.addresses]));
+
+                    callback();
+                }
+            } catch (error) {
+                callback()
+                console.warn(error);
+            }
+        };
+    },
+    deleteAddress: ({ callback, id }) => {
+        return async dispatch => {
+            try {
+                let formData = new FormData();
+                formData.append("id", id);
+                let request = await post(APIs.DeleteAddress, formData);
+                if (request) {
+                    console.warn("Delete Address======> ",request)
                     callback();
                 }
             } catch (error) {

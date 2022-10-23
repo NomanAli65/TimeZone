@@ -1,4 +1,4 @@
-import { Box, FlatList, Heading, HStack, IconButton, Image, Stack, Text, View, Spinner, Skeleton, Pressable, Icon, Divider, Fab } from 'native-base';
+import { Box, FlatList, Heading, HStack, IconButton, Image, Stack, Text, View, Spinner, Skeleton, Pressable, Icon, Divider, Fab, Menu, Toast } from 'native-base';
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
@@ -53,18 +53,7 @@ class AllAddress extends Component {
                     borderColor={"primary.100"}
                     borderWidth={parseInt(item?.is_default)}
                 >
-                    <Pressable onPress={() => {
-                        let addresses = [...this.props.addresses];
-                        addresses.forEach((addr) => {
-                            if (addr.id == item.id)
-                                addr.is_default = 1;
-                            else
-                                addr.is_default = 0;
-                        });
-                        this.props.updateAddress(addresses);
-                        this.props.route.params.setAddress(item?.title, item?.address + ", " + item?.city + ", " + item?.country);
-                        this.props.navigation.goBack();
-                    }}>
+                    <Pressable onPress={() => this.SelectAddress(item)}>
                         <HStack space={1} w={"full"} p={2}>
                             <Stack space={1} flex={1} pl={2}>
                                 <Heading size={"sm"}>
@@ -74,24 +63,80 @@ class AllAddress extends Component {
                                     {item?.address}
                                 </Text>
                             </Stack>
-                            <IconButton
+                            <Menu
+                                defaultIsOpen={false}
+                                w="150" trigger={triggerProps => {
+                                    return <Pressable accessibilityLabel="More options menu" {...triggerProps}>
+                                        <Icon as={MaterialIcons} name="more-vert" />
+                                    </Pressable>;
+                                }}>
+                                <Menu.Item
+                                    _text={{
+                                        fontSize: "md"
+                                    }}
+                                    onPress={() => {
+                                        this.EditAddress(item)
+                                    }}>
+                                    Edit
+                                </Menu.Item>
+                                <Menu.Item
+                                    _text={{
+                                        fontSize: "md"
+                                    }}
+                                    onPress={() => {
+                                        if(item.is_default==1)
+                                        Toast.show({
+                                            title:"Cannot Delete default address"
+                                        })
+                                        else
+                                        this.DeleteAddress(index, item.id)
+                                    }}>
+                                    Delete
+                                </Menu.Item>
+                            </Menu>
+                            {/* <IconButton
                                 onPress={() => {
-                                    this.DeleteAddress(index)
+                                    this.DeleteAddress(index, item.id)
                                 }}
                                 ml={1} alignSelf={"center"} icon={<AntDesign name='delete' size={25} />}
                                 _dark={{
                                     color: "#fff"
-                                }} />
+                                }} /> */}
                         </HStack>
                     </Pressable>
                 </Box>
             )
     }
 
-    DeleteAddress = (index) => {
+    SelectAddress = (item) => {
+        let addresses = [...this.props.addresses];
+        addresses.forEach((addr) => {
+            if (addr.id == item.id)
+                addr.is_default = 1;
+            else
+                addr.is_default = 0;
+        });
+        this.props.updateAddress(addresses);
+        this.props.route.params.setAddress(item?.title, item?.address + ", " + item?.city + ", " + item?.country);
+        this.props.navigation.goBack();
+    }
+
+    DeleteAddress = (index, id) => {
         let addresses = [...this.props.addresses];
         addresses.splice(index, 1);
         this.props.updateAddress(addresses);
+        this.props.deleteAddress({
+            callback: () => {
+
+            },
+            id
+        });
+    }
+
+    EditAddress = (data) => {
+        this.props.navigation.navigate("Address", {
+            data
+        });
     }
 
     onRefresh = () => {
@@ -142,6 +187,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     showAlert: (payload) => dispatch({ type: AlertTypes.SHOW_ALERT, payload }),
     getAllAddress: data => dispatch(AuthMiddleware.getAllAddress(data)),
+    deleteAddress: data => dispatch(AuthMiddleware.deleteAddress(data)),
     updateAddress: (data) => dispatch(AuthAction.GetAddresses(data)),
 });
 

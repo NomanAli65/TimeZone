@@ -9,38 +9,58 @@ import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 
 class Address extends Component {
 
-    state = {
-        country: "",//this.props.user?.user.country,
-        city: "",//this.props.user?.user.city,
-        address: "",//this.props.user?.user.address,
-        title:"",//"My address",
-        invalid: "",
-        loading: false
+    constructor(props) {
+        super(props);
+
+        let edit_data = this.props.route?.params?.data;
+        this.state = {
+            country: edit_data?.country || "",
+            city: edit_data?.city || "",
+            address: edit_data?.address || "",
+            title: edit_data?.title || "",
+            invalid: "",
+            loading: false
+        }
     }
 
-    AddAddress = () => {
+    SaveAddress = () => {
         let {
             title,
             address,
             city,
             country
         } = this.state;
+        let edit_data = this.props.route?.params?.data;
+
         if (!title || !address) {
             this.setState({ invalid: "Please fill all fields" })
             return;
         }
         this.setState({ loading: true })
-        this.props.addAddress({
-            title,
-            address,
-            city,
-            country,
-            addresses: this.props.addresses,
-            callback: () => {
-                this.setState({ loading: false })
-            }
-        })
-        this.props.navigation.goBack();
+        if (edit_data)
+            this.props.editAddress({
+                title,
+                address,
+                city,
+                country,
+                addresses: this.props.addresses,
+                callback: () => {
+                    this.setState({ loading: false })
+                    this.props.navigation.goBack();
+                }
+            })
+        else
+            this.props.addAddress({
+                title,
+                address,
+                city,
+                country,
+                addresses: this.props.addresses,
+                callback: () => {
+                    this.setState({ loading: false })
+                    this.props.navigation.goBack();
+                }
+            })
 
     }
 
@@ -96,7 +116,7 @@ class Address extends Component {
                         isLoading={this.state.loading}
                         isLoadingText={"Saving"}
                         title="Save"
-                        onPress={this.AddAddress}
+                        onPress={this.SaveAddress}
                     />
                 </View>
             </View>
@@ -112,6 +132,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     addAddress: data => dispatch(AuthMiddleware.addAddress(data)),
+    editAddress: data => dispatch(AuthMiddleware.editAddress(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Address);
