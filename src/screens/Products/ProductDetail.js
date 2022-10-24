@@ -56,6 +56,11 @@ class ProductDetail extends Component {
     AddRemoveCart = (now) => {
         let data = this.props.route.params?.item;
         let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
+        if (!this.props.loggedIn) {
+            Toast.show({
+                title: "Please login to continue"
+            })
+        }
 
         if (now && this.props.loggedIn) {
             if (index == -1) {
@@ -72,9 +77,8 @@ class ProductDetail extends Component {
                 this.props.removeFromCart(data)
             }
         }
-        Toast.show({
-            title:"Please login to continue"
-        })
+
+
     }
 
     checkAndRender = (heading, value) => {

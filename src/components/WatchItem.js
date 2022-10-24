@@ -62,7 +62,7 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
                     backgroundColor: "gray.800"
                 }}
                 w={halfScreen ? "49%" : 200} mr={halfScreen ? (index % 2 == 0 ? 2 : 0) : 3} mb={halfScreen ? 2 : 0} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
-                <Pressable onPress={() => navigation.navigate("ProductDetail", { item })}>
+                <Pressable onPress={() => navigation.navigate("ProductDetail", { item: { ...item, wishlist } })}>
                     <Stack space={4}>
                         <Image h={halfScreen ? 150 : 180} w={"100%"} source={item?.image ? { uri: img_url + item.image } : require("../../assets/placeholder.png")} alt="Watch Image" resizeMode='cover' />
                         <Stack space={1} p={3} pt={0}>
