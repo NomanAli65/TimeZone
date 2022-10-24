@@ -113,8 +113,8 @@ class Help extends Component {
                         title={"Call now"}
                         onPress={this.Submit} />
                     <Text fontSize={"md"} bold marginTop={10}>
-                        Timezone Watches Ltd Unit GA-00-NZ-G0-RT-49, Level GF, Gate Avenue - North Zone,
-                        Dubai International Financial Centre, Dubai, 43947, United Arab Emirates{"\n"}
+                        Timezone Watches Ltd Unit GA-00-NZ-G0-RT-49, Level GF, Gate Avenue - North Zone,{"\n"}
+                        Dubai International Financial Centre, Dubai,{"\n"}United Arab Emirates{"\n"}
                         <Text color="primary.100">+971 04 3542050{"\n"}</Text>
                         <Text color="primary.100">info@timezonedubai.com</Text>
                     </Text>
