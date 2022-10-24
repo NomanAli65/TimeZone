@@ -1,4 +1,4 @@
-import { Box, Divider, FlatList, Heading, HStack, IconButton, Image, Pressable, ScrollView, Stack, Text, View, VStack } from 'native-base';
+import { Box, Divider, FlatList, Heading, HStack, IconButton, Image, Pressable, ScrollView, Stack, Text, Toast, View, VStack } from 'native-base';
 import React, { Component } from 'react';
 import { Dimensions, View as RNView, Image as RNImage, Share } from "react-native";
 import AppBar from '../../components/Appbar';
@@ -72,6 +72,9 @@ class ProductDetail extends Component {
                 this.props.removeFromCart(data)
             }
         }
+        Toast.show({
+            title:"Please login to continue"
+        })
     }
 
     checkAndRender = (heading, value) => {
