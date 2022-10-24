@@ -31,7 +31,7 @@ instance.interceptors.request.use(function (config) {
 export const post = async (url, data, config = {}, message = "") => {
   try {
     let request = await instance.post(url, data, config);
-    console.warn(request.data.message)
+    //console.warn(request.headers)
     if (request.data.success == true) {
       if (request.data.data)
         return request.data.data;
@@ -54,6 +54,7 @@ export const post = async (url, data, config = {}, message = "") => {
 export const get = async (url, config = {}) => {
   try {
     let request = await instance.get(url, config);
+   // console.warn(request.config.headers)
     if (request.data.success == true) {
       return request.data.data;
     } else {

@@ -179,7 +179,7 @@ export const AuthMiddleware = {
     getAllAddress: ({ callback }) => {
         return async dispatch => {
             try {
-                let request = await get(APIs.GetAllAddresses);
+                let request = await get(APIs.AllAddresses);
                 if (request) {
                     dispatch(AuthAction.GetAddresses(request));
 
@@ -195,20 +195,21 @@ export const AuthMiddleware = {
         return async dispatch => {
             try {
                 let formData = new FormData();
-                formData.append("user_id", data.user_id);
                 formData.append("title", data.title);
                 formData.append("address", data.address);
                 formData.append("city", data.city);
                 formData.append("country", data.country);
                 let request = await post(APIs.AddAddress, formData);
                 if (request) {
-                    console.warn("Add Address======>",request)
-                    //dispatch(AuthAction.GetAddresses([request,...data.addresses]));
+                    console.warn("Add Address======>", request)
+                    dispatch(AuthAction.GetAddresses(request));
 
-                    callback();
+                    callback(true);
                 }
+                else
+                    callback(false);
             } catch (error) {
-                callback()
+                callback(false)
                 console.warn(error);
             }
         };
@@ -222,15 +223,18 @@ export const AuthMiddleware = {
                 formData.append("address", data.address);
                 formData.append("city", data.city);
                 formData.append("country", data.country);
+
                 let request = await post(APIs.EditAddress, formData);
                 if (request) {
-                    console.warn("Edit Address======>",request)
-                    //dispatch(AuthAction.GetAddresses([request,...data.addresses]));
+                    console.warn("Edit Address======>", request)
+                    dispatch(AuthAction.GetAddresses(request));
 
-                    callback();
+                    callback(true);
                 }
+                else
+                    callback(false);
             } catch (error) {
-                callback()
+                callback(false)
                 console.warn(error);
             }
         };
@@ -239,10 +243,9 @@ export const AuthMiddleware = {
         return async dispatch => {
             try {
                 let formData = new FormData();
-                formData.append("id", id);
-                let request = await post(APIs.DeleteAddress, formData);
+                let request = await get(APIs.DeleteAddress + "/" + id);
                 if (request) {
-                    console.warn("Delete Address======> ",request)
+                    console.warn("Delete Address======> ", request)
                     callback();
                 }
             } catch (error) {

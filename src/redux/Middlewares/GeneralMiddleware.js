@@ -83,6 +83,26 @@ export const GeneralMiddleware = {
             }
         };
     },
+    contactUs: (data) => {
+        return async dispatch => {
+            try {
+                let formData = new FormData();
+                formData.append("product_id", data.p_id);
+                // formData.append("email", data.email);
+                // formData.append("query", data.query);
+                let request = await post(APIs.ContactUs, formData);
+                console.warn(request)
+                if (request) {
+                    data.onSuccess(true);
+                    return;
+                }
+                data.onSuccess(false);
+            } catch (error) {
+                data.onSuccess(false);
+                console.warn(error);
+            }
+        };
+    },
     TradeIn: (data) => {
         return async dispatch => {
             try {

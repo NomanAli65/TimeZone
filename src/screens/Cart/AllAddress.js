@@ -15,18 +15,18 @@ class AllAddress extends Component {
         super(props);
         this.state = {
             refreshing: false,
-            loading: false,
+            loading: true,
         };
     }
 
 
-    // componentDidMount() {
-    //     this.props.getAllAddress({
-    //         callback: () => {
-    //             this.setState({ loading: false })
-    //         }
-    //     })
-    // }
+    componentDidMount() {
+        this.props.getAllAddress({
+            callback: () => {
+                this.setState({ loading: false })
+            }
+        })
+    }
 
     _renderItem = ({ item, index }) => {
         if (this.state.loading)
@@ -84,12 +84,12 @@ class AllAddress extends Component {
                                         fontSize: "md"
                                     }}
                                     onPress={() => {
-                                        if(item.is_default==1)
-                                        Toast.show({
-                                            title:"Cannot Delete default address"
-                                        })
+                                        if (item.is_default == 1)
+                                            Toast.show({
+                                                title: "Cannot Delete default address"
+                                            })
                                         else
-                                        this.DeleteAddress(index, item.id)
+                                            this.DeleteAddress(index, item.id)
                                     }}>
                                     Delete
                                 </Menu.Item>
@@ -117,7 +117,8 @@ class AllAddress extends Component {
                 addr.is_default = 0;
         });
         this.props.updateAddress(addresses);
-        this.props.route.params.setAddress(item?.title, item?.address + ", " + item?.city + ", " + item?.country);
+        let address = item?.address + item?.city ? ", " + item?.city : "" + item?.country ? ", " + item?.country : "";
+        this.props.route.params.setAddress(item?.title, address);
         this.props.navigation.goBack();
     }
 
@@ -163,14 +164,14 @@ class AllAddress extends Component {
                     onRefresh={this.onRefresh}
                     refreshing={this.state.refreshing}
                     renderItem={this._renderItem}
-                    data={this.state.loading && this.props.addresses?.length == 0 ? [{}, {}, {}, {}, {}, {}] : this.props.addresses}
-                    ListFooterComponent={
-                        this.state.loading && this.props.addresses?.data.length != 0 ?
-                            <Box p={3}>
-                                <Spinner size={"lg"} />
-                            </Box>
-                            : null
-                    }
+                    data={this.state.loading && this.props.addresses?.length == 0 ? [{}, {}, {}, {}] : this.props.addresses}
+                // ListFooterComponent={
+                //     this.state.loading && this.props.addresses?.length != 0 ?
+                //         <Box p={3}>
+                //             <Spinner size={"lg"} />
+                //         </Box>
+                //         : null
+                // }
                 />
                 <Fab onPress={() => this.props.navigation.navigate("Address")} renderInPortal={false} shadow={2} w={55} h={55} icon={<Icon color="white" as={AntDesign} name="plus" size="sm" ml={2} />} />
             </View>

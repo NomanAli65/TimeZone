@@ -39,14 +39,17 @@ class Address extends Component {
         this.setState({ loading: true })
         if (edit_data)
             this.props.editAddress({
+                id: edit_data?.id,
                 title,
                 address,
                 city,
                 country,
                 addresses: this.props.addresses,
-                callback: () => {
+                callback: (status) => {
                     this.setState({ loading: false })
-                    this.props.navigation.goBack();
+                    if (status) {
+                        this.props.navigation.goBack();
+                    }
                 }
             })
         else
@@ -56,9 +59,11 @@ class Address extends Component {
                 city,
                 country,
                 addresses: this.props.addresses,
-                callback: () => {
+                callback: (status) => {
                     this.setState({ loading: false })
-                    this.props.navigation.goBack();
+                    if (status) {
+                        this.props.navigation.goBack();
+                    }
                 }
             })
 

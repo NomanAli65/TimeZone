@@ -93,18 +93,23 @@ class ProductDetail extends Component {
         else null
     }
 
+    onlyNumbers = (str) => {
+        return /^[0-9]*$/.test(str);
+    }
+
 
     render() {
         let data = this.props.route.params?.item;
+        let price = data?.price;
         let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
-        let formatted_price = numbro(data?.price).formatCurrency({
+        let formatted_price = this.onlyNumbers(price) ? numbro(price).formatCurrency({
             thousandSeparated: true,
             abbreviations: {
                 thousand: "k",
                 million: "m"
             },
             currencySymbol: "AED "
-        });
+        }) : price;
         //data?.availability == 1 ? "In Stock" : "Out of Stock"
         return (
             <View flex={1}
@@ -153,7 +158,12 @@ class ProductDetail extends Component {
                                     </Heading>
                                     */}
                                     <Heading fontSize={"xl"} color={"primary.100"}>
-                                        <Heading fontSize={"md"} color={"black"}>PRICE:</Heading>  {formatted_price}
+                                        {
+                                            this.onlyNumbers(price) ?
+                                                <Heading fontSize={"md"} color={"black"}>PRICE: </Heading>
+                                                : ""
+                                        }
+                                        {formatted_price}
                                     </Heading>
                                 </HStack>
                                 <Text>
@@ -242,22 +252,34 @@ class ProductDetail extends Component {
 
                     </VStack>
                 </ScrollView>
-                <HStack justifyContent={"space-around"}>
-                    <Pressable w={"50%"} onPress={() => this.AddRemoveCart(false)}>
-                        <Box backgroundColor={"black"} h="12" w={"100%"} alignItems={"center"} justifyContent={"center"}>
-                            <Text color={"white"} fontSize={"md"}>
-                                {index == -1 ? "Add to cart" : "Remove from cart"}
-                            </Text>
-                        </Box>
-                    </Pressable>
-                    <Pressable w={"50%"} onPress={() => this.AddRemoveCart(true)}>
-                        <Box backgroundColor={"primary.100"} h="12" w={"100%"} alignItems={"center"} justifyContent={"center"}>
-                            <Text color={"white"} fontSize={"md"}>
-                                Buy now
-                            </Text>
-                        </Box>
-                    </Pressable>
-                </HStack>
+                {
+                    !this.onlyNumbers(price) ?
+                        <Pressable w={"100%"} onPress={() => this.props.navigation.navigate("ContactUs", { item: data })}>
+                            <Box backgroundColor={"primary.100"} h="12" w={"100%"} alignItems={"center"} justifyContent={"center"}>
+                                <Text color={"white"} fontSize={"md"}>
+                                    Request for price
+                                </Text>
+                            </Box>
+                        </Pressable>
+                        :
+                        <HStack justifyContent={"space-around"}>
+                            <Pressable w={"50%"} onPress={() => this.AddRemoveCart(false)}>
+                                <Box backgroundColor={"black"} h="12" w={"100%"} alignItems={"center"} justifyContent={"center"}>
+                                    <Text color={"white"} fontSize={"md"}>
+                                        {index == -1 ? "Add to cart" : "Remove from cart"}
+                                    </Text>
+                                </Box>
+                            </Pressable>
+                            <Pressable w={"50%"} onPress={() => this.AddRemoveCart(true)}>
+                                <Box backgroundColor={"primary.100"} h="12" w={"100%"} alignItems={"center"} justifyContent={"center"}>
+                                    <Text color={"white"} fontSize={"md"}>
+                                        Buy now
+                                    </Text>
+                                </Box>
+                            </Pressable>
+                        </HStack>
+                }
+
                 {
                     data?.images?.length > 0 ?
                         <ImageView

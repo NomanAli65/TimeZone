@@ -19,6 +19,7 @@ import PaymentMethods from "../screens/PaymentMethods";
 import AddCard from "../screens/PaymentMethods/AddCard";
 import Address from "../screens/Cart/Address";
 import AllAddress from "../screens/Cart/AllAddress";
+import ContactUs from "../screens/ContactUs";
 
 
 const StackNavigator = createNativeStackNavigator();
@@ -49,6 +50,7 @@ const MainStack = () => {
             <StackNavigator.Screen name="AddCard" component={AddCard} />
             <StackNavigator.Screen name="AllAddress" component={AllAddress} />
             <StackNavigator.Screen name="Address" component={Address} />
+            <StackNavigator.Screen name="ContactUs" component={ContactUs} />
 
         </StackNavigator.Navigator>
     );

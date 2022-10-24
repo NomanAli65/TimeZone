@@ -5,6 +5,7 @@ import Checkout from "../screens/Cart/Checkout";
 import AddCard from "../screens/PaymentMethods/AddCard";
 import Payments from "../screens/PaymentMethods";
 import Address from "../screens/Cart/Address";
+import AllAddress from "../screens/Cart/AllAddress";
 
 
 const StackNavigator = createNativeStackNavigator();
@@ -22,6 +23,7 @@ const CartStack = () => {
             <StackNavigator.Screen name="Payments" component={Payments} />
             <StackNavigator.Screen name="AddCard" component={AddCard} />
             <StackNavigator.Screen name="Address" component={Address} />
+            <StackNavigator.Screen name="AllAddress" component={AllAddress} />
         </StackNavigator.Navigator>
     );
 };
