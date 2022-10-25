@@ -118,7 +118,7 @@ class index extends Component {
     else
       return (
         <RNView style={{ width }}>
-          <RNImage source={{ uri: img_url + item.banner_path }} style={{ width, height: 250 }} resizeMode="cover" />
+          <RNImage source={{ uri: img_url + item.banner_path }} style={{ width, height: 250 }} resizeMode="stretch" />
         </RNView>
       )
   }
