@@ -11,8 +11,7 @@ import { GeneralMiddleware } from '../redux/Middlewares/GeneralMiddleware';
 import { img_url } from '../configs/APIs';
 import GeneralActions from '../redux/Actions/GeneralActions';
 import AuthAction from '../redux/Actions/AuthActions';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import GetToken from './Auth/GetToken';
+import { DeviceType, getDeviceTypeAsync } from "expo-device"
 
 const { width } = Dimensions.get("window");
 
@@ -26,19 +25,25 @@ class index extends Component {
     this.state = {
       loading: true,
       refreshing: false,
-      search: ""
+      search: "",
+      deviceType: "",
     };
   }
 
   async componentDidMount() {
     //let token = await GetToken();
     // console.warn(token)
-   // this.LoginIfRegistered();
+    // this.LoginIfRegistered();
     this.props.getDashboard({
       onSuccess: () => {
         this.setState({ loading: false })
       }
     });
+    getDeviceTypeAsync().then((value) => {
+      this.setState({
+        deviceType: value
+      })
+    })
     // BackHandler.addEventListener("hardwareBackPress", this.BackPress());
   }
 
@@ -115,12 +120,20 @@ class index extends Component {
           <Skeleton width={"100%"} height={"100%"} />
         </RNView>
       )
-    else
-      return (
-        <RNView style={{ width }}>
-          <RNImage source={{ uri: img_url + item.banner_path }} style={{ width, height: 250 }} resizeMode="stretch" />
-        </RNView>
-      )
+    else {
+      if (this.state.deviceType == DeviceType.TABLET && item.banner_status == 0)
+        return (
+          <RNView style={{ width }}>
+            <RNImage source={{ uri: img_url + item.banner_path }} style={{ width, height: 250, }} resizeMode="stretch" />
+          </RNView>
+        )
+      else
+        return (
+          <RNView style={{ width }}>
+            <RNImage source={{ uri: img_url + item.banner_path }} style={{ width, height: 250, }} resizeMode="stretch" />
+          </RNView>
+        )
+    }
   }
 
   onRefresh = () => {
@@ -319,7 +332,8 @@ class index extends Component {
 
 const mapStateToProps = state => ({
   loading: state.GeneralReducer.loading,
-  dashboard: state.GeneralReducer.dashboardData
+  dashboard: state.GeneralReducer.dashboardData,
+  user: state.Auth.user
 })
 
 const mapDispatchToProps = dispatch => ({

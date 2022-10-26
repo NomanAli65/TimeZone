@@ -45,6 +45,7 @@ class Address extends Component {
                 city,
                 country,
                 addresses: this.props.addresses,
+                user: this.props.user,
                 callback: (status) => {
                     this.setState({ loading: false })
                     if (status) {
@@ -95,7 +96,6 @@ class Address extends Component {
                             />
                             <Input
                                 value={this.state.address}
-                                maxLength={20}
                                 InputLeftElement={<Icon as={MaterialCommunityIcons} name='home-map-marker' size={5} color="#bbb" ml={2} />} placeholder="Address"
                                 onChangeText={(address) => this.setState({ address, invalid: "" })}
                             />

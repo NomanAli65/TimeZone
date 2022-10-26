@@ -214,6 +214,26 @@ export const AuthMiddleware = {
             }
         };
     },
+    defaultAddress: ({ callback, ...data }) => {
+        return async dispatch => {
+            try {
+                let formData = new FormData();
+                formData.append("id", data.id);
+                formData.append("is_default", data.default);
+
+                let request = await post(APIs.EditAddress, formData);
+                if (request) {
+                    dispatch(AuthAction.GetAddresses(request.address));
+                    callback(true);
+                }
+                else
+                    callback(false);
+            } catch (error) {
+                callback(false)
+                console.warn(error);
+            }
+        };
+    },
     editAddress: ({ callback, ...data }) => {
         return async dispatch => {
             try {
@@ -226,9 +246,9 @@ export const AuthMiddleware = {
 
                 let request = await post(APIs.EditAddress, formData);
                 if (request) {
-                    console.warn("Edit Address======>", request)
-                    dispatch(AuthAction.GetAddresses(request));
-
+                    dispatch(AuthAction.GetAddresses(request.address));
+                    dispatch(AuthAction.UpdateUserProfile(request.user))
+                    await AsyncStorage.setItem("@TZ-USER", JSON.stringify({ ...data.user, user: request.user }));
                     callback(true);
                 }
                 else
@@ -239,13 +259,15 @@ export const AuthMiddleware = {
             }
         };
     },
-    deleteAddress: ({ callback, id }) => {
+    deleteAddress: ({ callback, id, user }) => {
         return async dispatch => {
             try {
                 let formData = new FormData();
                 let request = await get(APIs.DeleteAddress + "/" + id);
                 if (request) {
                     console.warn("Delete Address======> ", request)
+                    dispatch(AuthAction.UpdateUserProfile(request.user))
+                    await AsyncStorage.setItem("@TZ-USER", JSON.stringify({ ...user, user: request.user }));
                     callback();
                 }
             } catch (error) {

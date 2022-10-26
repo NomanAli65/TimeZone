@@ -61,6 +61,8 @@ class AllAddress extends Component {
                                 </Heading>
                                 <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
                                     {item?.address}
+                                    {item?.city ? ", " + item?.city : ""}
+                                    {item?.country ? ", " + item?.country : ""}
                                 </Text>
                             </Stack>
                             <Menu
@@ -117,7 +119,13 @@ class AllAddress extends Component {
                 addr.is_default = 0;
         });
         this.props.updateAddress(addresses);
-        let address = item?.address + item?.city ? ", " + item?.city : "" + item?.country ? ", " + item?.country : "";
+        this.props.defaultAddress({
+            callback: () => { },
+            id: item?.id,
+            default: 1
+        })
+
+        let address = item?.address + (item?.city ? ", " + item?.city : "") + (item?.country ? ", " + item?.country : "");
         this.props.route.params.setAddress(item?.title, address);
         this.props.navigation.goBack();
     }
@@ -130,7 +138,8 @@ class AllAddress extends Component {
             callback: () => {
 
             },
-            id
+            id,
+            user: this.props.user
         });
     }
 
@@ -190,6 +199,7 @@ const mapDispatchToProps = dispatch => ({
     getAllAddress: data => dispatch(AuthMiddleware.getAllAddress(data)),
     deleteAddress: data => dispatch(AuthMiddleware.deleteAddress(data)),
     updateAddress: (data) => dispatch(AuthAction.GetAddresses(data)),
+    defaultAddress: (data) => dispatch(AuthMiddleware.defaultAddress(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllAddress);

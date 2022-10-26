@@ -19,11 +19,13 @@ import { img_url } from '../../configs/APIs';
 import AlertAction from '../../redux/Actions/AlertActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthTypes } from '../../redux/ActionTypes/AuthTypes';
+import { ProductTypes } from '../../redux/ActionTypes/ProductTypes';
 
 const routeNames = [
     "My Account",
     "Order History",
     "Payment Methods",
+    "Contact Us",
     "Terms & Conditions",
     "Privacy Policy",
     "Help",
@@ -50,6 +52,8 @@ class index extends Component {
                 return "content-paste";
             case "Privacy Policy":
                 return "privacy-tip";
+            case "Contact Us":
+                return "contact-support";
             default:
                 return undefined;
         }
@@ -69,6 +73,8 @@ class index extends Component {
                 return "TermsAndCondition";
             case "Privacy Policy":
                 return "PrivacyPolicy";
+            case "Contact Us":
+                return "ContactUs";
             default:
                 return undefined;
         }
@@ -76,6 +82,7 @@ class index extends Component {
 
     onLogout = async () => {
         await AsyncStorage.removeItem("@TZ-USER");
+
         this.props.Logout();
     }
 
@@ -202,7 +209,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     showAlert: data => dispatch(AlertAction.ShowAlert(data)),
-    Logout: () => dispatch({ type: AuthTypes.LOGOUT })
+    Logout: () => {
+        dispatch({ type: AuthTypes.LOGOUT })
+        dispatch({ type: ProductTypes.EMPTY_CART })
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

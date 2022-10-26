@@ -16,7 +16,7 @@ class Checkout extends Component {
         super(props);
         this.state = {
             b_pickup: false,
-            title: "My Address",
+            title: "Home",
             address: this.props.user?.user?.address + ", " + this.props.user?.user.city + ", " + this.props.user?.user.country,
             loading: false,
             tax: this.props.route?.params?.tax,

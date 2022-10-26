@@ -22,7 +22,7 @@ class Help extends Component {
     }
 
     Submit = () => {
-        Linking.openURL("tel:+971 04 3542050")
+        Linking.openURL("tel:+97143542050")
         return;
         let item = this.props.route.params?.item;
         let { query, email } = this.state;
@@ -68,24 +68,28 @@ class Help extends Component {
                         </Heading>
                         <Text color="coolGray.400" fontSize={17}>Call us now for any futher details</Text>
                     </Stack>
-                    <Box marginY={10} _dark={{ backgroundColor: "gray.800" }} w={"100%"} alignItems="center" backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
-                        <HStack space={1} w={"full"} p={2}>
-                            <Image alignSelf={"center"} h={90} w={"30%"} mr={2} source={item.image ? { uri: img_url + item.image } : require("../../assets/placeholder.png")} alt="Watch image" resizeMode='cover' borderRadius={5} />
-                            <Stack space={1} w={"55%"}>
-                                <Heading size={"sm"} height={35}>
-                                    {item.product_name}
-                                </Heading>
-                                <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
-                                    Reference Number:
-                                </Text>
-                                <Text mt={-2}>{item?.ref_number ? item?.ref_number : "No reference number available"}</Text>
-                                <Text fontSize={"12"} color={"primary.100"} flexWrap={"wrap"} numberOfLines={3} bold>
-                                    {/* {item?.price} */}
-                                    Reqeust for price
-                                </Text>
-                            </Stack>
-                        </HStack>
-                    </Box>
+                    {
+                        item ?
+                            <Box marginY={10} _dark={{ backgroundColor: "gray.800" }} w={"100%"} alignItems="center" backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
+                                <HStack space={1} w={"full"} p={2}>
+                                    <Image alignSelf={"center"} h={90} w={"30%"} mr={2} source={item.image ? { uri: img_url + item.image } : require("../../assets/placeholder.png")} alt="Watch image" resizeMode='cover' borderRadius={5} />
+                                    <Stack space={1} w={"55%"}>
+                                        <Heading size={"sm"} height={35}>
+                                            {item.product_name}
+                                        </Heading>
+                                        <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
+                                            Reference Number:
+                                        </Text>
+                                        <Text mt={-2}>{item?.ref_number ? item?.ref_number : "No reference number available"}</Text>
+                                        <Text fontSize={"12"} color={"primary.100"} flexWrap={"wrap"} numberOfLines={3} bold>
+                                            {/* {item?.price} */}
+                                            Reqeust for price
+                                        </Text>
+                                    </Stack>
+                                </HStack>
+                            </Box>
+                            : 
+                            <Box my={5} />}
                     {/* <Stack w="100%" marginY={10}>
                         <FormControl isInvalid={this.state.invalid}>
                             <VStack space={5}>
