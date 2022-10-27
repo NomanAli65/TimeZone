@@ -20,16 +20,19 @@ class VerifyPhone extends Component {
     }
 
     componentDidMount() {
-        this.props.sendCode({
-            onSuccess: (req) => {
-                if (req) {
-                    this.props.showAlert({
-                        message: "Verification code has been sent to your phone"
-                    })
-                    this.setState({ verification_code: req })
+        let signup = this.props.route.params?.signup;
+
+        if (!signup)
+            this.props.sendCode({
+                onSuccess: (req) => {
+                    if (req) {
+                        this.props.showAlert({
+                            message: "Verification code has been sent to your phone"
+                        })
+                        this.setState({ verification_code: req })
+                    }
                 }
-            }
-        })
+            })
     }
 
     VerifyCode = () => {
@@ -37,6 +40,7 @@ class VerifyPhone extends Component {
             code,
             verification_code
         } = this.state;
+        let signup = this.props.route.params?.signup;
         if (!code) {
             this.setState({ inavlid: "Cannot be empty" });
             return;
@@ -44,7 +48,16 @@ class VerifyPhone extends Component {
         if (code == verification_code) {
             this.setState({ loading: true })
             this.props.verifyPhone({
-                onSuccess: () => {
+                onSuccess: (success) => {
+                    if (!success)
+                        return;
+                    else {
+                        if (signup)
+                            this.props.navigation.navigate("Dashboard")
+                        else
+                            this.props.navigation.goBack();
+                    }
+
                     this.setState({ loading: false })
                 },
                 old_data: this.props.user

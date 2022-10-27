@@ -7,6 +7,7 @@ import theme from '../../configs/Theme';
 import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 import { connect } from 'react-redux';
 import * as Notifications from "expo-notifications";
+import AlertAction from '../../redux/Actions/AlertActions';
 
 class Signup extends Component {
 
@@ -28,7 +29,7 @@ class Signup extends Component {
         loading: false
     }
 
-    Signup =async () => {
+    Signup = async () => {
         let {
             f_name,
             l_name,
@@ -67,7 +68,12 @@ class Signup extends Component {
                 this.setState({ loading: false })
                 if (!success)
                     return;
-                this.props.navigation.navigate("Dashboard")
+                this.props.showAlert({
+                    message: "Verification link has been sent to your email. Please verify your email"
+                })
+                setTimeout(() => {
+                    this.props.navigation.navigate("VerifyPhone", { signup: true })
+                }, 2000)
             }
         });
     }
@@ -199,6 +205,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     Signup: data => dispatch(AuthMiddleware.SignUp(data)),
+    showAlert: data => dispatch(AlertAction.ShowAlert(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

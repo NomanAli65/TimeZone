@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import AlertAction from '../../redux/Actions/AlertActions';
 import { img_url } from '../../configs/APIs';
 import { AntDesign } from "@expo/vector-icons";
+import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 
 class Profile extends Component {
     constructor(props) {
@@ -38,7 +39,14 @@ class Profile extends Component {
                             <Text >Email</Text>
                             <Pressable
                                 onPress={() => {
-
+                                    this.props.verifyEmail({
+                                        onSuccess: (res) => {
+                                            if (res)
+                                                this.props.showAlert({
+                                                    message: "Verification link has beent sent to your email. Please verify your email"
+                                                })
+                                        }
+                                    })
                                 }}
                             >
                                 <HStack space={1} alignItems="center">
@@ -104,6 +112,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     showAlert: data => dispatch(AlertAction.ShowAlert(data)),
+    verifyEmail: data => dispatch(AuthMiddleware.VerifyEmail(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
