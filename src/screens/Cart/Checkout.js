@@ -154,7 +154,7 @@ class Checkout extends Component {
                         title: "Thank you for your order",
                         message: "Your order has been successfully placed"
                     })
-                    this.props.navigation.goBack()
+                    this.props.navigation.navigate("Dashboard")
                 }
             }
         })

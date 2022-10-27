@@ -16,7 +16,7 @@ import { DeviceType, getDeviceTypeAsync } from "expo-device"
 const { width } = Dimensions.get("window");
 
 
-const dummy_data = [{}, {}, {}, {}, {}];
+const dummy_data = ["", "", "", "", ""];
 
 class index extends Component {
 
@@ -137,16 +137,19 @@ class index extends Component {
   }
 
   onRefresh = () => {
-    this.setState({ refreshing: true })
+    this.setState({ loading: true })
     this.props.emptyDashboard()
     this.props.getDashboard({
       onSuccess: () => {
-        this.setState({ refreshing: false })
+        this.setState({ loading: false })
       }
     });
   }
 
   render() {
+    let brands = this.props.dashboard?.top_brands ? this.props.dashboard?.top_brands.filter((value, index, self) =>
+      index == self.findIndex((t) => (t.id == value.id))
+    ) : [];
     return (
       <ScrollView
         refreshControl={
@@ -223,31 +226,62 @@ class index extends Component {
                 }
               />
             </Stack>
-            <Stack space={2}>
-              <HStack justifyContent={"space-between"}>
-                <Heading>
-                  Brands
-                </Heading>
-                <Button
-                  onPress={() => this.props.navigation.navigate("AllBrands")}
-                  variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
-                  All Brands
-                </Button>
-              </HStack>
-              <FlatList
-                horizontal
-                keyExtractor={(item) => item.id}
-                data={!this.state.loading ? this.props.dashboard?.top_brands : dummy_data}
-                renderItem={this._renderItemSmallBrand}
-                ListEmptyComponent={
-                  <Box ml={'32'}>
-                    <Heading fontSize={"md"}>
-                      No Data Found
+            {
+              this.state.loading ?
+                <Stack space={2}>
+                  <HStack justifyContent={"space-between"}>
+                    <Heading>
+                      Brands
                     </Heading>
-                  </Box>
-                }
-              />
-            </Stack>
+                    <Button
+                      onPress={() => this.props.navigation.navigate("AllBrands")}
+                      variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
+                      All Brands
+                    </Button>
+                  </HStack>
+                  <FlatList
+                    horizontal
+                    keyExtractor={(item) => item.id}
+                    data={dummy_data}
+                    renderItem={this._renderItemSmallBrand}
+                    ListEmptyComponent={
+                      <Box ml={'32'}>
+                        <Heading fontSize={"md"}>
+                          No Data Found
+                        </Heading>
+                      </Box>
+                    }
+                  />
+                </Stack>
+                :
+                <Stack space={2}>
+                  <HStack justifyContent={"space-between"}>
+                    <Heading>
+                      Brands
+                    </Heading>
+                    <Button
+                      onPress={() => this.props.navigation.navigate("AllBrands")}
+                      variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
+                      All Brands
+                    </Button>
+                  </HStack>
+                  <FlatList
+                    key={"brandlist"}
+                    horizontal
+                    keyExtractor={(item, index) => index + ""}
+                    data={brands}
+                    renderItem={this._renderItemSmallBrand}
+                    ListEmptyComponent={
+                      <Box ml={'32'}>
+                        <Heading fontSize={"md"}>
+                          No Data Found
+                        </Heading>
+                      </Box>
+                    }
+                  />
+                </Stack>
+            }
+
             <Stack space={2}>
               <HStack justifyContent={"space-between"}>
                 <Heading>
@@ -338,7 +372,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getDashboard: data => dispatch(GeneralMiddleware.getDashboardData(data)),
-  emptyDashboard: () => dispatch(GeneralActions.SetDashboardData(null)),
+  emptyDashboard: () => dispatch(GeneralActions.SetDashboardData(undefined)),
   StopLoading: () => dispatch(GeneralActions.HideLoading()),
   Login: (data) => dispatch(AuthAction.Login(data))
 });

@@ -223,17 +223,27 @@ class index extends Component {
                     <Heading>
                         Popular Watches
                     </Heading> */}
-                <FlatList
-                    onRefresh={this.onRefresh}
-                    refreshing={this.state.refreshing}
-                    numColumns={2}
-                    style={{ marginHorizontal: "3%" }}
-                    keyExtractor={(item) => item.name}
-                    data={this.state.loading && this.props.products?.data?.length == 0 ? [{}, {}] : this.props.products?.data}
-                    renderItem={this._renderItem}
-                    onEndReached={this.onEndReached}
-                    onEndReachedThreshold={0.1}
-                />
+                {this.state.loading ?
+                    <FlatList
+                        data={["", "", "", ""]}
+                        renderItem={this._renderItem}
+                        numColumns={2}
+                        style={{ marginHorizontal: "3%" }}
+                    />
+                    :
+                    <FlatList
+                        key={"reallist"}
+                        onRefresh={this.onRefresh}
+                        refreshing={this.state.refreshing}
+                        numColumns={2}
+                        style={{ marginHorizontal: "3%" }}
+                        keyExtractor={(item) => item.name}
+                        data={this.props.products?.data}
+                        renderItem={this._renderItem}
+                        onEndReached={this.onEndReached}
+                        onEndReachedThreshold={0.1}
+                    />
+                }
                 {/* </Stack> */}
             </View>
         );

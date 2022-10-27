@@ -30,12 +30,12 @@ function SocialSignin(props) {
             scheme: "timezone",
             useProxy: true
         }),
-        selectAccount:true
+        selectAccount: true
     }, {
         scheme: "timezone",
         useProxy: true
     });
-    
+
     const [requestFB, responseFB, promptAsyncFB] = Facebook.useAuthRequest({
         clientId: "495885272460928",
         responseType: ResponseType.Token,
@@ -52,7 +52,7 @@ function SocialSignin(props) {
 
         try {
             let result = await promptAsync({
-              //  useProxy: true
+                //  useProxy: true
             });
             if (result.authentication?.accessToken) {
                 setLoading(true)

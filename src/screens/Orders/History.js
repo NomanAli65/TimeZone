@@ -1,12 +1,13 @@
-import { Box, FlatList, Heading, HStack, IconButton, Image, Stack, Text, View, Spinner, Skeleton } from 'native-base';
+import { Box, FlatList, Heading, HStack, IconButton, Image, Stack, Text, View, Spinner, Skeleton, VStack, Icon, Accordion } from 'native-base';
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, Feather } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
 import { connect } from 'react-redux';
 import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import { APIs, img_url } from '../../configs/APIs';
 import numbro from 'numbro';
+import HistoryItem from '../../components/HistoryItem';
 
 
 const data = [
@@ -62,14 +63,6 @@ class History extends Component {
     }
 
     _renderItem = ({ item }) => {
-        let formatted_price = numbro(item?.total).formatCurrency({
-            thousandSeparated: true,
-            abbreviations: {
-                thousand: "k",
-                million: "m"
-            },
-            currencySymbol: "AED "
-        });
         if (this.state.loading)
             return (
                 <Box _dark={{ backgroundColor: "gray.800" }} w={"100%"} alignItems="center" mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
@@ -84,27 +77,7 @@ class History extends Component {
             )
         else
             return (
-                <Box _dark={{ backgroundColor: "gray.800" }} w={"100%"} alignItems="center" mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
-                    <HStack space={1} w={"full"} p={2}>
-                        <Image alignSelf={"center"} maxH={90} maxW={"30%"} source={{ uri: img_url + item?.order_detail[0]?.product_detail?.image }} alt="image" resizeMode='contain' />
-                        <Stack space={1} w={"70%"}>
-                            <Heading size={"sm"}>
-                                {item?.order_detail[0]?.product_detail?.product_name}
-                            </Heading>
-                            <Text fontSize={"13"} flexWrap={"wrap"} numberOfLines={2}>
-                                {item?.order_detail[0]?.product_detail?.description}
-                            </Text>
-                            <HStack justifyContent={"space-between"}>
-                                <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
-                                    <Text color={"primary.100"}>{formatted_price}</Text>
-                                </Text>
-                                <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3}>
-                                    <Text color={"gray.400"}>{item?.created_at ? new Date(item?.created_at).toDateString() : ""}</Text>
-                                </Text>
-                            </HStack>
-                        </Stack>
-                    </HStack>
-                </Box>
+                <HistoryItem item={item} />
             )
     }
 

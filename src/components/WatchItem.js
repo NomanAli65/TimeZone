@@ -16,7 +16,7 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
     const loggedIn = useSelector((state) => state.Auth.isLogin);
     const color = useColorModeValue("#5c5c5c", "#cccc");
     const [wishlist, addToWishlist] = useState(false);
-    const [price, setPrice] = useState(false);
+    const [price, setPrice] = useState("");
 
     useEffect(() => {
         addToWishlist(wish);

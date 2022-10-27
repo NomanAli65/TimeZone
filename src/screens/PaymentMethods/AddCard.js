@@ -1,4 +1,4 @@
-import { Box, Heading, HStack, IconButton, Input, Icon, Stack, Text, View, VStack, FormControl,WarningOutlineIcon } from 'native-base';
+import { Box, Heading, HStack, IconButton, Input, Icon, Stack, Text, View, VStack, FormControl, WarningOutlineIcon } from 'native-base';
 import React, { Component } from 'react';
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
@@ -12,7 +12,7 @@ class AddCard extends Component {
         number: "",
         expiry: "",
         cvc: "",
-        invalid:"",
+        invalid: "",
         loading: false
     }
 
@@ -23,7 +23,7 @@ class AddCard extends Component {
             cvc
         } = this.state;
         if (!number || !expiry || !cvc) {
-            this.setState({invalid:"Please fill all fields"})
+            this.setState({ invalid: "Please fill all fields" })
             return;
         }
         this.setState({ loading: true });
@@ -54,13 +54,13 @@ class AddCard extends Component {
                         </Heading>
                         <Text color="coolGray.400" fontSize={17}>Please fill all fields to continue</Text>
                     </Stack>
-                    <FormControl isInvalid={this.state.invalid}  marginY={50}>
+                    <FormControl isInvalid={this.state.invalid} marginY={50}>
                         <VStack w="100%" space="md">
                             <Input
                                 keyboardType='numeric'
                                 maxLength={20}
                                 InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Card number"
-                                onChangeText={(number) => this.setState({ number, invalid:"" })}
+                                onChangeText={(number) => this.setState({ number, invalid: "" })}
                             />
                             <HStack space={3} w="100%">
                                 <Input
@@ -68,12 +68,15 @@ class AddCard extends Component {
                                     w="48%" InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Expiry"
                                     maxLength={7}
                                     value={this.state.expiry}
+                                    onKeyPress={(e) => this.backspace = e.nativeEvent.key}
                                     onChangeText={(expiry) => {
-                                        if (expiry.length == 2) {
-                                            this.setState({ expiry: expiry + "/", invalid:"" })
+                                        console.warn(this.backspace)
+                                        if (expiry.length == 2 && this.backspace != "Backspace") {
+                                            this.setState({ expiry: expiry + "/", invalid: "" })
                                         }
                                         else {
-                                            this.setState({ expiry, invalid:"" })
+                                            this.setState({ expiry, invalid: "" })
+                                            this.backspace = undefined;
                                         }
                                     }}
                                 />
@@ -81,7 +84,7 @@ class AddCard extends Component {
                                     keyboardType='numeric'
                                     maxLength={5}
                                     w="48%" InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="CVC/CVV"
-                                    onChangeText={(cvc) => this.setState({ cvc, invalid:"" })}
+                                    onChangeText={(cvc) => this.setState({ cvc, invalid: "" })}
                                 />
                             </HStack>
                             {/* <Input InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Card holder name" /> */}
@@ -95,7 +98,7 @@ class AddCard extends Component {
                         isLoadingText={"Adding"}
                         title="Add"
                         onPress={this.AddCard}
-                        />
+                    />
                 </View>
             </View>
         );
