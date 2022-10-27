@@ -12,6 +12,7 @@ import EditProfile2 from "../screens/Profile/EditProfile2";
 import History from "../screens/Orders/History";
 import PrivacyPolicy from "../screens/Profile/PrivacyPolicy";
 import TermsAndConditions from "../screens/Profile/TermsAndConditions";
+import VerifyPhone from "../screens/Auth/VerifyPhone";
 
 
 const StackNavigator = createNativeStackNavigator();
@@ -27,6 +28,7 @@ const AccountStack = () => {
             <StackNavigator.Screen name="Help" component={Help} />
             <StackNavigator.Screen name="Profile" component={Profile} />
             <StackNavigator.Screen name="EditProfile" component={EditProfile2} />
+            <StackNavigator.Screen name="VerifyPhone" component={VerifyPhone} />
             <StackNavigator.Screen name="ChangePass" component={ChangePass2} />
             <StackNavigator.Screen name="Payments" component={Payments} />
             <StackNavigator.Screen name="AddCard" component={AddCard} />

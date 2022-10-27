@@ -8,7 +8,7 @@ import theme from '../../configs/Theme';
 import { connect } from 'react-redux';
 import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 
-class VerifyCode extends Component {
+class VerifyPhone extends Component {
 
     state = {
         code: "",
@@ -19,7 +19,6 @@ class VerifyCode extends Component {
 
     VerifyCode = () => {
         let confirmation_code = this.props.route.params?.code;
-        let email = this.props.route.params?.email;
         let {
             code
         } = this.state;
@@ -28,7 +27,7 @@ class VerifyCode extends Component {
             return;
         }
         if (code == confirmation_code) {
-            this.props.navigation.navigate("ResetPass", { email })
+            // this.props.navigation.navigate("ResetPass", { email })
         }
         else {
             this.setState({ inavlid: "Code is incorrect" });
@@ -48,9 +47,9 @@ class VerifyCode extends Component {
                 <View flex={1} justifyContent="center" p="5%">
                     <Stack>
                         <Heading bold fontSize={35} color="black" _dark={{ color: "#fff" }}>
-                            Verify Email
+                            Verify Phone Number
                         </Heading>
-                        <Text color="coolGray.400" fontSize={17}>Verification code has been sent to your email</Text>
+                        <Text color="coolGray.400" fontSize={17}>Verification code has been sent to your phone number</Text>
                     </Stack>
                     <Stack w="100%" marginY={50}>
                         <FormControl isInvalid={this.state.inavlid}>
@@ -127,4 +126,4 @@ class VerifyCode extends Component {
     }
 }
 
-export default VerifyCode;
+export default VerifyPhone;

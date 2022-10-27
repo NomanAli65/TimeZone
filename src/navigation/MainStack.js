@@ -20,6 +20,7 @@ import AddCard from "../screens/PaymentMethods/AddCard";
 import Address from "../screens/Cart/Address";
 import AllAddress from "../screens/Cart/AllAddress";
 import ContactUs from "../screens/ContactUs";
+import VerifyPhone from "../screens/Auth/VerifyPhone";
 
 
 const StackNavigator = createNativeStackNavigator();
@@ -36,6 +37,7 @@ const MainStack = () => {
             <StackNavigator.Screen name="ForgotPass" component={ForgotPass} />
             <StackNavigator.Screen name="VerifyCode" component={VerifyCode} />
             <StackNavigator.Screen name="ResetPass" component={ResetPass} />
+            <StackNavigator.Screen name="VerifyPhone" component={VerifyPhone} />
             <StackNavigator.Screen name="Login" component={Login} />
             <StackNavigator.Screen name="Signup" component={Signup} />
             <StackNavigator.Screen name="Products" component={Products} />

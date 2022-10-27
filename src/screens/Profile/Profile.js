@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Avatar, Button, Heading, HStack, Text, View, VStack } from "native-base";
+import { Avatar, Button, Heading, HStack, Icon, Pressable, Text, View, VStack, WarningIcon } from "native-base";
 import AppBar from '../../components/Appbar';
 import { connect } from 'react-redux';
 import AlertAction from '../../redux/Actions/AlertActions';
 import { img_url } from '../../configs/APIs';
+import { AntDesign } from "@expo/vector-icons";
 
 class Profile extends Component {
     constructor(props) {
@@ -35,11 +36,29 @@ class Profile extends Component {
                     <VStack space={4} w="90%">
                         <HStack w="100%" justifyContent={"space-between"} alignItems="center">
                             <Text >Email</Text>
-                            <Text bold fontSize="md">{this.props.user?.user?.email}</Text>
+                            <Pressable
+                                onPress={() => {
+
+                                }}
+                            >
+                                <HStack space={1} alignItems="center">
+                                    <Text bold fontSize="md">{this.props.user?.user?.email}</Text>
+                                    <Icon as={AntDesign} name="exclamationcircle" size={"xs"} color="red.600" />
+                                </HStack>
+                            </Pressable>
                         </HStack>
                         <HStack w="100%" justifyContent={"space-between"} alignItems="center">
                             <Text >Phone</Text>
-                            <Text bold fontSize="md">{this.props.user?.user?.phone}</Text>
+                            <Pressable
+                                onPress={() => {
+                                    this.props.navigation.navigate("VerifyPhone")
+                                }}
+                            >
+                                <HStack space={1} alignItems="center">
+                                    <Text bold fontSize="md">{this.props.user?.user?.phone}</Text>
+                                    <Icon as={AntDesign} name="exclamationcircle" size={"xs"} color="red.600" />
+                                </HStack>
+                            </Pressable>
                         </HStack>
                         <HStack w="100%" justifyContent={"space-between"} alignItems="center">
                             <Text >Country</Text>
