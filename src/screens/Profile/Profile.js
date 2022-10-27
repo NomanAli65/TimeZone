@@ -43,7 +43,12 @@ class Profile extends Component {
                             >
                                 <HStack space={1} alignItems="center">
                                     <Text bold fontSize="md">{this.props.user?.user?.email}</Text>
-                                    <Icon as={AntDesign} name="exclamationcircle" size={"xs"} color="red.600" />
+                                    {
+                                        this.props.user?.user?.email_verified_at ?
+                                            null
+                                            :
+                                            <Icon as={AntDesign} name="exclamationcircle" size={"xs"} color="red.600" />
+                                    }
                                 </HStack>
                             </Pressable>
                         </HStack>
@@ -56,7 +61,12 @@ class Profile extends Component {
                             >
                                 <HStack space={1} alignItems="center">
                                     <Text bold fontSize="md">{this.props.user?.user?.phone}</Text>
-                                    <Icon as={AntDesign} name="exclamationcircle" size={"xs"} color="red.600" />
+                                    {
+                                        this.props.user?.user?.phone_verified_at ?
+                                            null
+                                            :
+                                            <Icon as={AntDesign} name="exclamationcircle" size={"xs"} color="red.600" />
+                                    }
                                 </HStack>
                             </Pressable>
                         </HStack>

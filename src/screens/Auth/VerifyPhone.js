@@ -7,27 +7,48 @@ import { Ionicons } from "@expo/vector-icons";
 import theme from '../../configs/Theme';
 import { connect } from 'react-redux';
 import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
+import AlertAction from '../../redux/Actions/AlertActions';
 
 class VerifyPhone extends Component {
 
     state = {
         code: "",
+        verification_code: "",
         inavlid: "",
         loading: false,
         inputs: [true, false, false, false, false]
     }
 
+    componentDidMount() {
+        this.props.sendCode({
+            onSuccess: (req) => {
+                if (req) {
+                    this.props.showAlert({
+                        message: "Verification code has been sent to your phone"
+                    })
+                    this.setState({ verification_code: req })
+                }
+            }
+        })
+    }
+
     VerifyCode = () => {
-        let confirmation_code = this.props.route.params?.code;
         let {
-            code
+            code,
+            verification_code
         } = this.state;
         if (!code) {
             this.setState({ inavlid: "Cannot be empty" });
             return;
         }
-        if (code == confirmation_code) {
-            // this.props.navigation.navigate("ResetPass", { email })
+        if (code == verification_code) {
+            this.setState({ loading: true })
+            this.props.verifyPhone({
+                onSuccess: () => {
+                    this.setState({ loading: false })
+                },
+                old_data: this.props.user
+            })
         }
         else {
             this.setState({ inavlid: "Code is incorrect" });
@@ -126,4 +147,14 @@ class VerifyPhone extends Component {
     }
 }
 
-export default VerifyPhone;
+const mapStateToProps = state => ({
+    user: state.Auth.user
+})
+
+const mapDispatchToProps = dispatch => ({
+    verifyPhone: data => dispatch(AuthMiddleware.VerifyPhone(data)),
+    sendCode: (data) => dispatch(AuthMiddleware.SendVerificationCode(data)),
+    showAlert: data => dispatch(AlertAction.ShowAlert(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(VerifyPhone);

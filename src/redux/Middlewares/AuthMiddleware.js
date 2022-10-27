@@ -161,6 +161,53 @@ export const AuthMiddleware = {
             }
         };
     },
+    SendVerificationCode: (data) => {
+        return async dispatch => {
+            try {
+                let request = await get(APIs.SendCode);
+                if (request) {
+                    data.onSuccess(request);
+                }
+                else
+                    data.onSuccess(false);
+            } catch (error) {
+                data.onSuccess(false);
+                console.warn(error);
+            }
+        };
+    },
+    VerifyPhone: (data) => {
+        return async dispatch => {
+            try {
+                let request = await get(APIs.VerifyPhone);
+                if (request) {
+                    data.onSuccess(true);
+                    dispatch(AuthAction.UpdateUserProfile(request))
+                    await AsyncStorage.setItem("@TZ-USER", JSON.stringify({ ...data.old_data, user: request }));
+                }
+                else
+                    data.onSuccess(false);
+            } catch (error) {
+                data.onSuccess(false);
+                console.warn(error);
+            }
+        };
+    },
+    VerifyEmail: (data) => {
+        return async dispatch => {
+            try {
+                let request = await get(APIs.VerifyEmail);
+                if (request) {
+                    data.onSuccess(true);
+                }
+                else
+                    data.onSuccess(false);
+            } catch (error) {
+                data.onSuccess(false);
+                console.warn(error);
+            }
+        };
+    },
     getTax: (data) => {
         return async dispatch => {
             try {
