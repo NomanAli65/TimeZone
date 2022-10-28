@@ -38,16 +38,16 @@ class Profile extends Component {
                         <HStack w="100%" justifyContent={"space-between"} alignItems="center">
                             <Text >Email</Text>
                             <Pressable
-                                onPress={() => {
-                                    this.props.verifyEmail({
-                                        onSuccess: (res) => {
-                                            if (res)
-                                                this.props.showAlert({
-                                                    message: "Verification link has beent sent to your email. Please verify your email"
-                                                })
-                                        }
-                                    })
-                                }}
+                                // onPress={() => {
+                                //     this.props.verifyEmail({
+                                //         onSuccess: (res) => {
+                                //             if (res)
+                                //                 this.props.showAlert({
+                                //                     message: "Verification link has beent sent to your email. Please verify your email"
+                                //                 })
+                                //         }
+                                //     })
+                                // }}
                             >
                                 <HStack space={1} alignItems="center">
                                     <Text bold fontSize="md">{this.props.user?.user?.email}</Text>
@@ -63,9 +63,9 @@ class Profile extends Component {
                         <HStack w="100%" justifyContent={"space-between"} alignItems="center">
                             <Text >Phone</Text>
                             <Pressable
-                                onPress={() => {
-                                    this.props.navigation.navigate("VerifyPhone")
-                                }}
+                                // onPress={() => {
+                                //     this.props.navigation.navigate("VerifyPhone")
+                                // }}
                             >
                                 <HStack space={1} alignItems="center">
                                     <Text bold fontSize="md">{this.props.user?.user?.phone}</Text>

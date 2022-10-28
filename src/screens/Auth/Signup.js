@@ -68,12 +68,12 @@ class Signup extends Component {
                 this.setState({ loading: false })
                 if (!success)
                     return;
-                this.props.showAlert({
-                    message: "Verification link has been sent to your email. Please verify your email"
-                })
-                setTimeout(() => {
-                    this.props.navigation.navigate("VerifyPhone", { signup: true })
-                }, 2000)
+                // this.props.showAlert({
+                //     message: "Verification link has been sent to your email. Please verify your email"
+                // })
+                // setTimeout(() => {
+                this.props.navigation.navigate("Dashboard", { signup: true })
+                ///  }, 2000)
             }
         });
     }
