@@ -15,6 +15,7 @@ export const APIs = {
   AllProducts: "all_watches",
   AllCategories: "all_categories",
   AllBrands: "all_brands",
+  SingleProduct: "watch_detail",
   TopCategories: "topCategoryProducts",
   Wishlist: "getUserWishlist",
   AddToWishlist: "addToWishlist",

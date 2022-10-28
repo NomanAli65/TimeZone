@@ -4,7 +4,7 @@ import AppBar from '../components/Appbar';
 import SearchBar from '../components/SearchBar';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import Carousel from "react-native-snap-carousel";
-import { Dimensions, View as RNView, Image as RNImage, RefreshControl } from "react-native";
+import { Dimensions, View as RNView, Image as RNImage, RefreshControl, Linking } from "react-native";
 import WatchItem from '../components/WatchItem';
 import { connect } from 'react-redux';
 import { GeneralMiddleware } from '../redux/Middlewares/GeneralMiddleware';
@@ -31,9 +31,30 @@ class index extends Component {
   }
 
   async componentDidMount() {
-    //let token = await GetToken();
-    // console.warn(token)
-    // this.LoginIfRegistered();
+    Linking.getInitialURL().then((url) => {
+      let idArr = url.split("/");
+      let id = idArr[idArr.length - 1];
+      if (id)
+        this.props.getProduct({
+          onSuccess: (data) => {
+            if (data)
+              this.props.navigation.navigate("ProductDetail", { item: data })
+          },
+          id,
+        })
+    })
+    Linking.addEventListener("url", ({ url }) => {
+      let idArr = url.split("/");
+      let id = idArr[idArr.length - 1];
+      if (id)
+        this.props.getProduct({
+          onSuccess: (data) => {
+            if (data)
+              this.props.navigation.navigate("ProductDetail", { item: data })
+          },
+          id,
+        })
+    })
     this.props.getDashboard({
       onSuccess: () => {
         this.setState({ loading: false })
@@ -44,7 +65,6 @@ class index extends Component {
         deviceType: value
       })
     })
-    // BackHandler.addEventListener("hardwareBackPress", this.BackPress());
   }
 
   componentWillUnmount() {
@@ -374,6 +394,7 @@ const mapDispatchToProps = dispatch => ({
   getDashboard: data => dispatch(GeneralMiddleware.getDashboardData(data)),
   emptyDashboard: () => dispatch(GeneralActions.SetDashboardData(undefined)),
   StopLoading: () => dispatch(GeneralActions.HideLoading()),
+  getProduct: (data) => dispatch(GeneralMiddleware.getProduct(data)),
   Login: (data) => dispatch(AuthAction.Login(data))
 });
 

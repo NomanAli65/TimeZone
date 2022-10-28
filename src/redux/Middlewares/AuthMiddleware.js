@@ -44,8 +44,10 @@ export const AuthMiddleware = {
                     dispatch(AuthAction.Login(request))
                     await AsyncStorage.setItem("@TZ-USER", JSON.stringify(request));
                 }
-                else
-                    data.onSuccess(false, request.message);
+                else {
+                    console.warn(request)
+                    data.onSuccess(false, request?.message);
+                }
             } catch (error) {
                 data.onSuccess(false);
                 console.warn(error);

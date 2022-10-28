@@ -133,5 +133,20 @@ export const GeneralMiddleware = {
                 console.warn(error);
             }
         };
+    },
+    getProduct: (data) => {
+        return async dispatch => {
+            try {
+                let request = await get(APIs.SingleProduct + "/" + data.id);
+                if (request) {
+                    data.onSuccess(request);
+                    return;
+                }
+                data.onSuccess(false);
+            } catch (error) {
+                data.onSuccess(false);
+                console.warn(error);
+            }
+        };
     }
 };

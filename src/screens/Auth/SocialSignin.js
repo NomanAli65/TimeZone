@@ -40,6 +40,7 @@ function SocialSignin(props) {
     const [requestFB, responseFB, promptAsyncFB] = Facebook.useAuthRequest({
         clientId: "495885272460928",
         responseType: ResponseType.Token,
+        scopes: ["email", "public_profile"],
         redirectUri: makeRedirectUri({
             scheme: "timezone",
             useProxy: true
@@ -90,11 +91,11 @@ function SocialSignin(props) {
     const _FacebookSignin = async () => {
         try {
             let result = await promptAsyncFB({
-                useProxy: true
+                useProxy: true,
             });
             if (result.params?.access_token) {
                 setFBLoading(true)
-                let userData = await axios.get("https://graph.facebook.com/v15.0/me?fields=email,name&access_token=" + result.params?.access_token)
+                let userData = await axios.get("https://graph.facebook.com/v15.0/me?fields=email,name&access_token=EAAHDAUmDroABAGT3pdTdXaeZAzPuPn8O7XaIBjGF6fvRQRkAs2wKkfBjTjGfe73Pzf3KaByOkEsTBU3L0d4wZAjLD2WSli0wsXsfACjihSczA5ZCp2ALBueraYkfWALRhoOknHAHsJawSCvUm1JgHB0LpKX676oZCl8FbWhrfxfZAdJTChdzt0QtTmVNZBWVBkoLxISgezTrYKF9GaC1ZBS")// + result.params?.access_token)
                 let { name, email, id } = userData?.data;
                 if (!email) {
                     dispatch(AlertAction.ShowAlert({

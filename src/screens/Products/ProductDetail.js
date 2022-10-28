@@ -182,7 +182,7 @@ class ProductDetail extends Component {
                                     onPress={() => Share.share({
                                         title: "TIMEZONE",
                                         url: "timezone://product_id/" + data.id,
-                                        message: "Check out this watch on TimeZone \n" + data.product_name + "\n timezone://timezone.com/product_id/" + data.id
+                                        message: "Check out this watch on TimeZone \n" + data.product_name + "\n timezone://product_id/" + data.id
                                     })}
                                     icon={<AntDesign name='sharealt' size={20} color={theme.colors.primary[100]} />} />
                                 <IconButton
