@@ -32,28 +32,32 @@ class index extends Component {
 
   async componentDidMount() {
     Linking.getInitialURL().then((url) => {
-      let idArr = url.split("/");
-      let id = idArr[idArr.length - 1];
-      if (id)
-        this.props.getProduct({
-          onSuccess: (data) => {
-            if (data)
-              this.props.navigation.navigate("ProductDetail", { item: data })
-          },
-          id,
-        })
+      if (url && url.includes("product_id")) {
+        let idArr = url.split("/");
+        let id = idArr[idArr.length - 1];
+        if (id)
+          this.props.getProduct({
+            onSuccess: (data) => {
+              if (data)
+                this.props.navigation.navigate("ProductDetail", { item: data })
+            },
+            id,
+          })
+      }
     })
     Linking.addEventListener("url", ({ url }) => {
-      let idArr = url.split("/");
-      let id = idArr[idArr.length - 1];
-      if (id)
-        this.props.getProduct({
-          onSuccess: (data) => {
-            if (data)
-              this.props.navigation.navigate("ProductDetail", { item: data })
-          },
-          id,
-        })
+      if (url && url.includes("product_id")) {
+        let idArr = url.split("/");
+        let id = idArr[idArr.length - 1];
+        if (id)
+          this.props.getProduct({
+            onSuccess: (data) => {
+              if (data)
+                this.props.navigation.navigate("ProductDetail", { item: data })
+            },
+            id,
+          })
+      }
     })
     this.props.getDashboard({
       onSuccess: () => {
