@@ -100,7 +100,7 @@ class index extends Component {
                         <VStack alignItems={"center"} space={4}>
                             <Avatar
                                 size="2xl"
-                                source={this.props.user?.user?.profile_pic ? { uri: img_url + this.props.user?.user?.profile_pic } : require("../../../assets/user_place.png")}
+                                source={this.props.user?.user?.profile_pic ? { uri: this.props.user?.user?.profile_pic.startsWith("http") ? this.props.user?.user?.profile_pic : img_url + this.props.user?.user?.profile_pic } : require("../../../assets/user_place.png")}
                             />
                             <Heading>
                                 {this.props.user?.user?.name ? this.props.user?.user?.name : "Login"}

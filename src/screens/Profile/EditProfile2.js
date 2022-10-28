@@ -119,7 +119,7 @@ class EditProfile2 extends Component {
                                     <Avatar
                                         alignSelf={"center"}
                                         size={120}
-                                        source={this.state.pic?.uri ? { uri: this.state.pic?.uri } : this.props.user?.user?.profile_pic ? { uri: img_url + this.props.user?.user?.profile_pic } : require("../../../assets/user_place.png")}
+                                        source={this.state.pic?.uri ? { uri: this.state.pic?.uri } : this.props.user?.user?.profile_pic ? { uri: this.props.user?.user?.profile_pic.startsWith("http") ? this.props.user?.user?.profile_pic : img_url + this.props.user?.user?.profile_pic } : require("../../../assets/user_place.png")}
                                     />
                                 </Pressable>
                                 <Input InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Name"
