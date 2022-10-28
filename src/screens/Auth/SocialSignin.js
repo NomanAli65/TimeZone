@@ -11,6 +11,7 @@ import * as Notifications from "expo-notifications";
 import { useDispatch } from 'react-redux';
 import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 import { useNavigation } from '@react-navigation/native';
+import AlertAction from '../../redux/Actions/AlertActions';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -92,10 +93,18 @@ function SocialSignin(props) {
                 useProxy: true
             });
             if (result.params?.access_token) {
-                console.warn()
                 setFBLoading(true)
                 let userData = await axios.get("https://graph.facebook.com/v15.0/me?fields=email,name&access_token=" + result.params?.access_token)
-                let { name, email, } = userData?.data;
+                let { name, email, id } = userData?.data;
+                if (!email) {
+                    dispatch(AlertAction.ShowAlert({
+                        message: "Cannot access email address of your facebook account. Please give the access and try again"
+                    }))
+                    setFBLoading(false)
+                    return;
+                }
+                let userPic = await axios.get("https://graph.facebook.com/v15.0/" + id + "/picture?redirect=false")
+                let pic = userPic?.data?.data?.url;
                 const token = (await Notifications.getExpoPushTokenAsync()).data;
                 dispatch(AuthMiddleware.SocialSignin({
                     onSuccess: (success, msg) => {
@@ -106,6 +115,7 @@ function SocialSignin(props) {
                     },
                     name,
                     email,
+                    pic,
                     token
                 }))
             }

@@ -32,7 +32,8 @@ class index extends Component {
             <Box rounded={"lg"} p={4}>
                 <Pressable onPress={() => {
                     this.props.defaultMethod(item.stripe_card_id)
-                    this.setState({ selectedIndex: index })
+                    this.setState({ selectedIndex: index });
+                    this.props.navigation.goBack();
                 }}>
                     <HStack alignItems="center" justifyContent={"space-between"}>
                         <HStack space={4} alignItems="center">
@@ -48,13 +49,15 @@ class index extends Component {
                         </HStack>
                         <IconButton
                             icon={<Ionicons name="trash-bin" color={theme.config.initialColorMode == "dark" ? "#ccc" : "#000"} size={20} />}
-                            onPress={() =>{
-                                 this.props.deleteMethod({index,id:item.id,onSuccess:()=>{
-                                     console.warn(this.props.all_methods)
-                                    let selectedIndex = this.props.all_methods.findIndex(val => val.is_default == "1");
-                                    this.setState({ selectedIndex })
-                                 }})
-                                }}
+                            onPress={() => {
+                                this.props.deleteMethod({
+                                    index, id: item.id, onSuccess: () => {
+                                        console.warn(this.props.all_methods)
+                                        let selectedIndex = this.props.all_methods.findIndex(val => val.is_default == "1");
+                                        this.setState({ selectedIndex })
+                                    }
+                                })
+                            }}
                         />
                     </HStack>
                 </Pressable>

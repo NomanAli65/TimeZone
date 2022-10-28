@@ -37,6 +37,7 @@ export const AuthMiddleware = {
                 if (data?.pic)
                     formData.append("profile_pic", data.pic);
 
+                console.warn(formData)
                 let request = await post(APIs.SocialSignin, formData);
                 if (request) {
                     data.onSuccess(true, "");
