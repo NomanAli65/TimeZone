@@ -34,7 +34,7 @@
           }
         ]
       },
-      "bundleIdentifier": "com.app.timezone"
+      "bundleIdentifier": "com.app.timezone.dubai"
     },
     "android": {
       "adaptiveIcon": {
