@@ -1,5 +1,6 @@
-import { Alert, Button, FormControl, Heading, HStack, Image, Input, InputGroup, InputLeftAddon, Pressable, ScrollView, Select, Text, View, VStack } from 'native-base';
+import { Alert, Button, FormControl, Heading, HStack, Image, Input, InputGroup, InputLeftAddon, Pressable, Progress, ScrollView, Select, Text, View, VStack } from 'native-base';
 import React, { Component } from 'react';
+import { Modal } from 'react-native';
 import { connect } from 'react-redux';
 import AppBar from '../../components/Appbar';
 import LGButton from '../../components/LGButton';
@@ -16,7 +17,12 @@ class PersonalDetail extends Component {
             invalid: "",
             phone: this.props.user?.user?.phone,
             code: "",
-            loading: false
+            loading: false,
+            uploading: false,
+            progress: {
+                total: 0,
+                loaded: 0
+            }
         };
     }
 
@@ -47,6 +53,9 @@ class PersonalDetail extends Component {
                     this.props.showAlert({ title: "Success", message: "We will contact you soon via email" });
                 }
                 this.setState({ loading: false })
+            },
+            onUploading: (progress) => {
+                this.setState({ uploading: true, progress })
             }
         })
     }
@@ -102,7 +111,7 @@ class PersonalDetail extends Component {
                             onPress={this.onPress}
                             title={"Get A Qoute"}
                         />
-                        <TermsAndCondition/>
+                        <TermsAndCondition />
                         {/* <Button
                             onPress={() => this.props.navigation.navigate("TermsAndCondition")}
                             mt={-5} _text={{ color: "primary.100" }} flex={0} alignSelf={"flex-end"} variant={"unstyled"}>
@@ -128,6 +137,28 @@ class PersonalDetail extends Component {
                         />
                         */}
                     </VStack>
+                    <Modal transparent animationType='fade' visible={this.state.uploading}>
+                        <View flex={1} alignItems="center" justifyContent={"center"} backgroundColor="rgba(0,0,0,0.5)">
+                            <View w={"90%"} backgroundColor="white" p={5} alignItems="center" borderRadius={10}>
+                                <Heading>
+                                    Uploading Media
+                                </Heading>
+                                <Text textAlign={"center"} marginTop={2} marginBottom={5}>
+                                    Please wait while images and videos are being uploaded
+                                </Text>
+                                <Progress
+                                    w={"100%"}
+                                    value={this.state.progress?.loaded / this.state.progress?.total * 100}
+                                    max={100}
+                                    min={0}
+                                    _filledTrack={{
+                                        backgroundColor: "primary.100",
+                                    }}
+                                    backgroundColor="black"
+                                />
+                            </View>
+                        </View>
+                    </Modal>
                 </View>
             </ScrollView>
         );

@@ -5,7 +5,7 @@ import AlertAction from '../redux/Actions/AlertActions';
 
 export const instance = axios.create({
   baseURL: base_url,
-  timeout: 15000,
+  timeout: 120000,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json"

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, Heading, Select, Input, VStack, HStack, TextArea, Box, Image, Icon, Pressable, FormControl, WarningOutlineIcon, Button, AlertDialog, IconButton, Center } from "native-base";
-import { Modal, PermissionsAndroid, Platform } from "react-native";
+import { Modal, PermissionsAndroid, Platform, SafeAreaView } from "react-native";
 import AppBar from '../../components/Appbar';
 import LGButton from '../../components/LGButton';
 import { Entypo } from "@expo/vector-icons";
@@ -10,6 +10,7 @@ import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
 import * as FileSystem from "expo-file-system";
 import { ImagePicker } from 'expo-image-multiple-picker'
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { getAssetInfoAsync } from 'expo-media-library';
 
 class index extends Component {
   constructor(props) {
@@ -41,10 +42,9 @@ class index extends Component {
 
   pickImage = async (type) => {
     // No permissions request is necessary for launching the image library
-    ImagePickers.requestCameraPermissionsAsync()
-    ImagePickers.requestMediaLibraryPermissionsAsync()
 
     if (type == "camera") {
+      await ImagePickers.requestCameraPermissionsAsync()
       let result = await ImagePickers.launchCameraAsync({
         mediaTypes: ImagePickers.MediaTypeOptions.Images,
         allowsEditing: false,
@@ -66,6 +66,7 @@ class index extends Component {
       }
     }
     else {
+      await ImagePickers.requestMediaLibraryPermissionsAsync()
       if (Platform.OS == "android") {
         let perm = await PermissionsAndroid.request("android.permission.READ_EXTERNAL_STORAGE");
         if (perm == PermissionsAndroid.RESULTS.GRANTED)
@@ -252,50 +253,65 @@ class index extends Component {
             animationType="slide"
             onRequestClose={() => this.setState({ picker: false })}
           >
-            <View style={{ flex: 1 }}>
-              <ImagePicker
-                theme={{
-                  header: (header) => (
-                    <HStack bg="black" px="1" py="3" justifyContent="space-between" alignItems="center" w="100%">
-                      <HStack alignItems="center">
-                        <IconButton
-                          onPress={() => this.setState({ picker: false })}
-                          icon={<Icon size="sm" as={MaterialIcons} name="chevron-left" color="white" />} />
-                        <Text color="white" fontSize="20" fontWeight="bold" textAlign={"center"}>
-                          {header?.album?.title ? header?.album?.title : "Select images"}
-                        </Text>
-                      </HStack>
-                      {header?.imagesPicked ?
+            <SafeAreaView style={{ flex: 1 }}>
+              <View style={{ flex: 1 }}>
+                <ImagePicker
+                  theme={{
+                    header: (header) => (
+                      <HStack bg="black" px="1" py="3" justifyContent="space-between" alignItems="center" w="100%">
                         <HStack alignItems="center">
-                          <Text color="white" fontSize="20" fontWeight="bold" textAlign={"center"}>
-                            {header?.imagesPicked}
-                          </Text>
                           <IconButton
-                            onPress={() => {
-                              this.setState({ picker: false })
-                              header.save()
-                            }}
-                            icon={<Icon as={MaterialIcons} name="check" size="sm" color="white" />} />
+                            onPress={() => this.setState({ picker: false })}
+                            icon={<Icon size="sm" as={MaterialIcons} name="chevron-left" color="white" />} />
+                          <Text color="white" fontSize="20" fontWeight="bold" textAlign={"center"}>
+                            {header?.album?.title ? header?.album?.title : "Select images"}
+                          </Text>
                         </HStack>
-                        : null}
-                    </HStack>
-                  )
-                }}
-                multiple
-                galleryColumns={3}
-                onSave={(assets) => {
-                  if (assets.length > 0) {
-                    let imgs = assets.map((val) => ({
-                      uri: val.uri,
-                      name: val.filename,
-                      type: "image/jpeg",
-                    }))
-                    this.setState({ images: [...this.state.images, ...imgs] })
-                  }
-                }}
-                onCancel={() => console.log('no permissions or user go back')}
-              />
-            </View>
+                        {header?.imagesPicked ?
+                          <HStack alignItems="center">
+                            <Text color="white" fontSize="20" fontWeight="bold" textAlign={"center"}>
+                              {header?.imagesPicked}
+                            </Text>
+                            <IconButton
+                              onPress={() => {
+                                this.setState({ picker: false })
+                                header.save()
+                              }}
+                              icon={<Icon as={MaterialIcons} name="check" size="sm" color="white" />} />
+                          </HStack>
+                          : null}
+                      </HStack>
+                    )
+                  }}
+                  multiple
+                  galleryColumns={3}
+                  onSave={async (assets) => {
+                    if (assets.length > 0) {
+                      let imgs = await Promise.all(assets.map(async (val) => {
+                        let data = await getAssetInfoAsync(val)
+                        return {
+                          uri: data.localUri,
+                          name: data.filename,
+                          type: "image/jpeg",
+                        }
+                      }));
+                      //console.warn(imgs)
+                      // let imgs = assets.map((val) => {
+                      //   let data = await getAssetInfoAsync(val)
+                      //   return {
+                      //     uri: data.localUri,
+                      //     name: data.filename,
+                      //     type: "image/jpeg",
+                      //   }
+                      // })
+                      // console.warn(imgs)
+                      this.setState({ images: [...this.state.images, ...imgs] })
+                    }
+                  }}
+                  onCancel={() => console.log('no permissions or user go back')}
+                />
+              </View>
+            </SafeAreaView>
           </Modal>
         </ScrollView>
         {

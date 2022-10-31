@@ -121,7 +121,12 @@ export const GeneralMiddleware = {
                     formData.append("images[]", img);
                 })
                 let request = await post(APIs.TradeIn, formData, {
-                    'Content-Type': "multipart/form-data"
+                    headers: {
+                        'Content-Type': "multipart/form-data",
+                    },
+                    onUploadProgress: (pe) => {
+                        data.onUploading(pe)
+                    }
                 });
                 if (request) {
                     data.onSuccess(true);
