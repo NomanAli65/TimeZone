@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, ScrollView, Text, Heading, Select, Input, VStack, HStack, TextArea, Box, Image, Icon, Pressable, FormControl, WarningOutlineIcon, Button, AlertDialog, IconButton, Center } from "native-base";
-import { Modal, PermissionsAndroid } from "react-native";
+import { Modal, PermissionsAndroid, Platform } from "react-native";
 import AppBar from '../../components/Appbar';
 import LGButton from '../../components/LGButton';
 import { Entypo } from "@expo/vector-icons";
@@ -41,6 +41,9 @@ class index extends Component {
 
   pickImage = async (type) => {
     // No permissions request is necessary for launching the image library
+    ImagePickers.requestCameraPermissionsAsync()
+    ImagePickers.requestMediaLibraryPermissionsAsync()
+
     if (type == "camera") {
       let result = await ImagePickers.launchCameraAsync({
         mediaTypes: ImagePickers.MediaTypeOptions.Images,
@@ -63,9 +66,14 @@ class index extends Component {
       }
     }
     else {
-      let perm = await PermissionsAndroid.request("android.permission.READ_EXTERNAL_STORAGE");
-      if (perm == PermissionsAndroid.RESULTS.GRANTED)
+      if (Platform.OS == "android") {
+        let perm = await PermissionsAndroid.request("android.permission.READ_EXTERNAL_STORAGE");
+        if (perm == PermissionsAndroid.RESULTS.GRANTED)
+          this.setState({ picker: true })
+      }
+      else {
         this.setState({ picker: true })
+      }
       // let result = await ImagePicker.launchImageLibraryAsync({
       //   mediaTypes: ImagePicker.MediaTypeOptions.Images,
       //   allowsEditing: false,
