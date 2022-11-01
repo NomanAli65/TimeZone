@@ -362,7 +362,7 @@ class index extends Component {
                   Latest Watches
                 </Heading>
                 <Button
-                  onPress={() => this.props.navigation.navigate("Products", { filter: [] })}
+                  onPress={() => this.props.navigation.navigate("Products")}
                   variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
                   View More
                 </Button>
