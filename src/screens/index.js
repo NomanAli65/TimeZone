@@ -231,7 +231,7 @@ class index extends Component {
                   Popular Watches
                 </Heading>
                 <Button
-                  onPress={() => this.props.navigation.navigate("Products", { filter: "popular" })}
+                  onPress={() => this.props.navigation.navigate("Products", { filter: ["popular"] })}
                   variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
                   View More
                 </Button>
@@ -312,7 +312,7 @@ class index extends Component {
                   Featured Watches
                 </Heading>
                 <Button
-                  onPress={() => this.props.navigation.navigate("Products")}
+                  onPress={() => this.props.navigation.navigate("Products", { filter: ["featured"] })}
                   variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
                   View More
                 </Button>
@@ -362,7 +362,7 @@ class index extends Component {
                   Latest Watches
                 </Heading>
                 <Button
-                  onPress={() => this.props.navigation.navigate("Products", { filter: "latest" })}
+                  onPress={() => this.props.navigation.navigate("Products", { filter: ["latest"] })}
                   variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
                   View More
                 </Button>

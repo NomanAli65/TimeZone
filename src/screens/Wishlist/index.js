@@ -8,6 +8,7 @@ import Products from '../Products';
 import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import { APIs, img_url } from '../../configs/APIs';
 import LGButton from '../../components/LGButton';
+import GeneralActions from '../../redux/Actions/GeneralActions';
 
 
 const data = [
@@ -191,6 +192,11 @@ class index extends Component {
                                 </Button>
                                 <Button colorScheme="danger" onPress={() => {
                                     this.props.removeProductWishlist(this.state.selectedItem);
+                                    this.props.emptyDashboard()
+                                    this.props.getDashboard({
+                                        onSuccess: () => {
+                                        }
+                                    });
                                     this.setState({ isOpen: false });
                                 }}>
                                     Remove
@@ -213,6 +219,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     getWishlist: data => dispatch(ProductMiddleware.getWishlist(data)),
     removeProductWishlist: data => dispatch(ProductMiddleware.saveToWishlist(data)),
+    getDashboard: data => dispatch(GeneralMiddleware.getDashboardData(data)),
+    emptyDashboard: () => dispatch(GeneralActions.SetDashboardData(undefined)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

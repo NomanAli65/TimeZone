@@ -1,4 +1,4 @@
-import { Heading, Stack, View, Box } from 'native-base';
+import { Heading, Stack, View, Box, Spinner } from 'native-base';
 import React, { Component, } from 'react';
 import AppBar from '../../components/Appbar';
 import SearchBar from '../../components/SearchBar';
@@ -12,39 +12,6 @@ import { FlatList } from 'react-native';
 
 const { width } = Dimensions.get("window");
 
-const data = [
-    {
-        name: "Rolex with diamonds",
-        desc: "watch with diamonds in its dial and it looks beautiful to watch watch with diamonds in its dial and it looks beautiful to watch",
-        image: require("../../../assets/wt.png")
-    },
-    {
-        name: "Rolex with diamonds",
-        desc: "watch with diamonds in its dial and it looks beautiful to watch",
-        image: require("../../../assets/wt.png")
-    },
-    {
-        name: "Rolex with diamonds",
-        desc: "watch with diamonds in its dial and it looks beautiful to watch",
-        image: require("../../../assets/wt.png")
-    },
-    {
-        name: "Rolex with diamonds",
-        desc: "watch with diamonds in its dial and it looks beautiful to watch",
-        image: require("../../../assets/wt.png")
-    },
-    {
-        name: "Rolex with diamonds",
-        desc: "watch with diamonds in its dial and it looks beautiful to watch",
-        image: require("../../../assets/wt.png")
-    },
-    {
-        name: "Rolex with diamonds",
-        desc: "watch with diamonds in its dial and it looks beautiful to watch",
-        image: require("../../../assets/wt.png")
-    }
-]
-
 class index extends Component {
 
     constructor(props) {
@@ -52,6 +19,7 @@ class index extends Component {
         let filter = this.props.route.params?.filter;
         this.state = {
             loading: true,
+            loadingMore: false,
             refreshing: false,
             search: "",
             filters: {
@@ -124,17 +92,21 @@ class index extends Component {
     onEndReached = () => {
         let category = this.props.route.params?.category;
         let brand = this.props.route.params?.brand;
-        if (this.props.products?.next_url)
+        console.warn(this.props.products)
+        if (this.props.products?.next_page_url) {
+            this.setState({ loadingMore: true })
             this.props.getAllProducts({
+                page: this.props.products?.current_page,
                 next_url: this.props.products.next_page_url,
                 search: this.state.search,
                 filter_category: category?.id ? category?.id : "",
                 ...brand ? { filter_brand: brand?.id } : {},
                 ...this.getFilters(this.state.filters),
                 callback: () => {
-                    this.setState({ loading: false })
+                    this.setState({ loadingMore: false })
                 }
             })
+        }
     }
 
     onRefresh = () => {
@@ -241,7 +213,14 @@ class index extends Component {
                         data={this.props.products?.data}
                         renderItem={this._renderItem}
                         onEndReached={this.onEndReached}
-                        onEndReachedThreshold={0.1}
+                        onEndReachedThreshold={0.2}
+                        ListFooterComponent={
+                            this.state.loadingMore ?
+                                <Box p={3}>
+                                    <Spinner size={"lg"} />
+                                </Box>
+                                : null
+                        }
                     />
                 }
                 {/* </Stack> */}

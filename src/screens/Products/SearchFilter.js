@@ -8,7 +8,7 @@ export default class SearchFilter extends Component {
         let filter = this.props.route.params.filters;
         this.state = {
             filter: filter ? filter : {
-                sortBy: "",
+                sortBy: [],
                 gender: "",
                 color: "",
                 avail: "",
@@ -21,8 +21,8 @@ export default class SearchFilter extends Component {
 
     onPressApply = () => {
         console.warn(this.state.filter);
-         this.props.route.params.setFilter(this.state.filter);
-         this.props.navigation.goBack();
+        this.props.route.params.setFilter(this.state.filter);
+        this.props.navigation.goBack();
     }
     onPressRemove = () => {
         this.props.route.params.setFilter(null);
@@ -33,6 +33,27 @@ export default class SearchFilter extends Component {
         let char = string.charAt(0);
         return string.replace(char, char.toLocaleUpperCase());
 
+    }
+
+    onSortSelect = (val) => {
+        let data = [...this.state.filter.sortBy];
+        let index = this.state.filter.sortBy.findIndex((i) => i == val);
+        if (index == -1)
+            this.setState({
+                filter: {
+                    ...this.state.filter,
+                    sortBy: [...this.state.filter.sortBy, val]
+                }
+            })
+        else {
+            data.splice(index, 1);
+            this.setState({
+                filter: {
+                    ...this.state.filter,
+                    sortBy: data
+                }
+            })
+        }
     }
 
     render() {
@@ -56,35 +77,56 @@ export default class SearchFilter extends Component {
                             <Heading>
                                 Sort By
                             </Heading>
-                            <Checkbox.Group
+                            {/* <Checkbox.Group
                                 onChange={(value) => {
-                                    if (this.state.filter.sortBy == value[1])
-                                        this.setState({
-                                            filter: {
-                                                ...this.state.filter,
-                                                sortBy: ""
-                                            }
-                                        })
-                                    else
-                                        this.setState({
-                                            filter: {
-                                                ...this.state.filter,
-                                                sortBy: value[1]
-                                            }
-                                        })
+                                    // if (this.state.filter.sortBy == value[1])
+                                    //     this.setState({
+                                    //         filter: {
+                                    //             ...this.state.filter,
+                                    //             sortBy: ""
+                                    //         }
+                                    //     })
+                                    // else
+                                    this.setState({
+                                        filter: {
+                                            ...this.state.filter,
+                                            sortBy: value
+                                        }
+                                    })
                                 }}
-                                value={[this.state.filter.sortBy]}
-                                name="SortGroup">
-                                <Checkbox value="popular" isChecked={this.state.filter.sortBy == "popular"} my={1}>
+                                value={this.state.filter.sortBy}
+                                name="SortGroup"> */}
+                            <VStack>
+                                <Checkbox
+                                    value="popular"
+                                    isChecked={this.state.filter.sortBy.includes("popular")}
+                                    onChange={()=>this.onSortSelect("popular")}
+                                    my={1}>
                                     Popularity
                                 </Checkbox>
-                                <Checkbox value="latest" isChecked={this.state.filter.sortBy == "latest"} my={1}>
+                                <Checkbox
+                                    value="latest"
+                                    isChecked={this.state.filter.sortBy.includes("latest")}
+                                    onChange={()=>this.onSortSelect("latest")}
+                                    my={1}>
                                     Latest
                                 </Checkbox>
-                                <Checkbox value="lowToHigh" isChecked={this.state.filter.sortBy == "lowToHigh"} my={1}>
+                                <Checkbox
+                                    value="lowToHigh"
+                                    isChecked={this.state.filter.sortBy.includes("lowToHigh")}
+                                    onChange={()=>this.onSortSelect("lowToHigh")}
+                                    my={1}>
                                     Price:Low to high
                                 </Checkbox>
-                            </Checkbox.Group>
+                                <Checkbox
+                                    value="featured"
+                                    isChecked={this.state.filter.sortBy.includes("featured")}
+                                    onChange={()=>this.onSortSelect("featured")}
+                                    my={1}>
+                                    Featured
+                                </Checkbox>
+                            </VStack>
+                            {/* </Checkbox.Group> */}
                         </VStack>
                         <Divider />
                         {/* <VStack space={2}>

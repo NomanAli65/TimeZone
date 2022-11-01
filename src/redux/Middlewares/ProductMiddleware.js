@@ -7,7 +7,7 @@ import ProductActions from '../Actions/ProductActions';
 import AlertAction from '../Actions/AlertActions';
 
 export const ProductMiddleware = {
-    getAllProducts: ({ next_url, search, filters, filter_brand, filter_category, callback }) => {
+    getAllProducts: ({ next_url, page, search, filters, filter_brand, filter_category, callback }) => {
         return async dispatch => {
             try {
                 if (next_url == APIs.AllProducts)
@@ -16,7 +16,13 @@ export const ProductMiddleware = {
                 if (filters)
                     Object.values(filters).forEach((val, index) => {
                         let keys = Object.keys(filters);
-                        formData.append(keys[index], val)
+                        if (keys[index] == "filter_sort") {
+                            val.forEach((srt) => {
+                                formData.append(keys[index] + "[]", srt)
+                            })
+                        }
+                        else
+                            formData.append(keys[index], val)
                     })
                 if (filter_brand)
                     formData.append("filter_brand", filter_brand)
@@ -24,13 +30,16 @@ export const ProductMiddleware = {
                     formData.append("filter_category", filter_category)
 
                 formData.append("search", search)
+
                 console.warn(formData)
                 let request = await post(next_url, formData);
                 if (request) {
                     if (next_url == APIs.AllProducts)
                         dispatch(ProductActions.GetAllProducts(request));
-                    else
-                        dispatch(ProductActions.GetAllProducts(request))
+                    else {
+                        // if (page != request.current_page)
+                        dispatch(ProductActions.GetMoreAllProducts(request))
+                    }
                     callback();
                 }
             } catch (error) {

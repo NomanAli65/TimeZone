@@ -20,8 +20,9 @@ const ProductReducer = (state = initialSate, action) => {
         case ProductTypes.GET_ALL_PRODUCTS:
             state = { ...state, data: action.payload };
             break;
-        case ProductTypes.GET_MORE_PRODUCTS:
-            state = { ...state, data: { ...action.payload, data: [...state.data?.data, ...action.payload.data] } };
+        case ProductTypes.GET_MORE_ALL_PRODUCTS:
+            if (state.data.current_page != action.payload.current_page)
+                state = { ...state, data: { ...action.payload, data: [...state.data?.data, ...action.payload.data] } };
             break;
         case ProductTypes.GET_ORDERS:
             state = { ...state, orders: action.payload };
