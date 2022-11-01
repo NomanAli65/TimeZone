@@ -97,7 +97,7 @@ export default class SearchFilter extends Component {
                                 value={this.state.filter.sortBy}
                                 name="SortGroup"> */}
                             <VStack>
-                                <Checkbox
+                                {/* <Checkbox
                                     value="popular"
                                     isChecked={this.state.filter.sortBy.includes("popular")}
                                     onChange={()=>this.onSortSelect("popular")}
@@ -110,6 +110,13 @@ export default class SearchFilter extends Component {
                                     onChange={()=>this.onSortSelect("latest")}
                                     my={1}>
                                     Latest
+                                </Checkbox> */}
+                                <Checkbox
+                                    value="highToLow"
+                                    isChecked={this.state.filter.sortBy.includes("highToLow")}
+                                    onChange={()=>this.onSortSelect("highToLow")}
+                                    my={1}>
+                                    Price:High to low
                                 </Checkbox>
                                 <Checkbox
                                     value="lowToHigh"
@@ -118,13 +125,13 @@ export default class SearchFilter extends Component {
                                     my={1}>
                                     Price:Low to high
                                 </Checkbox>
-                                <Checkbox
+                                {/* <Checkbox
                                     value="featured"
                                     isChecked={this.state.filter.sortBy.includes("featured")}
                                     onChange={()=>this.onSortSelect("featured")}
                                     my={1}>
                                     Featured
-                                </Checkbox>
+                                </Checkbox> */}
                             </VStack>
                             {/* </Checkbox.Group> */}
                         </VStack>
