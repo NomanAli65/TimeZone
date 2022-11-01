@@ -49,7 +49,7 @@ class Help extends Component {
         let item = this.props.route.params?.item;
         return (
             <View flex={1} backgroundColor="white" _dark={{ backgroundColor: "black" }}>
-                <Box position="absolute" top={"5%"} left="3%">
+                <Box >
                     <IconButton
                         onPress={() => this.props.navigation.goBack()}
                         icon={<MaterialIcons name='chevron-left' size={25} color={theme.config.initialColorMode == "dark" ? "#fff" : "#000"} />}
@@ -83,7 +83,7 @@ class Help extends Component {
                                         <Text mt={-2}>{item?.ref_number ? item?.ref_number : "No reference number available"}</Text>
                                         <Text fontSize={"12"} color={"primary.100"} flexWrap={"wrap"} numberOfLines={3} bold>
                                             {/* {item?.price} */}
-                                            Reqeust for price
+                                            Request for price
                                         </Text>
                                     </Stack>
                                 </HStack>

@@ -28,7 +28,7 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
 
     useEffect(() => {
         addToWishlist(wish);
-        let formatted_price = !onlyNumbers(item?.price) ? item?.price : numbro(item?.price).formatCurrency({
+        let formatted_price = item?.price==0 ? "Request for price" : numbro(item?.price).formatCurrency({
             thousandSeparated: true,
             abbreviations: {
                 thousand: "k",
@@ -93,7 +93,7 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
                             <VStack>
                                 <HStack alignItems={"center"} space={1}>
                                     <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
-                                        {onlyNumbers(item?.price) ? "PRICE" : ""} <Text color={"primary.100"} >{price}</Text>
+                                        {item?.price!=0 ? "PRICE" : ""} <Text color={"primary.100"} >{price}</Text>
                                     </Text>
                                     {/* <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
                                         PRICE <Text color={item.discount?.discount_value ?"red.500":"primary.100"} textDecorationLine={item.discount?.discount_value ? "line-through" : "none"} >{item.price} AED</Text>

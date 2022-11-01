@@ -109,14 +109,14 @@ class ProductDetail extends Component {
         let data = this.props.route.params?.item;
         let price = data?.price;
         let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
-        let formatted_price = this.onlyNumbers(price) ? numbro(price).formatCurrency({
+        let formatted_price = price == 0 ? "Request for price" : numbro(price).formatCurrency({
             thousandSeparated: true,
             abbreviations: {
                 thousand: "k",
                 million: "m"
             },
             currencySymbol: "AED "
-        }) : price;
+        });
         //data?.availability == 1 ? "In Stock" : "Out of Stock"
         return (
             <View flex={1}
@@ -166,7 +166,7 @@ class ProductDetail extends Component {
                                     */}
                                     <Heading fontSize={"xl"} color={"primary.100"}>
                                         {
-                                            this.onlyNumbers(price) ?
+                                            price != 0 ?
                                                 <Heading fontSize={"md"} color={"black"}>PRICE: </Heading>
                                                 : ""
                                         }
@@ -259,7 +259,7 @@ class ProductDetail extends Component {
                     </VStack>
                 </ScrollView>
                 {
-                    !this.onlyNumbers(price) ?
+                    price == 0 ?
                         <Pressable w={"100%"} onPress={() => this.props.navigation.navigate("ContactUs", { item: data })}>
                             <Box backgroundColor={"primary.100"} h="12" w={"100%"} alignItems={"center"} justifyContent={"center"}>
                                 <Text color={"white"} fontSize={"md"}>
