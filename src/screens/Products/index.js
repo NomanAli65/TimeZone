@@ -45,7 +45,7 @@ class index extends Component {
         let search = this.props.route.params?.search ? this.props.route.params?.search : "";
         let filter = this.props.route.params?.filter;
         this.filters = {
-            sortBy: filter,
+            sortBy: filter ? filter : [],
         }
         this.setState({ search })
         this.props.getAllProducts({
@@ -128,7 +128,7 @@ class index extends Component {
     getFilters = (filters) => {
         return {
             filters: {
-                filter_sort: filters?.sortBy ? filters.sortBy : "",
+                filter_sort: filters?.sortBy ? filters.sortBy : [],
                 // filter_gender: filters?.gender ? filters.gender : "",
                 filter_color: filters?.color ? filters?.color : "",
                 filter_availability: filters?.avail ? filters?.avail : "",

@@ -34,6 +34,7 @@ export const ProductMiddleware = {
                 console.warn(formData)
                 let request = await post(next_url, formData);
                 if (request) {
+                    console.warn(request)
                     if (next_url == APIs.AllProducts)
                         dispatch(ProductActions.GetAllProducts(request));
                     else {
