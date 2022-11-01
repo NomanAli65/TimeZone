@@ -37,14 +37,46 @@ export default class SearchFilter extends Component {
 
     onSortSelect = (val) => {
         let data = [...this.state.filter.sortBy];
+
+
         let index = this.state.filter.sortBy.findIndex((i) => i == val);
-        if (index == -1)
-            this.setState({
-                filter: {
-                    ...this.state.filter,
-                    sortBy: [...this.state.filter.sortBy, val]
-                }
-            })
+        if (index == -1) {
+            if (!data.includes("lowToHigh") && val == "highToLow") {
+                this.setState({
+                    filter: {
+                        ...this.state.filter,
+                        sortBy: [...this.state.filter.sortBy, val]
+                    }
+                })
+            }
+            if (data.includes("lowToHigh") && val == "highToLow") {
+                data=data.filter((v)=>v!="lowToHigh");
+                this.setState({
+                    filter: {
+                        ...this.state.filter,
+                        sortBy: [...data,val]
+                    }
+                })
+            }
+            if (!data.includes("highToLow") && val == "lowToHigh") {
+                this.setState({
+                    filter: {
+                        ...this.state.filter,
+                        sortBy: [...this.state.filter.sortBy, val]
+                    }
+                })
+            }
+            if (data.includes("highToLow") && val == "lowToHigh") {
+                data=data.filter((v)=>v!="highToLow");
+                this.setState({
+                    filter: {
+                        ...this.state.filter,
+                        sortBy: [...data,val]
+                    }
+                })
+            }
+
+        }
         else {
             data.splice(index, 1);
             this.setState({
@@ -114,14 +146,14 @@ export default class SearchFilter extends Component {
                                 <Checkbox
                                     value="highToLow"
                                     isChecked={this.state.filter.sortBy.includes("highToLow")}
-                                    onChange={()=>this.onSortSelect("highToLow")}
+                                    onChange={() => this.onSortSelect("highToLow")}
                                     my={1}>
                                     Price:High to low
                                 </Checkbox>
                                 <Checkbox
                                     value="lowToHigh"
                                     isChecked={this.state.filter.sortBy.includes("lowToHigh")}
-                                    onChange={()=>this.onSortSelect("lowToHigh")}
+                                    onChange={() => this.onSortSelect("lowToHigh")}
                                     my={1}>
                                     Price:Low to high
                                 </Checkbox>
