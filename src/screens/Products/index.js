@@ -30,9 +30,7 @@ class index extends Component {
                 filter_availability: ""
             },
             colors: [],
-            otherFilter: category ? {
-                categories: category.id
-            } : {}
+            otherFilter: []
         };
     }
 
@@ -49,7 +47,7 @@ class index extends Component {
         let filter = this.props.route.params?.filter;
         this.filters = {
             sortBy: filter ? filter : [],
-            ...category.id ? {
+            ...category?.id ? {
                 categories: category.id
             } : {}
 
