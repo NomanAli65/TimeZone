@@ -17,6 +17,7 @@ class index extends Component {
     constructor(props) {
         super(props);
         let filter = this.props.route.params?.filter;
+        let category = this.props.route.params?.category;
         this.state = {
             loading: true,
             loadingMore: false,
@@ -29,7 +30,9 @@ class index extends Component {
                 filter_availability: ""
             },
             colors: [],
-            otherFilter: []
+            otherFilter: category ? {
+                categories: category.id
+            } : {}
         };
     }
 
@@ -46,6 +49,10 @@ class index extends Component {
         let filter = this.props.route.params?.filter;
         this.filters = {
             sortBy: filter ? filter : [],
+            ...category.id ? {
+                categories: category.id
+            } : {}
+
         }
         this.setState({ search })
         this.props.getAllProducts({

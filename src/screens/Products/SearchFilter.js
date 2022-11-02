@@ -148,14 +148,14 @@ export default class SearchFilter extends Component {
                                     isChecked={this.state.filter.sortBy.includes("highToLow")}
                                     onChange={() => this.onSortSelect("highToLow")}
                                     my={1}>
-                                    Price:High to low
+                                    Price:High to Low
                                 </Checkbox>
                                 <Checkbox
                                     value="lowToHigh"
                                     isChecked={this.state.filter.sortBy.includes("lowToHigh")}
                                     onChange={() => this.onSortSelect("lowToHigh")}
                                     my={1}>
-                                    Price:Low to high
+                                    Price:Low to High
                                 </Checkbox>
                                 {/* <Checkbox
                                     value="featured"
@@ -272,7 +272,7 @@ export default class SearchFilter extends Component {
                                 </Box>
                             ))
                         }
-                        <VStack space={2}>
+                        {/* <VStack space={2}>
                             <Heading>
                                 Availability
                             </Heading>
@@ -302,7 +302,7 @@ export default class SearchFilter extends Component {
                                     Out-Stock
                                 </Checkbox>
                             </Checkbox.Group>
-                        </VStack>
+                        </VStack> */}
                     </VStack>
                 </ScrollView >
                 <HStack justifyContent={"space-between"}>
