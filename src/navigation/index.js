@@ -26,16 +26,22 @@ export default function Navigation() {
         let user = JSON.parse(result);
         dispatch(AuthAction.Login(user))
         setAppIsReady(true);
-        await SplashScreen.hideAsync();
+        setTimeout(async () => {
+          await SplashScreen.hideAsync();
+        }, 3000)
       }
       else {
         console.warn("red")
         setAppIsReady(true);
-        await SplashScreen.hideAsync();
+        setTimeout(async () => {
+          await SplashScreen.hideAsync();
+        }, 3000)
       }
     } catch (error) {
       setAppIsReady(true);
-      await SplashScreen.hideAsync();
+      setTimeout(async () => {
+        await SplashScreen.hideAsync();
+      }, 3000)
       console.warn(error)
     }
   }

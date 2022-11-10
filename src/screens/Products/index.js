@@ -146,6 +146,7 @@ class index extends Component {
     }
 
     render() {
+        let brand = this.props.route.params?.brand;
         return (
             <View flex={1}
                 backgroundColor="#fff"
@@ -183,6 +184,7 @@ class index extends Component {
                             this.props.getAllProducts({
                                 next_url: APIs.AllProducts,
                                 search: this.state.search,
+                                filter_brand: brand?.id ? brand?.id : "",
                                 ...this.getFilters(filters),
                                 callback: () => {
                                     this.setState({ loading: false })
