@@ -174,7 +174,7 @@ class index extends Component {
                         null
                 }
 
-                <AlertDialog isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
+                <AlertDialog colorScheme={"primary"} isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
                     <AlertDialog.Content>
                         <AlertDialog.CloseButton />
                         <AlertDialog.Header>Remove From Wishlist</AlertDialog.Header>

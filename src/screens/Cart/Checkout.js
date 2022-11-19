@@ -1,7 +1,7 @@
 import { Box, Button, Divider, FlatList, Heading, HStack, Icon, Image, ScrollView, Stack, Text, View, VStack } from 'native-base';
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
-import { Entypo, FontAwesome5 } from "@expo/vector-icons";
+import { Entypo, FontAwesome5, Ionicons } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
 import { connect } from 'react-redux';
 import { AlertTypes } from '../../redux/ActionTypes/AlertActions';
@@ -201,6 +201,17 @@ class Checkout extends Component {
                                     </Heading>
                                     <Icon as={Entypo} name='edit' size={6} onPress={() => { this.props.navigation.navigate("Payments") }} />
                                 </HStack>
+                                <VStack>
+                                    <HStack>
+                                        <Icon as={Ionicons} name="cash" size={6} />
+                                        <Text bold ml={2}>
+                                            COD
+                                        </Text>
+                                    </HStack>
+                                    <Text>
+                                        Cash on delivery
+                                    </Text>
+                                </VStack>
                                 <VStack>
                                     <HStack>
                                         <Icon as={Entypo} name="credit-card" size={6} />

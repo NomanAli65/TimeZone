@@ -30,6 +30,7 @@ export const UserMiddleware = {
         return async dispatch => {
             try {
                 let formData = new FormData();
+                formData.append("card_holder_name", data.name);
                 formData.append("card_number", data.number);
                 formData.append("exp_date", data.expiry);
                 formData.append("cvc", data.cvc);
