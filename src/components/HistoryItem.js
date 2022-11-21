@@ -80,11 +80,16 @@ function HistoryItem({ item }) {
                         : null
                 }
                 <HStack justifyContent={"space-between"} w="100%" mt={3}>
-                    <Heading flexWrap={"wrap"} numberOfLines={3} bold color={"primary.100"}>
-                        {formatted_price}
-                    </Heading>
-                    <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} alignSelf='flex-end'>
-                        <Text color={"gray.400"}>{item?.created_at ? new Date(item?.created_at).toDateString() : ""}</Text>
+                    <VStack>
+                        <Heading flexWrap={"wrap"} numberOfLines={3} bold color={"primary.100"}>
+                            {formatted_price}
+                        </Heading>
+                        <Text fontSize={"12"} flexWrap={"wrap"} color={"gray.400"}>
+                            {item?.payment_type == "card" ? "Credit/Debit Card" : "COD Cash on delivery"}
+                        </Text>
+                    </VStack>
+                    <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} alignSelf='flex-end' color={"gray.400"}>
+                        {item?.created_at ? new Date(item?.created_at).toDateString() : ""}
                     </Text>
                 </HStack>
             </Stack>

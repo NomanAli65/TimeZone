@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, AlertDialog, Box, Button, CloseIcon, Text, HStack, IconButton, NativeBaseProvider, VStack, View } from 'native-base';
+import { Alert, AlertDialog, Box, Button, CloseIcon, Text, HStack, IconButton, NativeBaseProvider, VStack, View, Heading } from 'native-base';
 import { StyleSheet } from "react-native";
 import theme from "../../src/configs/Theme";
 import config from "../../src/configs/NBconfig";
@@ -110,9 +110,9 @@ export default function Navigation() {
               <Alert variant={"subtle"} w="96%" status={alertOptions?.status ? alertOptions.status : "success"} backgroundColor="primary.100" position={"absolute"} bottom={60} borderRadius={10} alignSelf="center">
                 <VStack space={1} flexShrink={1} w="100%" alignItems="center">
                   <Alert.Icon color={"black"} size="md" />
-                  <Text fontSize="md" fontWeight="medium" color={"white"}>
+                  <Heading fontSize="md" color={"white"}>
                     {alertOptions?.title}
-                  </Text>
+                  </Heading>
 
                   <Box _text={{
                     textAlign: "center",

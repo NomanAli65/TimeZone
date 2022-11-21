@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 class AddCard extends Component {
 
     state = {
+        name: "",
         number: "",
         expiry: "",
         cvc: "",
@@ -18,6 +19,7 @@ class AddCard extends Component {
 
     AddCard = () => {
         let {
+            name,
             number,
             expiry,
             cvc
@@ -28,6 +30,7 @@ class AddCard extends Component {
         }
         this.setState({ loading: true });
         this.props.AddCard({
+            name,
             number,
             expiry,
             cvc,
@@ -57,15 +60,19 @@ class AddCard extends Component {
                     <FormControl isInvalid={this.state.invalid} marginY={50}>
                         <VStack w="100%" space="md">
                             <Input
+                                InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Card holder name"
+                                onChangeText={(name) => this.setState({ name, invalid: "" })}
+                            />
+                            <Input
                                 keyboardType='numeric'
                                 maxLength={20}
-                                InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Card number"
+                                InputLeftElement={<Icon as={Ionicons} name='card' size={5} color="#bbb" ml={2} />} placeholder="Card number"
                                 onChangeText={(number) => this.setState({ number, invalid: "" })}
                             />
                             <HStack space={3} w="100%">
                                 <Input
                                     keyboardType='numeric'
-                                    w="48%" InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="Expiry"
+                                    w="48%" InputLeftElement={<Icon as={Ionicons} name='calendar' size={5} color="#bbb" ml={2} />} placeholder="Expiry"
                                     maxLength={7}
                                     value={this.state.expiry}
                                     onKeyPress={(e) => this.backspace = e.nativeEvent.key}
@@ -83,7 +90,7 @@ class AddCard extends Component {
                                 <Input
                                     keyboardType='numeric'
                                     maxLength={5}
-                                    w="48%" InputLeftElement={<Icon as={Ionicons} name='person' size={5} color="#bbb" ml={2} />} placeholder="CVC/CVV"
+                                    w="48%" InputLeftElement={<Icon as={Ionicons} name='card' size={5} color="#bbb" ml={2} />} placeholder="CVC/CVV"
                                     onChangeText={(cvc) => this.setState({ cvc, invalid: "" })}
                                 />
                             </HStack>

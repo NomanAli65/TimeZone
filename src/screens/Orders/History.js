@@ -9,40 +9,6 @@ import { APIs, img_url } from '../../configs/APIs';
 import numbro from 'numbro';
 import HistoryItem from '../../components/HistoryItem';
 
-
-const data = [
-    {
-        name: "Rolex with diamonds",
-        desc: "watch with diamonds in its dial and it looks beautiful to watch watch with diamonds in its dial and it looks beautiful to watch",
-        image: require("../../../assets/wt.png")
-    },
-    {
-        name: "Rolex with diamonds",
-        desc: "watch with diamonds in its dial and it looks beautiful to watch",
-        image: require("../../../assets/wt.png")
-    },
-    {
-        name: "Rolex with diamonds",
-        desc: "watch with diamonds in its dial and it looks beautiful to watch",
-        image: require("../../../assets/wt.png")
-    },
-    {
-        name: "Rolex with diamonds",
-        desc: "watch with diamonds in its dial and it looks beautiful to watch",
-        image: require("../../../assets/wt.png")
-    },
-    {
-        name: "Rolex with diamonds",
-        desc: "watch with diamonds in its dial and it looks beautiful to watch",
-        image: require("../../../assets/wt.png")
-    },
-    {
-        name: "Rolex with diamonds",
-        desc: "watch with diamonds in its dial and it looks beautiful to watch",
-        image: require("../../../assets/wt.png")
-    }
-]
-
 class History extends Component {
     constructor(props) {
         super(props);

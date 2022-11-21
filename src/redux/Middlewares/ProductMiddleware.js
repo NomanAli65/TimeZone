@@ -99,6 +99,7 @@ export const ProductMiddleware = {
                 formData.append("address", data.address);
                 formData.append("cartData", JSON.stringify(data.cart));
                 formData.append("source_id", data.source_id);
+                formData.append("payment_type", data.paymentType);
                 // data.cart.forEach((element)=>{
                 //     formData.append("cartData[]", element);
                 // })
@@ -135,10 +136,11 @@ export const ProductMiddleware = {
             }
         };
     },
-    getAllColors: (callback) => {
+    getAllColors: (callback, id) => {
         return async dispatch => {
             try {
-                let request = await get(APIs.GetColors);
+                let cat_id = id ? "/" + id : "";
+                let request = await get(APIs.GetColors + cat_id);
                 if (request) {
                     callback(request);
                 }
@@ -148,10 +150,11 @@ export const ProductMiddleware = {
             }
         };
     },
-    getAllFitlers: (callback) => {
+    getAllFitlers: (callback, id) => {
         return async dispatch => {
             try {
-                let request = await get(APIs.GetFilters);
+                let cat_id = id ? "/" + id : "";
+                let request = await get(APIs.GetFilters + cat_id);
                 if (request) {
                     callback(request);
                 }

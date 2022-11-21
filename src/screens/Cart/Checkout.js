@@ -1,7 +1,7 @@
-import { Box, Button, Divider, FlatList, Heading, HStack, Icon, Image, ScrollView, Stack, Text, View, VStack } from 'native-base';
+import { Box, Button, Divider, FlatList, Heading, HStack, Icon, Image, Radio, ScrollView, Stack, Text, View, VStack } from 'native-base';
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
-import { Entypo, FontAwesome5 } from "@expo/vector-icons";
+import { Entypo, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
 import { connect } from 'react-redux';
 import { AlertTypes } from '../../redux/ActionTypes/AlertActions';
@@ -20,7 +20,8 @@ class Checkout extends Component {
             address: this.props.user?.user?.address + ", " + this.props.user?.user.city + ", " + this.props.user?.user.country,
             loading: false,
             tax: this.props.route?.params?.tax,
-            tax_loading: true
+            tax_loading: true,
+            paymentType: "card"
         };
     }
 
@@ -146,6 +147,7 @@ class Checkout extends Component {
             tax_amount: this.getTotalPrice() / 100 * this.props.user.vat.vat_percent,
             total: total,
             address: this.state.address,
+            paymentType: this.state.paymentType,
             source_id: this.props.all_methods.find(val => val.is_default == "1").stripe_card_id,
             onSuccess: (success) => {
                 this.setState({ loading: false })
@@ -220,19 +222,66 @@ class Checkout extends Component {
                                     </Heading>
                                     <Icon as={Entypo} name='edit' size={6} onPress={() => { this.props.navigation.navigate("Payments") }} />
                                 </HStack>
-                                <VStack>
-                                    <HStack>
-                                        <Icon as={Entypo} name="credit-card" size={6} />
-                                        <Text bold ml={2}>
-                                            Card
+                                <Radio.Group
+                                    value={this.state.paymentType}
+                                    onChange={(value) => this.setState({ paymentType: value })}
+                                    justifyContent={"space-between"}
+                                    flexDirection={"row"}>
+                                    <Radio
+                                        value='card'
+                                    >
+                                        <Text ml={2}>
+                                            Credit/Debit Card
                                         </Text>
-                                    </HStack>
-                                    <Text>
-                                        {this.props.all_methods.length != 0 ?
-                                            "xxxx-xxxx-xxxx-" + this.props.all_methods.find(val => val.is_default == "1").card_end_number
-                                            : ""}
-                                    </Text>
-                                </VStack>
+                                    </Radio>
+                                    <Radio
+                                        value='cod'
+                                    >
+                                        <Text ml={2}>
+                                            COD Cash on delivery
+                                        </Text>
+                                    </Radio>
+                                </Radio.Group>
+                                {
+                                    this.state.paymentType == "card" ?
+                                        <VStack>
+                                            <HStack>
+                                                <Icon as={Entypo} name="credit-card" size={6} />
+                                                <Text bold ml={2}>
+                                                    Card
+                                                </Text>
+                                            </HStack>
+                                            {this.props.all_methods.length != 0 ?
+                                                <Box>
+                                                    {this.props.all_methods.find(val => val.is_default == "1").holder_name ?
+                                                        <Text>
+                                                            {this.props.all_methods.find(val => val.is_default == "1").holder_name
+                                                            }
+                                                        </Text>
+                                                        : null}
+                                                    <Text>
+
+                                                        {"xxxx-xxxx-xxxx-" + this.props.all_methods.find(val => val.is_default == "1").card_end_number
+                                                        }
+                                                    </Text>
+                                                </Box>
+                                                : null
+                                            }
+
+                                        </VStack>
+                                        :
+                                        <VStack>
+                                            <HStack>
+                                                <Icon as={MaterialCommunityIcons} name="cash" size={6} />
+                                                <Text bold ml={2}>
+                                                    COD
+                                                </Text>
+                                            </HStack>
+                                            <Text>
+                                                Cash on delivery
+                                            </Text>
+                                        </VStack>
+                                }
                             </VStack>
                         </Box>
                         <Button onPress={() => this.setState({ b_pickup: !this.state.b_pickup })} variant={this.state.b_pickup ? "solid" : "outline"}>

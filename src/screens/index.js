@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Button, FlatList, Heading, HStack, Icon, IconButton, Image, Pressable, ScrollView, Skeleton, Stack, Text, View } from 'native-base';
+import { AspectRatio, Box, Button, FlatList, Heading, HStack, Icon, IconButton, Image, Pressable, ScrollView, Skeleton, Stack, Text, View, VStack } from 'native-base';
 import React, { Component, useState } from 'react';
 import AppBar from '../components/Appbar';
 import SearchBar from '../components/SearchBar';
@@ -16,7 +16,7 @@ import { DeviceType, getDeviceTypeAsync } from "expo-device"
 const { width } = Dimensions.get("window");
 
 
-const dummy_data = ["", "", "", "", ""];
+const dummy_data = ["", "",];
 
 class index extends Component {
 
@@ -59,6 +59,11 @@ class index extends Component {
           })
       }
     })
+    // this.props.getTopCategories({
+    //   callback: () => {
+    //     this.setState({ loading: false })
+    //   }
+    // })
     this.props.getDashboard({
       onSuccess: () => {
         this.setState({ loading: false })
@@ -88,25 +93,32 @@ class index extends Component {
   )
 
   _renderItemSmall = ({ item }) => {
+    // <Box p={3} position="absolute" left={0} right={0} bottom={0} backgroundColor={"rgba(0,0,0,0.5)"}>
+    //           </Box>
+
     if (this.state.loading)
       return (
-        <Box alignItems="center" marginRight={3} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
-          <Stack space={4} alignItems="center">
-            <Skeleton h={70} w={70} />
-          </Stack>
+        <Box w={width * 0.45} h={width * 0.5} marginRight={3} backgroundColor="#f7f7f7" overflow={"hidden"} _dark={{ backgroundColor: "gray.800" }} rounded="lg" >
+          <Skeleton flex={1} />
         </Box>
       )
     else
       return (
-        <Box alignItems="center" marginRight={3} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" p={2}>
+        <Box w={width * 0.45} h={width * 0.53} marginRight={3} backgroundColor="#f7f7f7" _dark={{ backgroundColor: "gray.800" }} overflow={"hidden"} rounded="lg">
           <Pressable
+            flex={1}
             onPress={() => {
               this.props.navigation.navigate("Products", { category: item })
             }}
           >
-            <Stack space={4} alignItems="center">
-              <Image alignSelf={"center"} h={60} w={60} source={item.category_image ? { uri: img_url + item.category_image } : require("../../assets/placeholder.png")} alt="image" resizeMode='stretch' />
-            </Stack>
+            <VStack flex={1}>
+              <Image flex={1} source={item.category_image ? { uri: img_url + item.category_image } : require("../../assets/placeholder.png")} alt="image" resizeMode='stretch' />
+              <Box p={3}>
+                <Heading size="md" numberOfLines={1}>
+                  {item?.category_name}
+                </Heading>
+              </Box>
+            </VStack>
           </Pressable>
         </Box>
       )
@@ -336,14 +348,14 @@ class index extends Component {
                 <Heading>
                   Categories
                 </Heading>
-                <Button
+                {/* <Button
                   onPress={() => this.props.navigation.navigate("TopCategories")}
                   variant={"unstyled"} rightIcon={<Icon as={MaterialIcons} name="chevron-right" size={"sm"} mx={-2} />}>
                   View more
-                </Button>
+                </Button> */}
               </HStack>
               <FlatList
-                horizontal
+                numColumns={2}
                 keyExtractor={(item) => item.id}
                 data={!this.state.loading ? this.props.dashboard?.top_categories : dummy_data}
                 renderItem={this._renderItemSmall}
@@ -390,11 +402,13 @@ class index extends Component {
 
 const mapStateToProps = state => ({
   loading: state.GeneralReducer.loading,
+  top_categories: state.GeneralReducer.top_categories,
   dashboard: state.GeneralReducer.dashboardData,
   user: state.Auth.user
 })
 
 const mapDispatchToProps = dispatch => ({
+  getTopCategories: data => dispatch(GeneralMiddleware.getTopCategories(data)),
   getDashboard: data => dispatch(GeneralMiddleware.getDashboardData(data)),
   emptyDashboard: () => dispatch(GeneralActions.SetDashboardData(undefined)),
   StopLoading: () => dispatch(GeneralActions.HideLoading()),

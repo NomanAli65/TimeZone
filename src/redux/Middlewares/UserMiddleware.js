@@ -16,7 +16,7 @@ export const UserMiddleware = {
                     onSuccess(true);
                     return;
                 }
-                 onSuccess(false)
+                onSuccess(false)
                 // dispatch(GeneralActions.HideLoading());
                 //dispatch({ type: ActionTypes.HideLoading });
             } catch (error) {
@@ -30,6 +30,7 @@ export const UserMiddleware = {
         return async dispatch => {
             try {
                 let formData = new FormData();
+                formData.append("holder_name", data.name);
                 formData.append("card_number", data.number);
                 formData.append("exp_date", data.expiry);
                 formData.append("cvc", data.cvc);
@@ -51,9 +52,9 @@ export const UserMiddleware = {
         return async dispatch => {
             try {
                 dispatch(UserActions.DeleteCard(data.index))
-                let formData=new FormData();
-                formData.append("id",data.id)
-                let request = await post(APIs.DeletePaymentMethod,formData);
+                let formData = new FormData();
+                formData.append("id", data.id)
+                let request = await post(APIs.DeletePaymentMethod, formData);
                 if (request) {
                     data.onSuccess()
                 }

@@ -1,4 +1,4 @@
-import { Box, Fab, FlatList, HStack, Icon, IconButton, Image, Pressable, Radio, Spinner, Text, View } from 'native-base';
+import { Box, Fab, FlatList, HStack, Icon, IconButton, Image, Pressable, Radio, Spinner, Text, View, VStack } from 'native-base';
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
 import { AntDesign, Ionicons } from "@expo/vector-icons";
@@ -45,7 +45,10 @@ class index extends Component {
                                 />
                             </Radio.Group>
                             <Image alt={"image"} w={25} h={6} resizeMode="stretch" source={item.card_brand == "Visa" ? require("../../../assets/visa.png") : require("../../../assets/master.png")} />
-                            <Text bold>xxxx-xxxx-xxxx-{item.card_end_number}</Text>
+                            <VStack>
+                                <Text bold>{item.holder_name}</Text>
+                                <Text bold>xxxx-xxxx-xxxx-{item.card_end_number}</Text>
+                            </VStack>
                         </HStack>
                         <IconButton
                             icon={<Ionicons name="trash-bin" color={theme.config.initialColorMode == "dark" ? "#ccc" : "#000"} size={20} />}

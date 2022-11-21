@@ -35,16 +35,17 @@ class index extends Component {
     }
 
     componentDidMount() {
-        this.props.getAllColors((data) => {
-            this.setState({ colors: data })
-        })
-        this.props.getAllFilters((data) => {
-            this.setState({ otherFilter: data })
-        })
+
         let category = this.props.route.params?.category;
         let brand = this.props.route.params?.brand;
         let search = this.props.route.params?.search ? this.props.route.params?.search : "";
         let filter = this.props.route.params?.filter;
+        this.props.getAllColors((data) => {
+            this.setState({ colors: data })
+        }, category?.id)
+        this.props.getAllFilters((data) => {
+            this.setState({ otherFilter: data })
+        }, category?.id)
         this.filters = {
             sortBy: filter ? filter : [],
             ...category?.id ? {
@@ -97,7 +98,6 @@ class index extends Component {
     onEndReached = () => {
         let category = this.props.route.params?.category;
         let brand = this.props.route.params?.brand;
-        console.warn(this.props.products)
         if (this.props.products?.next_page_url) {
             this.setState({ loadingMore: true })
             this.props.getAllProducts({
@@ -181,6 +181,12 @@ class index extends Component {
                                     }
                                 });
                             }
+                            this.props.getAllColors((data) => {
+                                this.setState({ colors: data })
+                            }, filters?.categories)
+                            this.props.getAllFilters((data) => {
+                                this.setState({ otherFilter: data })
+                            }, filters?.categories)
                             this.props.getAllProducts({
                                 next_url: APIs.AllProducts,
                                 search: this.state.search,
@@ -243,8 +249,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     getAllProducts: data => dispatch(ProductMiddleware.getAllProducts(data)),
-    getAllColors: callback => dispatch(ProductMiddleware.getAllColors(callback)),
-    getAllFilters: callback => dispatch(ProductMiddleware.getAllFitlers(callback)),
+    getAllColors: (callback, id) => dispatch(ProductMiddleware.getAllColors(callback, id)),
+    getAllFilters: (callback, id) => dispatch(ProductMiddleware.getAllFitlers(callback, id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

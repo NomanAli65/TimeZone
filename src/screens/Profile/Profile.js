@@ -73,7 +73,9 @@ class Profile extends Component {
                                         this.props.user?.user?.phone_verified_at ?
                                             null
                                             :
-                                            <Icon as={AntDesign} name="exclamationcircle" size={"xs"} color="red.600" />
+                                            this.props.user?.user?.phone ?
+                                                <Icon as={AntDesign} name="exclamationcircle" size={"xs"} color="red.600" />
+                                                : null
                                     }
                                 </HStack>
                             </Pressable>

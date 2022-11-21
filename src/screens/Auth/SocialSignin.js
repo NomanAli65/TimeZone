@@ -12,6 +12,8 @@ import { useDispatch } from 'react-redux';
 import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 import { useNavigation } from '@react-navigation/native';
 import AlertAction from '../../redux/Actions/AlertActions';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import { Platform } from 'expo-modules-core';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -21,6 +23,7 @@ function SocialSignin(props) {
     const navigation = useNavigation();
     const [loading, setLoading] = useState();
     const [fbLoading, setFBLoading] = useState();
+    const [appleLoading, setAppleLoading] = useState();
 
     const [request, response, promptAsync] = Google.useAuthRequest({
         expoClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
@@ -49,6 +52,11 @@ function SocialSignin(props) {
         scheme: "timezone",
         useProxy: true
     });
+
+    useEffect(() => {
+        if (Platform.OS == "ios")
+            AppleAuthentication.signOutAsync();
+    }, [])
 
     const _GoogleSignin = async () => {
 
@@ -104,7 +112,7 @@ function SocialSignin(props) {
                     setFBLoading(false)
                     return;
                 }
-                let userPic = await axios.get("https://graph.facebook.com/v15.0/" + id + "/picture?redirect=false")
+                let userPic = await axios.get("https://graph.facebook.com/v15.0/" + id + "/picture?redirect=false&height=200&width=200&type=large")
                 let pic = userPic?.data?.data?.url;
                 const token = (await Notifications.getExpoPushTokenAsync()).data;
                 dispatch(AuthMiddleware.SocialSignin({
@@ -131,14 +139,46 @@ function SocialSignin(props) {
         }
     }
 
+    const _AppleSignin = async () => {
+        try {
+            setAppleLoading(true);
+            const result = await AppleAuthentication.signInAsync({
+                requestedScopes: [AppleAuthentication.AppleAuthenticationScope.EMAIL, AppleAuthentication.AppleAuthenticationScope.FULL_NAME],
+            })
+            if (result?.email) {
+                const token = (await Notifications.getExpoPushTokenAsync()).data;
+                dispatch(AuthMiddleware.SocialSignin({
+                    onSuccess: (success, msg) => {
+                        setAppleLoading(false)
+                        if (!success)
+                            return;
+                        navigation.navigate("Dashboard")
+                    },
+                    name: result.fullName,
+                    email: result.email,
+                    pic: "",
+                    token
+                }))
+            }
+            else if (result.error) {
+                setAppleLoading(false)
+                alert("Error occured. Please try again")
+            }
+        } catch (error) {
+            console.warn(error)
+            setAppleLoading(false)
+            alert("Error occured")
+        }
+    }
+
     return (
-        <VStack>
+        <VStack space={5}>
             <Button
                 disabled={fbLoading}
                 onPress={_FacebookSignin}
                 isLoading={fbLoading}
                 isLoadingText="Signing in"
-                marginBottom={5} h="12" backgroundColor="#4267B2" leftIcon={<Icon as={Fontisto} name="facebook" size="4" />}>
+                h="12" backgroundColor="#4267B2" leftIcon={<Icon as={Fontisto} name="facebook" size="4" />}>
                 Facebook
             </Button>
             <Button
@@ -149,6 +189,18 @@ function SocialSignin(props) {
                 backgroundColor={"#DB4437"} h="12" leftIcon={<Icon as={AntDesign} name="google" size="4" />}>
                 Google
             </Button>
+            {
+                Platform.OS == "ios" ?
+                    <Button
+                        disabled={appleLoading}
+                        onPress={_AppleSignin}
+                        isLoading={appleLoading}
+                        isLoadingText="Signing in"
+                        backgroundColor={"#555555"} h="12" leftIcon={<Icon as={AntDesign} name="apple1" size="4" />}>
+                        Apple
+                    </Button>
+                    : null
+            }
         </VStack>
     );
 }
