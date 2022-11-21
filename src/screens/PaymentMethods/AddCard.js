@@ -100,12 +100,16 @@ class AddCard extends Component {
                             {this.state.invalid}
                         </FormControl.ErrorMessage>
                     </FormControl>
+                    
                     <LGButton
                         isLoading={this.state.loading}
                         isLoadingText={"Adding"}
                         title="Add"
                         onPress={this.AddCard}
                     />
+                    <Text mt={5}>
+                        For Cash payment option holding period of 2 hours for 1 timepiece, for any extension or special request you can edit/email us for your requirement. 
+                    </Text>
                 </View>
             </View>
         );
