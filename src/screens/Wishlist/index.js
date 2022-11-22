@@ -179,18 +179,18 @@ class index extends Component {
                 }
 
                 <AlertDialog isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
-                    <AlertDialog.Content backgroundColor={"primary.100"}>
+                    <AlertDialog.Content>
                         <AlertDialog.CloseButton />
-                        <AlertDialog.Header _text={{ color: "#fff",fontWeight:"bold" }}>Remove From Wishlist</AlertDialog.Header>
+                        <AlertDialog.Header _text={{ color: "#fff", fontWeight: "bold" }}>Remove From Wishlist</AlertDialog.Header>
                         <AlertDialog.Body _text={{ color: "#eee" }}>
                             Are you sure you want to remove this product from wishlist?
                         </AlertDialog.Body>
-                        <AlertDialog.Footer backgroundColor={"primary.100"}>
+                        <AlertDialog.Footer>
                             <Button.Group space={2}>
                                 <Button variant="unstyled" _text={{ color: "#fff" }} onPress={() => this.setState({ isOpen: false })}>
                                     Cancel
                                 </Button>
-                                <Button colorScheme="danger" onPress={() => {
+                                <Button backgroundColor={"primary.100"} onPress={() => {
                                     this.props.removeProductWishlist(this.state.selectedItem);
                                     this.props.emptyDashboard()
                                     this.props.getDashboard({

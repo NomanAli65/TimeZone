@@ -44,7 +44,7 @@ class AddCard extends Component {
     render() {
         return (
             <View flex={1} backgroundColor="#fff" _dark={{ backgroundColor: "black" }}>
-                <Box position="absolute" top={"5%"} left="3%">
+                <Box marginLeft={"3%"}>
                     <IconButton
                         onPress={() => this.props.navigation.goBack()}
                         icon={<MaterialIcons name="chevron-left" size={25} color={theme.config.initialColorMode == "dark" ? "#fff" : "#000"} />} />
@@ -100,7 +100,7 @@ class AddCard extends Component {
                             {this.state.invalid}
                         </FormControl.ErrorMessage>
                     </FormControl>
-                    
+
                     <LGButton
                         isLoading={this.state.loading}
                         isLoadingText={"Adding"}
@@ -108,7 +108,7 @@ class AddCard extends Component {
                         onPress={this.AddCard}
                     />
                     <Text mt={5}>
-                        For Cash payment option holding period of 2 hours for 1 timepiece, for any extension or special request you can edit/email us for your requirement. 
+                        For Cash payment option holding period of 2 hours for 1 timepiece, for any extension or special request you can edit/email us for your requirement.
                     </Text>
                 </View>
             </View>
