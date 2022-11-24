@@ -40,4 +40,6 @@ export const APIs = {
   AddAddress: "addUserAddress",
   EditAddress: "updateUserAddress",
   DeleteAddress: "deleteUserAddress",
+  GetUser: "userData",
+  DeleteUser: "deleteUser"
 };

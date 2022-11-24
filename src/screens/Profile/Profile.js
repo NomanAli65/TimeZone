@@ -14,6 +14,20 @@ class Profile extends Component {
         };
     }
 
+
+    componentDidMount() {
+        this.props.getUser({
+            onSuccess: (req) => {
+                if (req) {
+                    this.props.showAlert({
+                        message: "Verification code has been sent to your phone number"
+                    })
+                    this.setState({ verification_code: req })
+                }
+            }
+        })
+    }
+
     render() {
         return (
             <View flex={1} backgroundColor="#fff" _dark={{ backgroundColor: "black" }}>
@@ -114,7 +128,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     showAlert: data => dispatch(AlertAction.ShowAlert(data)),
-    verifyEmail: data => dispatch(AuthMiddleware.VerifyEmail(data))
+    verifyEmail: data => dispatch(AuthMiddleware.VerifyEmail(data)),
+    getUser: data => dispatch(AuthMiddleware.GetUser(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

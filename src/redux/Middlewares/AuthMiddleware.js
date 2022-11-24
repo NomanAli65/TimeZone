@@ -27,6 +27,23 @@ export const AuthMiddleware = {
             }
         };
     },
+    GetUser: (data) => {
+        return async dispatch => {
+            try {
+                let request = await post(APIs.GetUser);
+                if (request) {
+                    data.onSuccess(true);
+                    dispatch(AuthAction.UpdateUserProfile(request))
+                    await AsyncStorage.setItem("@TZ-USER", JSON.stringify({ ...data.old_data, user: request }));
+                }
+                else
+                    data.onSuccess(false, request.message);
+            } catch (error) {
+                data.onSuccess(false);
+                console.warn(error);
+            }
+        };
+    },
     SocialSignin: (data) => {
         return async dispatch => {
             try {
