@@ -167,7 +167,7 @@ export const AuthMiddleware = {
     SendVerificationCode: (data) => {
         return async dispatch => {
             try {
-                let request = await get(APIs.SendCode);
+                let request = await post(APIs.SendCode);
                 if (request) {
                     data.onSuccess(request);
                 }
@@ -182,7 +182,7 @@ export const AuthMiddleware = {
     VerifyPhone: (data) => {
         return async dispatch => {
             try {
-                let request = await get(APIs.VerifyPhone);
+                let request = await post(APIs.VerifyPhone);
                 if (request) {
                     data.onSuccess(true);
                     dispatch(AuthAction.UpdateUserProfile(request))
@@ -199,7 +199,7 @@ export const AuthMiddleware = {
     VerifyEmail: (data) => {
         return async dispatch => {
             try {
-                let request = await get(APIs.VerifyEmail);
+                let request = await post(APIs.VerifyEmail);
                 if (request) {
                     data.onSuccess(true);
                 }

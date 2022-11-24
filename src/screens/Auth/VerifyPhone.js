@@ -27,7 +27,7 @@ class VerifyPhone extends Component {
                 onSuccess: (req) => {
                     if (req) {
                         this.props.showAlert({
-                            message: "Verification code has been sent to your phone"
+                            message: "Verification code has been sent to your phone number"
                         })
                         this.setState({ verification_code: req })
                     }
