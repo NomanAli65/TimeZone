@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { img_url } from '../../configs/APIs';
 import numbro from "numbro";
 import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
+import AlertAction from '../../redux/Actions/AlertActions';
 
 
 const data = [
@@ -200,8 +201,15 @@ class index extends Component {
                                         return;
                                     }
 
-                                    if (this.props.user?.user)
-                                        this.props.navigation.navigate("Checkout", { tax: this.state.tax })
+                                    if (this.props.user?.user) {
+                                        if (this.props.user?.user?.verify_status || this.props.user?.user?.email_verified_at)
+                                            this.props.navigation.navigate("Checkout", { tax: this.state.tax })
+                                        else
+                                            this.props.showAlert({
+                                                message: "Please verify your phone number or email, One of these should be verified to make an order",
+                                                status: "error"
+                                            })
+                                    }
                                     else
                                         this.props.navigation.navigate("Login")
                                 }}
@@ -223,7 +231,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     removeFromCart: data => dispatch(ProductActions.RemoveFromCart(data)),
-    getTax: (data) => dispatch(AuthMiddleware.getTax(data))
+    getTax: (data) => dispatch(AuthMiddleware.getTax(data)),
+    showAlert: data => dispatch(AlertAction.ShowAlert(data)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

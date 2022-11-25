@@ -104,6 +104,13 @@ class Checkout extends Component {
     }
 
     PlaceOrder = () => {
+        if (!this.props.user?.user?.verify_status && !this.props.user?.user?.email_verified_at) {
+            this.props.showAlert({
+                message: "Please verify your phone number or email, One of these should be verified to make an order",
+                status: "error"
+            })
+            return;
+        }
         if (!this.state.address) {
             this.props.showAlert({
                 title: "Address",
@@ -112,7 +119,7 @@ class Checkout extends Component {
             })
             return;
         }
-        if (this.props.all_methods.length == 0) {
+        if (this.props.all_methods.length == 0 && this.state.paymentType == "card") {
             this.props.showAlert({
                 title: "Payment Method",
                 message: "Please add payment method to continue",
@@ -148,7 +155,7 @@ class Checkout extends Component {
             total: total,
             address: this.state.address,
             paymentType: this.state.paymentType,
-            source_id: this.props.all_methods.find(val => val.is_default == "1").stripe_card_id,
+            source_id: this.state.paymentType == "card" ? this.props.all_methods.find(val => val.is_default == "1").stripe_card_id : "",
             onSuccess: (success) => {
                 this.setState({ loading: false })
                 if (success) {
