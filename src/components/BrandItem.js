@@ -24,7 +24,7 @@ const BrandItem = ({ loading, item, halfScreen, index, name }) => {
         return (
             <Box w={"49%"} mr={2} mb={2} backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" >
                 <Stack space={4}>
-                    <Skeleton h={140} w={"100%"} />
+                    <Skeleton h={120} w={"100%"} />
                     {/* <Stack space={3} p={3}>
                         <Skeleton h={5} />
                         <Skeleton.Text />
@@ -38,8 +38,8 @@ const BrandItem = ({ loading, item, halfScreen, index, name }) => {
                 <Pressable
                     onPress={() => navigation.navigate("Products", { brand: item })}
                 >
-                    <Stack space={4}>
-                        <Image my={2} h={70} w={"100%"} source={item.brand_image ? { uri: img_url + item.brand_image } : require("../../assets/placeholder.png")} alt="Image Here" resizeMode='cover' />
+                    <Stack space={2}>
+                        <Image mt={1} h={70} w={"100%"} source={item.brand_image ? { uri: img_url + item.brand_image } : require("../../assets/placeholder.png")} alt="Image Here" resizeMode='contain' />
                         {item.brand_name ?
                             <Heading textAlign={"center"} size={"md"}>
                                 {formatString(item.brand_name)}

@@ -12,6 +12,15 @@ import * as Notifications from "expo-notifications";
 import AuthAction from '../redux/Actions/AuthActions';
 import * as SplashScreen from 'expo-splash-screen';
 
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
 export default function Navigation() {
   const showAlert = useSelector((state) => state.Alert.showAlert)
   const alertOptions = useSelector((state) => state.Alert.alertOptions)
@@ -49,7 +58,18 @@ export default function Navigation() {
   useEffect(() => {
     LoginIfRegistered();
     registerForPushNotificationsAsync();
+    Notifications.addNotificationReceivedListener(_handleNotification);
+    Notifications.addNotificationResponseReceivedListener(_handleNotificationResponse);
+
   }, [])
+
+  const _handleNotification = notification => {
+    //messa
+  };
+
+  const _handleNotificationResponse = response => {
+    console.log(response);
+  };
 
   useEffect(() => {
     if (showAlert) {

@@ -12,6 +12,7 @@ import { img_url } from '../configs/APIs';
 import GeneralActions from '../redux/Actions/GeneralActions';
 import AuthAction from '../redux/Actions/AuthActions';
 import { DeviceType, getDeviceTypeAsync } from "expo-device"
+import * as Notifications from "expo-notifications";
 
 const { width } = Dimensions.get("window");
 
@@ -31,6 +32,8 @@ class index extends Component {
   }
 
   async componentDidMount() {
+    const token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.warn(token)
     Linking.getInitialURL().then((url) => {
       if (url && url.includes("product_id")) {
         let idArr = url.split("/");

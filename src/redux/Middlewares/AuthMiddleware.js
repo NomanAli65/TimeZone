@@ -33,8 +33,8 @@ export const AuthMiddleware = {
                 let request = await post(APIs.GetUser);
                 if (request) {
                     data.onSuccess(true);
-                    dispatch(AuthAction.UpdateUserProfile(request))
-                    await AsyncStorage.setItem("@TZ-USER", JSON.stringify({ ...data.old_data, user: request }));
+                    dispatch(AuthAction.UpdateUserProfile(request.user))
+                    await AsyncStorage.setItem("@TZ-USER", JSON.stringify({ ...data.old_data, user: request.user }));
                 }
                 else
                     data.onSuccess(false, request.message);

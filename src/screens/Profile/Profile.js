@@ -18,12 +18,6 @@ class Profile extends Component {
     componentDidMount() {
         this.props.getUser({
             onSuccess: (req) => {
-                if (req) {
-                    this.props.showAlert({
-                        message: "Verification code has been sent to your phone number"
-                    })
-                    this.setState({ verification_code: req })
-                }
             }
         })
     }
