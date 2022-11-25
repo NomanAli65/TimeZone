@@ -32,8 +32,7 @@ class index extends Component {
   }
 
   async componentDidMount() {
-    const token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.warn(token)
+    Notifications.addNotificationResponseReceivedListener(this._handleNotificationResponse);
     Linking.getInitialURL().then((url) => {
       if (url && url.includes("product_id")) {
         let idArr = url.split("/");
@@ -78,6 +77,14 @@ class index extends Component {
       })
     })
   }
+
+  _handleNotificationResponse=(response:Notifications.NotificationResponse)=>{
+    let data=response.notification.request.content.data;
+    if(data.type=="post"){
+      this.props.navigation.navigate("Products")
+    }
+  }
+  
 
   componentWillUnmount() {
     clearTimeout(this.timeout)
