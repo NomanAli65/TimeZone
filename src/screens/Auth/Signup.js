@@ -72,7 +72,7 @@ class Signup extends Component {
                     message: "Verification link has been sent to your email. Please verify your email"
                 })
                 setTimeout(() => {
-                    this.props.navigation.navigate("VerifyPhone", { signup: true })
+                    this.props.navigation.navigate("VerifyPhone", { signup: true, code: success.code })
                 }, 2000)
             }
         });

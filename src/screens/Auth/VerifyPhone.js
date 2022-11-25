@@ -22,10 +22,11 @@ class VerifyPhone extends Component {
     componentDidMount() {
         let signup = this.props.route.params?.signup;
 
-        if (!signup)
+        if (!signup) {
             this.props.sendCode({
                 onSuccess: (req) => {
                     if (req) {
+                        console.warn(req)
                         this.props.showAlert({
                             message: "Verification code has been sent to your phone number"
                         })
@@ -33,6 +34,12 @@ class VerifyPhone extends Component {
                     }
                 }
             })
+        }
+        else {
+            let code = this.props.route.params?.code;
+            console.warn(code)
+            this.setState({ verification_code: code });
+        }
     }
 
     VerifyCode = () => {
@@ -49,16 +56,20 @@ class VerifyPhone extends Component {
             this.setState({ loading: true })
             this.props.verifyPhone({
                 onSuccess: (success) => {
+                    this.setState({ loading: false })
+
                     if (!success)
                         return;
                     else {
+                        this.props.showAlert({
+                            message: "Your phone number has been verified successfully"
+                        })
                         if (signup)
                             this.props.navigation.navigate("Dashboard")
                         else
                             this.props.navigation.goBack();
                     }
 
-                    this.setState({ loading: false })
                 },
                 old_data: this.props.user
             })
@@ -150,6 +161,8 @@ class VerifyPhone extends Component {
 
                     </Stack>
                     <LGButton
+                        isLoading={this.state.loading}
+                        isLoadingText={"Verifying"}
                         onPress={() => {
                             this.VerifyCode();
                         }}

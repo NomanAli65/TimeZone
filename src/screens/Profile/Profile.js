@@ -72,13 +72,14 @@ class Profile extends Component {
                             <Text >Phone</Text>
                             <Pressable
                                 onPress={() => {
+                                    if(!this.props.user?.user?.verify_status)
                                     this.props.navigation.navigate("VerifyPhone")
                                 }}
                             >
                                 <HStack space={1} alignItems="center">
                                     <Text bold fontSize="md">{this.props.user?.user?.phone}</Text>
                                     {
-                                        this.props.user?.user?.phone_verified_at ?
+                                        this.props.user?.user?.verify_status ?
                                             null
                                             :
                                             this.props.user?.user?.phone ?

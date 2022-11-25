@@ -126,7 +126,7 @@ export const AuthMiddleware = {
                 formData.append("device_id", data.token);
                 let request = await post(APIs.Register, formData);
                 if (request) {
-                    data.onSuccess(true, request.message);
+                    data.onSuccess(request, request.message);
                     dispatch(AuthAction.Login(request))
                     await AsyncStorage.setItem("@TZ-USER", JSON.stringify(request));
                 }
@@ -201,9 +201,10 @@ export const AuthMiddleware = {
             try {
                 let request = await post(APIs.VerifyPhone);
                 if (request) {
+                    console.warn(request)
                     data.onSuccess(true);
-                    dispatch(AuthAction.UpdateUserProfile(request))
-                    await AsyncStorage.setItem("@TZ-USER", JSON.stringify({ ...data.old_data, user: request }));
+                    dispatch(AuthAction.UpdateUserProfile(request.user))
+                    await AsyncStorage.setItem("@TZ-USER", JSON.stringify({ ...data.old_data, user: request.user }));
                 }
                 else
                     data.onSuccess(false);
