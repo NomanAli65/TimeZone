@@ -21,11 +21,20 @@ export default function App() {
     'TextaAltRegular': require("./assets/fonts/TextaAltRegular.ttf"),
     'TextaAltThin': require("./assets/fonts/TextaAltThin.ttf"),
   })
-
+  // "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
+  //       "SKAdNetworkItems": [
+  //         {
+  //           "SKAdNetworkIdentifier": "v9wttpbfk9.skadnetwork"
+  //         },
+  //         {
+  //           "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
+  //         }
+  //       ]
 
   useEffect(() => {
     async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
+      await SplashScreen.hideAsync();
+     // await SplashScreen.preventAutoHideAsync();
       if (fontsLoaded[0]) {
         setAppIsReady(true)
       }

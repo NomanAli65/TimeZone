@@ -13,7 +13,7 @@ import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 import { useNavigation } from '@react-navigation/native';
 import AlertAction from '../../redux/Actions/AlertActions';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { Platform } from 'expo-modules-core';
+import { Platform } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -52,11 +52,6 @@ function SocialSignin(props) {
         scheme: "timezone",
         useProxy: true
     });
-
-    useEffect(() => {
-        if (Platform.OS == "ios")
-            AppleAuthentication.signOutAsync();
-    }, [])
 
     const _GoogleSignin = async () => {
 

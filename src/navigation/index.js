@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Alert, AlertDialog, Box, Button, CloseIcon, Text, HStack, IconButton, NativeBaseProvider, VStack, View, Heading } from 'native-base';
-import { StyleSheet } from "react-native";
+import { Image, Modal, StyleSheet } from "react-native";
 import theme from "../../src/configs/Theme";
 import config from "../../src/configs/NBconfig";
 import { NavigationContainer } from '@react-navigation/native';
@@ -25,8 +25,8 @@ export default function Navigation() {
   const showAlert = useSelector((state) => state.Alert.showAlert)
   const alertOptions = useSelector((state) => state.Alert.alertOptions)
   const [appIsReady, setAppIsReady] = useState(false);
+  const [hideSplash, setHideSplash] = useState(false);
   const dispatch = useDispatch();
-
 
   const LoginIfRegistered = async () => {
     try {
@@ -36,21 +36,24 @@ export default function Navigation() {
         dispatch(AuthAction.Login(user))
         setAppIsReady(true);
         setTimeout(async () => {
-          await SplashScreen.hideAsync();
-        }, 3000)
+          setHideSplash(true)
+          //await SplashScreen.hideAsync();
+        }, 5000)
       }
       else {
         console.warn("red")
         setAppIsReady(true);
         setTimeout(async () => {
-          await SplashScreen.hideAsync();
-        }, 3000)
+          setHideSplash(true)
+          // await SplashScreen.hideAsync();
+        }, 5000)
       }
     } catch (error) {
       setAppIsReady(true);
       setTimeout(async () => {
-        await SplashScreen.hideAsync();
-      }, 3000)
+        setHideSplash(true)
+        // await SplashScreen.hideAsync();
+      }, 5000)
       console.warn(error)
     }
   }
@@ -110,6 +113,11 @@ export default function Navigation() {
             <BottomNav />
             : null
         }
+        <Modal visible={!hideSplash}>
+          <View position={"absolute"} top={0} left={0} right={0} bottom={0} backgroundColor="#000">
+            <Image source={require("../../assets/tz_logo_gif.gif")} style={{ width: "100%", height: "100%", resizeMode: "contain" }} />
+          </View>
+        </Modal>
         {/* <AwesomeAlert
           show={showAlert}
           showProgress={false}

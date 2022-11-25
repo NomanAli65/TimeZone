@@ -13,6 +13,9 @@ import {
     Avatar,
     View,
     ScrollView,
+    AlertDialog,
+    Button,
+    Spinner,
 } from "native-base";
 import { connect } from 'react-redux';
 import { img_url } from '../../configs/APIs';
@@ -20,6 +23,7 @@ import AlertAction from '../../redux/Actions/AlertActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthTypes } from '../../redux/ActionTypes/AuthTypes';
 import { ProductTypes } from '../../redux/ActionTypes/ProductTypes';
+import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 
 const routeNames = [
     "My Account",
@@ -35,6 +39,8 @@ class index extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isOpen: false,
+            deleting: false
         };
     }
 
@@ -82,8 +88,20 @@ class index extends Component {
 
     onLogout = async () => {
         await AsyncStorage.removeItem("@TZ-USER");
-
         this.props.Logout();
+    }
+
+    DeleteAccount = () => {
+        this.setState({ deleting: true })
+        this.props.deleteAccount({
+            onSuccess: (status) => {
+                this.setState({ deleting: false })
+                if (status)
+                    this.onLogout();
+                else
+                    this.props.showAlert({ message: "Couldn't delete your account please try again." })
+            }
+        });
     }
 
     render() {
@@ -153,50 +171,104 @@ class index extends Component {
                                     </Pressable>
                                 ))}
                             </VStack>
-                            {
-                                this.props.user?.user ?
-                                    <VStack space="5">
-                                        <Pressable px="5" py="3" onPress={() => this.onLogout()}>
-                                            <HStack space="7" alignItems="center">
-                                                <Icon
-                                                    color="gray.500"
-                                                    size="5"
-                                                    as={<MaterialCommunityIcons name="logout" />}
-                                                />
-                                                <Text
-                                                    _dark={{
-                                                        color: "gray.400"
-                                                    }}
-                                                    fontWeight="500"
-                                                    color="gray.700">
-                                                    Logout
-                                                </Text>
-                                            </HStack>
-                                        </Pressable>
-                                    </VStack>
-                                    : <VStack space="5">
-                                        <Pressable onPress={() => this.props.navigation.navigate("Login")} px="5" py="3">
-                                            <HStack space="7" alignItems="center">
-                                                <Icon
-                                                    color="gray.500"
-                                                    size="5"
-                                                    as={<MaterialCommunityIcons name="logout" />}
-                                                />
-                                                <Text
-                                                    _dark={{
-                                                        color: "gray.400"
-                                                    }}
-                                                    fontWeight="500"
-                                                    color="gray.700">
-                                                    Login
-                                                </Text>
-                                            </HStack>
-                                        </Pressable>
-                                    </VStack>
-                            }
+                            <VStack>
+                                {
+                                    this.props.user?.user ?
+                                        <VStack space="5">
+                                            <Pressable px="5" py="3" onPress={() => this.setState({ isOpen: true })}>
+                                                <HStack space="7" alignItems="center">
+                                                    <Icon
+                                                        color="gray.500"
+                                                        size="5"
+                                                        as={<MaterialCommunityIcons name="delete" />}
+                                                    />
+                                                    <Text
+                                                        _dark={{
+                                                            color: "gray.400"
+                                                        }}
+                                                        fontWeight="500"
+                                                        color="gray.700">
+                                                        Delete Account
+                                                    </Text>
+                                                </HStack>
+                                            </Pressable>
+                                        </VStack>
+                                        : null}
+                                {
+                                    this.props.user?.user ?
+                                        <VStack space="5">
+                                            <Pressable px="5" py="3" onPress={() => this.onLogout()}>
+                                                <HStack space="7" alignItems="center">
+                                                    <Icon
+                                                        color="gray.500"
+                                                        size="5"
+                                                        as={<MaterialCommunityIcons name="logout" />}
+                                                    />
+                                                    <Text
+                                                        _dark={{
+                                                            color: "gray.400"
+                                                        }}
+                                                        fontWeight="500"
+                                                        color="gray.700">
+                                                        Logout
+                                                    </Text>
+                                                </HStack>
+                                            </Pressable>
+                                        </VStack>
+                                        : <VStack space="5">
+                                            <Pressable onPress={() => this.props.navigation.navigate("Login")} px="5" py="3">
+                                                <HStack space="7" alignItems="center">
+                                                    <Icon
+                                                        color="gray.500"
+                                                        size="5"
+                                                        as={<MaterialCommunityIcons name="logout" />}
+                                                    />
+                                                    <Text
+                                                        _dark={{
+                                                            color: "gray.400"
+                                                        }}
+                                                        fontWeight="500"
+                                                        color="gray.700">
+                                                        Login
+                                                    </Text>
+                                                </HStack>
+                                            </Pressable>
+                                        </VStack>
+                                }
+                            </VStack>
                         </VStack>
                     </VStack>
                 </ScrollView>
+                <AlertDialog isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
+                    <AlertDialog.Content>
+                        <AlertDialog.CloseButton />
+                        <AlertDialog.Header _text={{ fontWeight: "bold" }}>Delete Account</AlertDialog.Header>
+                        <AlertDialog.Body >
+                            Are you sure you want to delete your account?
+                        </AlertDialog.Body>
+                        <AlertDialog.Footer>
+                            <Button.Group space={2}>
+                                <Button variant="unstyled" onPress={() => this.setState({ isOpen: false })}>
+                                    Cancel
+                                </Button>
+                                <Button backgroundColor={"primary.100"} onPress={() => {
+                                    this.DeleteAccount();
+                                    this.setState({ isOpen: false });
+                                }}>
+                                    Remove
+                                </Button>
+                            </Button.Group>
+                        </AlertDialog.Footer>
+                    </AlertDialog.Content>
+                </AlertDialog>
+                {
+                    this.state.deleting ?
+                        <View position={"absolute"} top={0} right={0} left={0} bottom={0} justifyContent={"center"} alignItems={"center"} backgroundColor="rgba(255,255,255,0.4)">
+                            <Spinner size={70} color="#000" />
+                        </View>
+                        :
+                        null
+                }
             </View>
         );
     }
@@ -213,6 +285,7 @@ const mapDispatchToProps = dispatch => ({
         dispatch({ type: AuthTypes.LOGOUT })
         dispatch({ type: ProductTypes.EMPTY_CART })
     },
+    deleteAccount: (data) => dispatch(AuthMiddleware.deleteUser(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

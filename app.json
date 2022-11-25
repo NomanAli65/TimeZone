@@ -6,11 +6,6 @@
     "version": "1.0.7",
     "orientation": "portrait",
     "icon": "./assets/TZ.png",
-    "splash": {
-      "image": "./assets/tz_logo_white.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#000000"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -23,16 +18,7 @@
         "NSPhotoLibraryUsageDescription": "The app accesses your photos to add images in trade feature.",
         "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone",
-        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos",
-        "NSUserTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you.",
-        "SKAdNetworkItems": [
-          {
-            "SKAdNetworkIdentifier": "v9wttpbfk9.skadnetwork"
-          },
-          {
-            "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
-          }
-        ]
+        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos"
       },
       "bundleIdentifier": "com.app.timezone.dubai"
     },

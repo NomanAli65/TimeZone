@@ -44,6 +44,21 @@ export const AuthMiddleware = {
             }
         };
     },
+    deleteUser: (data) => {
+        return async dispatch => {
+            try {
+                let request = await post(APIs.DeleteUser);
+                if (request) {
+                    data.onSuccess(true);
+                }
+                else
+                    data.onSuccess(false);
+            } catch (error) {
+                data.onSuccess(false);
+                console.warn(error);
+            }
+        };
+    },
     SocialSignin: (data) => {
         return async dispatch => {
             try {

@@ -1,6 +1,6 @@
 import { Box, Button, Center, Container, Divider, Flex, FormControl, Heading, HStack, Icon, IconButton, Image, Input, ScrollView, Stack, Text, View, WarningOutlineIcon } from 'native-base';
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { AntDesign, Ionicons, FontAwesome5, Fontisto } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
 import { connect } from 'react-redux';
@@ -10,6 +10,7 @@ import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 import GetToken from './GetToken';
 import SocialSignin from './SocialSignin';
 import * as Notifications from "expo-notifications";
+import * as AppleAuthentication from 'expo-apple-authentication';
 
 
 class Login extends Component {
@@ -22,6 +23,11 @@ class Login extends Component {
         isInvalid: "",
         loading: false,
         show_pass: false
+    }
+
+    componentDidMount() {
+        if (Platform.OS == "ios")
+            AppleAuthentication.signOutAsync();
     }
 
     Login = async () => {
