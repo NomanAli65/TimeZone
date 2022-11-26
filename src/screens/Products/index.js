@@ -227,6 +227,12 @@ class index extends Component {
                         renderItem={this._renderItem}
                         onEndReached={this.onEndReached}
                         onEndReachedThreshold={0.2}
+                        ListEmptyComponent={
+                            this.state.loading ? null :
+                                <Heading>
+                                    No products found for selected filter
+                                </Heading>
+                        }
                         ListFooterComponent={
                             this.state.loadingMore ?
                                 <Box p={3}>

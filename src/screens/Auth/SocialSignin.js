@@ -30,14 +30,15 @@ function SocialSignin(props) {
         // iosClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
         androidClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
         webClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
+        
         redirectUri: makeRedirectUri({
             scheme: "timezone",
-            useProxy: true
+            useProxy: false
         }),
         selectAccount: true
     }, {
         scheme: "timezone",
-        useProxy: true
+       // useProxy: true
     });
 
     const [requestFB, responseFB, promptAsyncFB] = Facebook.useAuthRequest({
@@ -107,7 +108,7 @@ function SocialSignin(props) {
                     setFBLoading(false)
                     return;
                 }
-                let userPic = await axios.get("https://graph.facebook.com/v15.0/" + id + "/picture?redirect=false&height=200&width=200&type=large")
+                let userPic = await axios.get("https://graph.facebook.com/v15.0/" + id + "/picture?redirect=false&height=500&width=500&type=large")
                 let pic = userPic?.data?.data?.url;
                 const token = (await Notifications.getExpoPushTokenAsync()).data;
                 dispatch(AuthMiddleware.SocialSignin({
