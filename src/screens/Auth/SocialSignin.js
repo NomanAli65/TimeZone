@@ -24,21 +24,13 @@ function SocialSignin(props) {
     const [loading, setLoading] = useState();
     const [fbLoading, setFBLoading] = useState();
     const [appleLoading, setAppleLoading] = useState();
-
     const [request, response, promptAsync] = Google.useAuthRequest({
         expoClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
-        // iosClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
+        //iosClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
         androidClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
         webClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
-        
-        redirectUri: makeRedirectUri({
-            scheme: "timezone",
-            useProxy: false
-        }),
+        redirectUri: makeRedirectUri({ useProxy: true, }),
         selectAccount: true
-    }, {
-        scheme: "timezone",
-       // useProxy: true
     });
 
     const [requestFB, responseFB, promptAsyncFB] = Facebook.useAuthRequest({
@@ -55,11 +47,8 @@ function SocialSignin(props) {
     });
 
     const _GoogleSignin = async () => {
-
         try {
-            let result = await promptAsync({
-                //  useProxy: true
-            });
+            let result = await promptAsync();
             if (result.authentication?.accessToken) {
                 setLoading(true)
                 let userData = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -94,9 +83,7 @@ function SocialSignin(props) {
 
     const _FacebookSignin = async () => {
         try {
-            let result = await promptAsyncFB({
-                useProxy: true,
-            });
+            let result = await promptAsyncFB();
             if (result.params?.access_token) {
                 setFBLoading(true)
                 let userData = await axios.get("https://graph.facebook.com/v15.0/me?fields=email,name&access_token=" + result.params?.access_token)
@@ -163,7 +150,7 @@ function SocialSignin(props) {
         } catch (error) {
             console.warn(error)
             setAppleLoading(false)
-            alert("Error occured")
+            alert(JSON.stringify(error))
         }
     }
 

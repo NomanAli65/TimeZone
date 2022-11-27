@@ -229,7 +229,7 @@ class index extends Component {
                         onEndReachedThreshold={0.2}
                         ListEmptyComponent={
                             this.state.loading ? null :
-                                <Heading>
+                                <Heading textAlign={"center"} marginTop={"25%"}>
                                     No products found for selected filter
                                 </Heading>
                         }

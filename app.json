@@ -2,7 +2,7 @@
   "expo": {
     "name": "TIMEZONE",
     "slug": "TimeZone",
-    "scheme": "timezone",
+    "scheme":"timezone",
     "version": "1.0.8",
     "orientation": "portrait",
     "icon": "./assets/TZ.png",
@@ -36,7 +36,19 @@
         "android.permission.ACCESS_MEDIA_LOCATION",
         "android.permission.INTERNET"
       ],
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "*.timezonedubai.app"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -64,8 +76,7 @@
           "displayName": "TimeZone",
           "advertiserIDCollectionEnabled": "false",
           "autoLogAppEventsEnabled": "false",
-          "isAutoInitEnabled": "true",
-          "iosUserTrackingPermission": "This identifier will be used to deliver personalized ads to you."
+          "isAutoInitEnabled": "true"
         }
       ],
       [
