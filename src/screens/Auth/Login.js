@@ -26,8 +26,8 @@ class Login extends Component {
     }
 
     componentDidMount() {
-        if (Platform.OS == "ios")
-            AppleAuthentication.signOutAsync();
+        // if (Platform.OS == "ios")
+        //     AppleAuthentication.signOutAsync();
     }
 
     Login = async () => {

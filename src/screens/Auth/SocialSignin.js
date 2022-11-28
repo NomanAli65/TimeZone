@@ -145,7 +145,7 @@ function SocialSignin(props) {
             }
             else if (result.error) {
                 setAppleLoading(false)
-                alert("Error occured. Please try again")
+                alert(JSON.stringify(result.error))
             }
         } catch (error) {
             console.warn(error)
@@ -162,7 +162,7 @@ function SocialSignin(props) {
                 isLoading={fbLoading}
                 isLoadingText="Signing in"
                 h="12" backgroundColor="#4267B2" leftIcon={<Icon as={Fontisto} name="facebook" size="4" />}>
-                Facebook
+                Sign in with Facebook
             </Button>
             <Button
                 disabled={loading}
@@ -170,7 +170,7 @@ function SocialSignin(props) {
                 isLoading={loading}
                 isLoadingText="Signing in"
                 backgroundColor={"#DB4437"} h="12" leftIcon={<Icon as={AntDesign} name="google" size="4" />}>
-                Google
+                Sign in with Google
             </Button>
             {
                 Platform.OS == "ios" ?
@@ -180,7 +180,7 @@ function SocialSignin(props) {
                         isLoading={appleLoading}
                         isLoadingText="Signing in"
                         backgroundColor={"#555555"} h="12" leftIcon={<Icon as={AntDesign} name="apple1" size="4" />}>
-                        Apple
+                        Sign in with Apple
                     </Button>
                     : null
             }
