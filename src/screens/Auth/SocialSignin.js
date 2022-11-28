@@ -5,7 +5,6 @@ import * as Facebook from 'expo-auth-session/providers/facebook';
 import * as WebBrowser from 'expo-web-browser';
 import { AntDesign, Ionicons, FontAwesome5, Fontisto } from "@expo/vector-icons";
 import { makeRedirectUri, ResponseType } from 'expo-auth-session';
-import { post } from '../../configs/AxiosConfig';
 import axios from 'axios';
 import * as Notifications from "expo-notifications";
 import { useDispatch } from 'react-redux';
@@ -26,11 +25,17 @@ function SocialSignin(props) {
     const [appleLoading, setAppleLoading] = useState();
     const [request, response, promptAsync] = Google.useAuthRequest({
         expoClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
-        //iosClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
+        iosClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
         androidClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
         webClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
-        redirectUri: makeRedirectUri({ useProxy: true, }),
+        redirectUri: makeRedirectUri({
+            scheme: "timezone",
+            useProxy: true
+        }),
         selectAccount: true
+    }, {
+        scheme: "timezone",
+        useProxy: true
     });
 
     const [requestFB, responseFB, promptAsyncFB] = Facebook.useAuthRequest({
@@ -145,12 +150,12 @@ function SocialSignin(props) {
             }
             else if (result.error) {
                 setAppleLoading(false)
-                alert(JSON.stringify(result.error))
+                alert("Apple signin not supported")
             }
         } catch (error) {
             console.warn(error)
             setAppleLoading(false)
-            alert(JSON.stringify(error))
+            alert("Apple signin not supported")
         }
     }
 

@@ -3,7 +3,7 @@
     "name": "TIMEZONE",
     "slug": "TimeZone",
     "scheme":"timezone",
-    "version": "1.1.0",
+    "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./assets/TZ.png",
     "updates": {
@@ -20,7 +20,8 @@
         "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone",
         "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos"
       },
-      "bundleIdentifier": "com.app.timezone.dubai"
+      "bundleIdentifier": "com.app.timezone.dubai",
+      "usesAppleSignIn": true
     },
     "android": {
       "adaptiveIcon": {
