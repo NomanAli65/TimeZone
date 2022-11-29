@@ -115,28 +115,7 @@ class Login extends Component {
                             <Text mx="3">OR</Text>
                             <Divider w="45%" />
                         </HStack>
-                        {/* <HStack space={3} justifyContent={"center"}>
-                        <IconButton
-                            icon={<Icon as={FontAwesome5} name="google" color="#fff" size={"sm"} />}
-                            size={"lg"} rounded="full"
-                            bg="#DB4437" />
-                        <IconButton
-                            icon={<Icon as={FontAwesome5} name="facebook-f" color="#fff" size={"sm"} />}
-                            size={"lg"}
-                            rounded="full"
-                            bg="#4267B2" />
-                    </HStack> */}
                         <SocialSignin />
-                        {/* <Button
-                            onPress={this._FacebookSignin}
-                            marginBottom={5} h="12" backgroundColor="#4267B2" leftIcon={<Icon as={Fontisto} name="facebook" size="4" />}>
-                            Facebook
-                        </Button>
-                        <Button
-                            onPress={this._GoogleSignin}
-                            backgroundColor={"#DB4437"} h="12" leftIcon={<Icon as={AntDesign} name="google" size="4" />}>
-                            Google
-                        </Button> */}
                     </View>
                     <HStack alignItems="center" justifyContent="center">
                         <Text>

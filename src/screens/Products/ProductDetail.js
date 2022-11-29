@@ -1,4 +1,4 @@
-import { Box, Divider, FlatList, Heading, HStack, IconButton, Image, Pressable, ScrollView, Stack, Text, Toast, View, VStack } from 'native-base';
+import { Box, Divider, FlatList, Heading, HStack, IconButton, Image, Pressable, ScrollView, Spinner, Stack, Text, Toast, View, VStack } from 'native-base';
 import React, { Component } from 'react';
 import { Dimensions, View as RNView, Image as RNImage, Share } from "react-native";
 import AppBar from '../../components/Appbar';
@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import numbro from "numbro";
 import ImageView from "react-native-image-viewing";
+import { Platform } from 'expo-modules-core';
 
 const { width } = Dimensions.get("window");
 
@@ -26,10 +27,29 @@ class ProductDetail extends Component {
         super(props);
         let data = this.props.route.params?.item;
         this.state = {
+            data,
             wishlist: Boolean(data.wishlist),
             selectedImage: img_url + data.image,
-            imageModal: false
+            imageModal: false,
+            loading: false
         };
+    }
+
+    componentDidMount() {
+        // let data = this.props.route.params?.item;
+        // if (!data) {
+        //     let id = this.props.route.params?.product_id;
+        //     this.setState({ loading: true });
+        //     this.props.getProduct({
+        //         id,
+        //         onSuccess: (data) => {
+        //             this.setState({ loading: false })
+        //             console.warn(data)
+        //             if (data)
+        //                 this.setState({ data })
+        //         }
+        //     })
+        // }
     }
 
     _renderItem = ({ item }) => {
@@ -106,7 +126,7 @@ class ProductDetail extends Component {
 
 
     render() {
-        let data = this.props.route.params?.item;
+        let { data } = this.state;
         let price = data?.price;
         let index = this.props.cart.length > 0 ? this.props.cart.findIndex(val => val.id == data.id) : -1;
         let formatted_price = price == 0 ? "Request for price" : numbro(price).formatCurrency({
@@ -125,34 +145,40 @@ class ProductDetail extends Component {
                     backgroundColor: "#000"
                 }}
             >
-                <ScrollView>
-                    <AppBar
-                        back
-                        noCart
-                        noWish
-                        title={"TIMEZONE"}
-                    />
-                    <RNView onTouchEnd={() => this.setState({ imageModal: true })} style={{ width }}>
-                        <RNImage source={{ uri: this.state.selectedImage }} style={{ width, height: 250 }} resizeMode="cover" />
-                    </RNView>
-                    {
-                        data?.images?.length > 0 ?
-                            <FlatList
-                                p={3}
-                                horizontal
-                                data={data.images}
-                                renderItem={this._renderItem}
-                            />
-                            : null
-                    }
-                    <VStack space={3} p={4}>
-                        <HStack justifyContent={"space-between"} >
-                            <VStack flex={1}>
-                                <Heading>
-                                    {data.product_name}
-                                </Heading>
-                                <HStack alignItems={"center"} space={2}>
-                                    {/* {data.discount?.discount_value ? <Heading textDecorationLine="none" fontSize={"xl"} color={"primary.100"}>
+                <AppBar
+                    back
+                    noCart
+                    noWish
+                    title={"TIMEZONE"}
+                />
+                {
+                    this.state.loading ?
+                        <View flex={1}>
+                            <Spinner size={70} />
+                        </View>
+                        :
+                        <ScrollView>
+                            <RNView onTouchEnd={() => this.setState({ imageModal: true })} style={{ width }}>
+                                <RNImage source={{ uri: this.state.selectedImage }} style={{ width, height: 250 }} resizeMode="cover" />
+                            </RNView>
+                            {
+                                data?.images?.length > 0 ?
+                                    <FlatList
+                                        p={3}
+                                        horizontal
+                                        data={data.images}
+                                        renderItem={this._renderItem}
+                                    />
+                                    : null
+                            }
+                            <VStack space={3} p={4}>
+                                <HStack justifyContent={"space-between"} >
+                                    <VStack flex={1}>
+                                        <Heading>
+                                            {data.product_name}
+                                        </Heading>
+                                        <HStack alignItems={"center"} space={2}>
+                                            {/* {data.discount?.discount_value ? <Heading textDecorationLine="none" fontSize={"xl"} color={"primary.100"}>
                                         {
                                             data.discount?.discount_type == "fixed" ?
                                                 data.price - data.discount?.discount_value
@@ -164,100 +190,101 @@ class ProductDetail extends Component {
                                         {data.price} AED
                                     </Heading>
                                     */}
-                                    <Heading fontSize={"xl"} color={"primary.100"}>
-                                        {
-                                            price != 0 ?
-                                                <Heading fontSize={"md"} color={"black"}>PRICE: </Heading>
-                                                : ""
-                                        }
-                                        {formatted_price}
-                                    </Heading>
+                                            <Heading fontSize={"xl"} color={"primary.100"}>
+                                                {
+                                                    price != 0 ?
+                                                        <Heading fontSize={"md"} color={"black"}>PRICE: </Heading>
+                                                        : ""
+                                                }
+                                                {formatted_price}
+                                            </Heading>
+                                        </HStack>
+                                        <Text>
+                                            <Text>Reference Number:</Text>  {data?.ref_number ? data?.ref_number : "No reference number available"}
+                                        </Text>
+                                    </VStack>
+                                    <HStack alignItems={"flex-start"}>
+                                        <IconButton
+                                            onPress={() => Share.share({
+                                                title: "TIMEZONE",
+                                                url: "https://timezonedubai.com/mobile-app/products/" + data.id,
+                                                message: "Check out this watch on TimeZone \n" + data.product_name + (Platform.OS == "android" ? "\nhttps://timezonedubai.com/mobile-app/products/" + data.id : "")
+                                            })}
+                                            icon={<AntDesign name='sharealt' size={20} color={theme.colors.primary[100]} />} />
+                                        <IconButton
+                                            onPress={() => {
+                                                if (!this.props.loggedIn)
+                                                    this.props.navigation.navigate("Login")
+                                                else {
+                                                    this.setState({ wishlist: !this.state.wishlist });
+                                                    this.props.addToWish(data)
+                                                }
+                                            }}
+                                            icon={<AntDesign name={this.state.wishlist ? "heart" : 'hearto'} size={20} color={theme.colors.primary[100]} />} />
+                                    </HStack>
                                 </HStack>
                                 <Text>
-                                    <Text>Reference Number:</Text>  {data?.ref_number ? data?.ref_number : "No reference number available"}
+                                    {data.description}
                                 </Text>
-                            </VStack>
-                            <HStack alignItems={"flex-start"}>
-                                <IconButton
-                                    onPress={() => Share.share({
-                                        title: "TIMEZONE",
-                                        url: "timezone://product_id/" + data.id,
-                                        message: "Check out this watch on TimeZone \n" + data.product_name + "\n timezone://product_id/" + data.id
-                                    })}
-                                    icon={<AntDesign name='sharealt' size={20} color={theme.colors.primary[100]} />} />
-                                <IconButton
-                                    onPress={() => {
-                                        if (!this.props.loggedIn)
-                                            this.props.navigation.navigate("Login")
-                                        else {
-                                            this.setState({ wishlist: !this.state.wishlist });
-                                            this.props.addToWish(data)
-                                        }
-                                    }}
-                                    icon={<AntDesign name={this.state.wishlist ? "heart" : 'hearto'} size={20} color={theme.colors.primary[100]} />} />
-                            </HStack>
-                        </HStack>
-                        <Text>
-                            {data.description}
-                        </Text>
-                        {this.checkAndRender("SKU", data?.sku)}
-                        {this.checkAndRender("Brand", data?.brand?.brand_name)}
-                        {this.checkAndRender("Condition", data?.condition)}
-                        {this.checkAndRender("Box & Papers", data?.box)}
-                        {this.checkAndRender("Year", data?.year)}
-                        {this.checkAndRender("Style", data?.style)}
-                        {this.checkAndRender("Manufactured In", data?.manufactured_in)}
-                        {this.checkAndRender("Availability", "In Stock")}
-                        {this.checkAndRender("Gender", data?.gender)}
-                        {this.checkAndRender("Category", data?.category?.category_name)}
-                        {this.checkAndRender("Warranty In-House", data?.weight)}
-                        <Heading marginTop={3} fontSize={"2xl"} >
-                            Case & Dial
-                        </Heading>
-                        {this.checkAndRender("Dial Color", data?.color)}
-                        {this.checkAndRender("Case Size", data?.case_size)}
-                        {this.checkAndRender("Case Material", data?.case_material)}
-                        {this.checkAndRender("Hour Marker", data?.hours_marked)}
-                        {this.checkAndRender("Case Back", data?.case_back)}
-                        {this.checkAndRender("Case Shape", data?.case_shape)}
-                        {this.checkAndRender("Water Resistance", data?.water_resistance)}
-                        {this.checkAndRender("Movement", data?.movement)}
-                        <Heading marginTop={3} fontSize={"2xl"} >
-                            Strap & Bracelet
-                        </Heading>
-                        {this.checkAndRender("Bracelet", data?.strap)}
-                        {this.checkAndRender("Strap & Bracelet Material", data?.strap_material)}
-                        {this.checkAndRender("Bracelet Color", data?.band_color)}
-                        {this.checkAndRender("Buckle Type", data?.buckle_type)}
-                        <Text my={3} fontSize={"md"}>We are not an official dealer for the products we sell and have no affiliation
-                            with the manufacturer. We sell Pre-Owned watches. All brand names, trademark and photos are the property of their respective
-                            owners & are used for identification purposes only.
-                        </Text>
-                        {
-                            data?.videos?.length > 0 ?
-                                <Box w={"100%"} h={200}>
-                                    <Video
-                                        useNativeControls
-                                        //source={{uri:"https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"}}
-                                        // source={{ uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" }}
-                                        source={{ uri: img_url + data.videos[0].media }}
-                                        posterSource={{ uri: "https://www.mapcom.com/wp-content/uploads/2015/07/video-placeholder.jpg" }}
-                                        style={{
-                                            width: "100%",
-                                            height: 200,
-                                        }}
-                                        posterStyle={{
-                                            width: "100%",
-                                            height: 200
-                                        }}
-                                        resizeMode="cover"
-                                    />
-                                </Box>
-                                : null
-                        }
+                                {this.checkAndRender("SKU", data?.sku)}
+                                {this.checkAndRender("Brand", data?.brand?.brand_name)}
+                                {this.checkAndRender("Condition", data?.condition)}
+                                {this.checkAndRender("Box & Papers", data?.box)}
+                                {this.checkAndRender("Year", data?.year)}
+                                {this.checkAndRender("Style", data?.style)}
+                                {this.checkAndRender("Manufactured In", data?.manufactured_in)}
+                                {this.checkAndRender("Availability", "In Stock")}
+                                {this.checkAndRender("Gender", data?.gender)}
+                                {this.checkAndRender("Category", data?.category?.category_name)}
+                                {this.checkAndRender("Warranty In-House", data?.weight)}
+                                <Heading marginTop={3} fontSize={"2xl"} >
+                                    Case & Dial
+                                </Heading>
+                                {this.checkAndRender("Dial Color", data?.color)}
+                                {this.checkAndRender("Case Size", data?.case_size)}
+                                {this.checkAndRender("Case Material", data?.case_material)}
+                                {this.checkAndRender("Hour Marker", data?.hours_marked)}
+                                {this.checkAndRender("Case Back", data?.case_back)}
+                                {this.checkAndRender("Case Shape", data?.case_shape)}
+                                {this.checkAndRender("Water Resistance", data?.water_resistance)}
+                                {this.checkAndRender("Movement", data?.movement)}
+                                <Heading marginTop={3} fontSize={"2xl"} >
+                                    Strap & Bracelet
+                                </Heading>
+                                {this.checkAndRender("Bracelet", data?.strap)}
+                                {this.checkAndRender("Strap & Bracelet Material", data?.strap_material)}
+                                {this.checkAndRender("Bracelet Color", data?.band_color)}
+                                {this.checkAndRender("Buckle Type", data?.buckle_type)}
+                                <Text my={3} fontSize={"md"}>We are not an official dealer for the products we sell and have no affiliation
+                                    with the manufacturer. We sell Pre-Owned watches. All brand names, trademark and photos are the property of their respective
+                                    owners & are used for identification purposes only.
+                                </Text>
+                                {
+                                    data?.videos?.length > 0 ?
+                                        <Box w={"100%"} h={200}>
+                                            <Video
+                                                useNativeControls
+                                                //source={{uri:"https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"}}
+                                                // source={{ uri: "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4" }}
+                                                source={{ uri: img_url + data.videos[0].media }}
+                                                posterSource={{ uri: "https://www.mapcom.com/wp-content/uploads/2015/07/video-placeholder.jpg" }}
+                                                style={{
+                                                    width: "100%",
+                                                    height: 200,
+                                                }}
+                                                posterStyle={{
+                                                    width: "100%",
+                                                    height: 200
+                                                }}
+                                                resizeMode="cover"
+                                            />
+                                        </Box>
+                                        : null
+                                }
 
-                    </VStack>
-                </ScrollView>
+                            </VStack>
+                        </ScrollView>
+                }
                 {
                     price == 0 ?
                         <Pressable w={"100%"} onPress={() => this.props.navigation.navigate("ContactUs", { item: data })}>
@@ -315,7 +342,8 @@ const mapDispatchToProps = dispatch => ({
     addToCart: data => dispatch(ProductActions.AddToCart(data)),
     emptyCart: data => dispatch(ProductActions.EmptyCart()),
     removeFromCart: data => dispatch(ProductActions.RemoveFromCart(data)),
-    addToWish: data => dispatch(ProductMiddleware.saveToWishlist(data))
+    addToWish: data => dispatch(ProductMiddleware.saveToWishlist(data)),
+    getProduct: data => dispatch(ProductMiddleware.getProduct(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);

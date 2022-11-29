@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import AlertAction from '../../redux/Actions/AlertActions';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import { Platform } from 'react-native';
+import jwt_decode from 'jwt-decode';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -133,7 +134,9 @@ function SocialSignin(props) {
             const result = await AppleAuthentication.signInAsync({
                 requestedScopes: [AppleAuthentication.AppleAuthenticationScope.EMAIL, AppleAuthentication.AppleAuthenticationScope.FULL_NAME],
             })
-            if (result?.email) {
+            const { email } = jwt_decode(result.identityToken)
+            if (result?.email || email) {
+                let apple_name = email ? email.split("@")[0] : "No username";
                 const token = (await Notifications.getExpoPushTokenAsync()).data;
                 dispatch(AuthMiddleware.SocialSignin({
                     onSuccess: (success, msg) => {
@@ -142,18 +145,19 @@ function SocialSignin(props) {
                             return;
                         navigation.navigate("Dashboard")
                     },
-                    name: result.fullName,
-                    email: result.email,
+                    name: result.fullName.familyName ? result.fullName.familyName : apple_name,
+                    email: result.email ? result.email : email,
                     pic: "",
                     token
                 }))
             }
             else if (result.error) {
                 setAppleLoading(false)
-                alert("Apple signin not supported")
+                alert(JSON.stringify(result.error))
             }
+            else
+                setAppleLoading(false)
         } catch (error) {
-            console.warn(error)
             setAppleLoading(false)
             alert("Apple signin not supported")
         }

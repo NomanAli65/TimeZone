@@ -24,7 +24,7 @@ class ForgotPass extends Component {
             this.setState({ inavlid: "Please enter your email address" });
             return;
         }
-        
+
         this.props.ForgotPass({
             email,
             onRequest: () => {
@@ -35,7 +35,7 @@ class ForgotPass extends Component {
                 if (!success)
                     return;
 
-                this.props.navigation.navigate("VerifyCode",{code:msg,email})
+                this.props.navigation.navigate("VerifyCode", { code: msg, email })
             }
         })
     }
@@ -43,7 +43,7 @@ class ForgotPass extends Component {
     render() {
         return (
             <View flex={1} backgroundColor="white" _dark={{ backgroundColor: "black" }}>
-                <Box position="absolute" top={"5%"} left="3%">
+                <Box mt={"5%"} ml="3%" alignSelf={"flex-start"}>
                     <IconButton
                         onPress={() => this.props.navigation.goBack()}
                         icon={<Ionicons name='md-close' size={25} color={theme.config.initialColorMode == "dark" ? "#fff" : "#000"} />}

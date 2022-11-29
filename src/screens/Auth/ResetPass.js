@@ -55,7 +55,7 @@ class ResetPass extends Component {
     render() {
         return (
             <View flex={1} backgroundColor="white" _dark={{ backgroundColor: "black" }}>
-                <Box position="absolute" top={"5%"} left="3%">
+                <Box mt={"5%"} ml="3%" alignSelf={"flex-start"}>
                     <IconButton
                         onPress={() => this.props.navigation.goBack()}
                         icon={<Ionicons name='md-close' size={25} color={theme.config.initialColorMode == "dark" ? "#fff" : "#000"} />}

@@ -1,10 +1,9 @@
 import { Alert, AlertDialog, AspectRatio, Box, Button, Center, FlatList, Heading, HStack, Icon, IconButton, Image, Pressable, ScrollView, Skeleton, Stack, Text, View } from 'native-base';
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
+// import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+// import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
 import { connect } from 'react-redux';
-import Products from '../Products';
 import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import { APIs, img_url } from '../../configs/APIs';
 import LGButton from '../../components/LGButton';
@@ -146,13 +145,13 @@ class index extends Component {
                     backgroundColor: "#000"
                 }}
                 flex={1}>
-                <AppBar
+                  <AppBar
                     noLeftIcon
                     title={"Wishlist"}
                     noWish
                     noCart
                 />
-                <FlatList
+                 <FlatList
                     onRefresh={this.onRefresh}
                     refreshing={this.state.refreshing}
                     keyExtractor={(item) => item.name}
@@ -178,7 +177,7 @@ class index extends Component {
                         null
                 }
 
-                <AlertDialog isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
+                 <AlertDialog isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
                     <AlertDialog.Content>
                         <AlertDialog.CloseButton />
                         <AlertDialog.Header _text={{ fontWeight: "bold" }}>Remove From Wishlist</AlertDialog.Header>
@@ -204,7 +203,7 @@ class index extends Component {
                             </Button.Group>
                         </AlertDialog.Footer>
                     </AlertDialog.Content>
-                </AlertDialog>
+                </AlertDialog> 
             </View>
         );
     }
