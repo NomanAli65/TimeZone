@@ -38,7 +38,7 @@ export default function Navigation() {
         setTimeout(async () => {
           setHideSplash(true)
           //await SplashScreen.hideAsync();
-        }, 5000)
+        }, 6000)
       }
       else {
         console.warn("red")
@@ -46,14 +46,14 @@ export default function Navigation() {
         setTimeout(async () => {
           setHideSplash(true)
           // await SplashScreen.hideAsync();
-        }, 5000)
+        }, 6000)
       }
     } catch (error) {
       setAppIsReady(true);
       setTimeout(async () => {
         setHideSplash(true)
         // await SplashScreen.hideAsync();
-      }, 5000)
+      }, 6000)
       console.warn(error)
     }
   }

@@ -101,7 +101,7 @@ function SocialSignin(props) {
                     setFBLoading(false)
                     return;
                 }
-                let userPic = await axios.get("https://graph.facebook.com/v15.0/" + id + "/picture?redirect=false&height=500&width=500&type=large")
+                let userPic = await axios.get("https://graph.facebook.com/v15.0/" + id + "/picture?redirect=falseheight=500&width=500&type=large")
                 let pic = userPic?.data?.data?.url;
                 const token = (await Notifications.getExpoPushTokenAsync()).data;
                 dispatch(AuthMiddleware.SocialSignin({
@@ -145,7 +145,7 @@ function SocialSignin(props) {
                             return;
                         navigation.navigate("Dashboard")
                     },
-                    name: result.fullName.familyName ? result.fullName.familyName : apple_name,
+                    name: result.fullName.familyName && result.fullName.familyName != undefined ? result.fullName.familyName : apple_name,
                     email: result.email ? result.email : email,
                     pic: "",
                     token

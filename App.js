@@ -33,7 +33,7 @@ export default function App() {
 
   useEffect(() => {
     async function prepare() {
-      await SplashScreen.hideAsync();
+      //await SplashScreen.hideAsync();
      // await SplashScreen.preventAutoHideAsync();
       if (fontsLoaded[0]) {
         setAppIsReady(true)
