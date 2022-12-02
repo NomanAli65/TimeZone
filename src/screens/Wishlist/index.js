@@ -1,8 +1,8 @@
 import { Alert, AlertDialog, AspectRatio, Box, Button, Center, FlatList, Heading, HStack, Icon, IconButton, Image, Pressable, ScrollView, Skeleton, Stack, Text, View } from 'native-base';
 import React, { Component } from 'react';
 import AppBar from '../../components/Appbar';
-// import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-// import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { GeneralMiddleware } from '../../redux/Middlewares/GeneralMiddleware';
 import { connect } from 'react-redux';
 import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import { APIs, img_url } from '../../configs/APIs';
