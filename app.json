@@ -2,7 +2,7 @@
   "expo": {
     "name": "TIMEZONE",
     "slug": "TimeZone",
-    "scheme":"timezone",
+    "scheme": "timezone",
     "version": "1.1.4",
     "orientation": "portrait",
     "icon": "./assets/TZ.png",
@@ -37,7 +37,7 @@
         "android.permission.ACCESS_MEDIA_LOCATION",
         "android.permission.INTERNET"
       ],
-      "googleServicesFile": "./google-services.json",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -53,7 +53,7 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/TZ.png",
+          "icon": "./assets/notification_icon.png",
           "color": "#ffffff"
         }
       ],
