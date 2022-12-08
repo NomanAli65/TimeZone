@@ -30,7 +30,6 @@ export default function App() {
   //           "SKAdNetworkIdentifier": "n38lu8286q.skadnetwork"
   //         }
   //       ]
-
   useEffect(() => {
     async function prepare() {
       //await SplashScreen.hideAsync();

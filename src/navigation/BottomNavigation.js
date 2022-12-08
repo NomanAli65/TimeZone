@@ -11,6 +11,7 @@ import theme from "../configs/Theme";
 import TradeStack from "./TradeStack";
 import CartStack from "./CartStack";
 import { useSelector } from "react-redux";
+import Login from "../screens/Auth/Login";
 
 
 const BottomNavigator = createBottomTabNavigator();
@@ -26,7 +27,7 @@ const BottomNav = () => {
                 headerShown: false,
                 tabBarActiveTintColor: theme.colors.primary[100]
             }}>
-            <BottomNavigator.Screen name="Home" component={MainStack}
+            <BottomNavigator.Screen name="Home" component={Login}
                 options={{
                     tabBarIcon: ({ size, color, focused }) => (
                         <Icon size={size} color={color} as={Ionicons} name={focused ? "home" : "home-outline"} />

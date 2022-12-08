@@ -18,9 +18,6 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
     const [wishlist, addToWishlist] = useState(false);
     const [price, setPrice] = useState("");
 
-    useEffect(() => {
-        addToWishlist(wish);
-    }, [wish])
 
     const onlyNumbers = (str) => {
         return /^[0-9]*$/.test(str);
@@ -38,6 +35,11 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
         })
         setPrice(formatted_price)
     }, [])
+
+
+    useEffect(() => {
+        addToWishlist(wish);
+    }, [wish])
 
     if (loading)
         return (

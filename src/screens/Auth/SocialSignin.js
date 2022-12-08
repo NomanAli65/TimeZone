@@ -25,18 +25,17 @@ function SocialSignin(props) {
     const [fbLoading, setFBLoading] = useState();
     const [appleLoading, setAppleLoading] = useState();
     const [request, response, promptAsync] = Google.useAuthRequest({
+        clientId: Platform.OS == "android" ? "230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com" : "230281440299-ak3v140kogbqio4jcp1r2fulcandsk3v.apps.googleusercontent.com",
         expoClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
-        iosClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
+        iosClientId: '230281440299-ak3v140kogbqio4jcp1r2fulcandsk3v.apps.googleusercontent.com',
         androidClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
         webClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
+        selectAccount: true,
         redirectUri: makeRedirectUri({
-            scheme: "timezone",
-            useProxy: true
+            useProxy:true
         }),
-        selectAccount: true
     }, {
-        scheme: "timezone",
-        useProxy: true
+        useProxy: true,
     });
 
     const [requestFB, responseFB, promptAsyncFB] = Facebook.useAuthRequest({
@@ -45,11 +44,13 @@ function SocialSignin(props) {
         scopes: ["email", "public_profile"],
         redirectUri: makeRedirectUri({
             scheme: "timezone",
-            useProxy: true
+            native: "fb495885272460928://authorize",
+            useProxy: Platform.OS == "android"
         })
     }, {
         scheme: "timezone",
-        useProxy: true
+        native: "fb495885272460928://authorize",
+        useProxy: Platform.OS == "android"
     });
 
     const _GoogleSignin = async () => {

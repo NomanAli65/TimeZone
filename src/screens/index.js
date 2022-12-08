@@ -78,13 +78,19 @@ class index extends Component {
     })
   }
 
-  _handleNotificationResponse=(response:Notifications.NotificationResponse)=>{
-    let data=response.notification.request.content.data;
-    if(data.type=="post"){
-      this.props.navigation.navigate("Products")
+  _handleNotificationResponse = (response: Notifications.NotificationResponse) => {
+    let data = response.notification.request.content.data;
+    if (data.type == "post") {
+      this.props.getProduct({
+        onSuccess: (dt) => {
+          if (dt)
+            this.props.navigation.navigate("ProductDetail", { item: dt })
+        },
+        id: data.id,
+      })
     }
   }
-  
+
 
   componentWillUnmount() {
     clearTimeout(this.timeout)

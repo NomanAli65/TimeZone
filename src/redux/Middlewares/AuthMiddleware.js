@@ -64,7 +64,7 @@ export const AuthMiddleware = {
             try {
                 let formData = new FormData();
                 formData.append("email", data.email);
-                formData.append("username", data.name);
+                formData.append("username", data.name ? data.name : "TZ User");
                 formData.append("device_id", data.token);
                 if (data?.pic)
                     formData.append("profile_pic", data.pic);

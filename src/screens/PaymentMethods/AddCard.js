@@ -44,7 +44,7 @@ class AddCard extends Component {
     render() {
         return (
             <View flex={1} backgroundColor="#fff" _dark={{ backgroundColor: "black" }}>
-                <Box marginLeft={"3%"} top={"5%"} alignSelf="flex-start">
+                <Box marginLeft={"3%"} alignSelf="flex-start">
                     <IconButton
                         onPress={() => this.props.navigation.goBack()}
                         icon={<MaterialIcons name="chevron-left" size={25} color={theme.config.initialColorMode == "dark" ? "#fff" : "#000"} />} />

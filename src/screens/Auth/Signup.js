@@ -49,6 +49,10 @@ class Signup extends Component {
             this.setState({ no_match: true })
             return;
         }
+        if (phone && !phone.startsWith("+")) {
+            this.setState({ invalid: "Phone number should start with country code (example +971)" });
+            return;
+        }
         const token = (await Notifications.getExpoPushTokenAsync()).data;
         this.props.Signup({
             f_name,

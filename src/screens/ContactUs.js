@@ -49,7 +49,7 @@ class Help extends Component {
         let item = this.props.route.params?.item;
         return (
             <View flex={1} backgroundColor="white" _dark={{ backgroundColor: "black" }}>
-                <Box >
+                <Box  marginLeft={"3%"} alignSelf="flex-start">
                     <IconButton
                         onPress={() => this.props.navigation.goBack()}
                         icon={<MaterialIcons name='chevron-left' size={25} color={theme.config.initialColorMode == "dark" ? "#fff" : "#000"} />}

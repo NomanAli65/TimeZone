@@ -34,6 +34,10 @@ class EditProfile2 extends Component {
             this.setState({ invalid: "Please fill all fields" });
             return;
         }
+        if (phone && !phone.startsWith("+")) {
+            this.setState({ invalid: "Phone number should start with country code (example +971)" });
+            return;
+        }
         this.setState({ loading: true });
         this.props.UpdateProfile({
             name,

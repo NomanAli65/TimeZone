@@ -40,11 +40,12 @@ class Login extends Component {
             return;
         }
 
-        const token = (await Notifications.getExpoPushTokenAsync()).data;
+      //  const token = (await Notifications.getExpoPushTokenAsync()).data;
+        //console.warn(token)
         this.props.Login({
             email,
             password,
-            token,
+            token:"",
             onRequest: () => {
                 this.setState({ loading: true })
             },
@@ -107,6 +108,7 @@ class Login extends Component {
                             isLoading={this.state.loading}
                             isLoadingText={"Loging in"}
                             title={"LOGIN"} onPress={() => {
+                                console.warn("ok")
                                 this.Login();
                             }} />
 
