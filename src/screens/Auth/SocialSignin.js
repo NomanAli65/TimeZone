@@ -31,11 +31,14 @@ function SocialSignin(props) {
         androidClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
         webClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
         selectAccount: true,
-        redirectUri: makeRedirectUri({
-            useProxy:true
-        }),
+        extraParams: {
+            access_type: "offline"
+        },
+        responseType: "code"
+        // redirectUri: makeRedirectUri({
+        //     scheme: "timezone"
+        // }),
     }, {
-        useProxy: true,
     });
 
     const [requestFB, responseFB, promptAsyncFB] = Facebook.useAuthRequest({
@@ -56,11 +59,13 @@ function SocialSignin(props) {
     const _GoogleSignin = async () => {
         try {
             let result = await promptAsync();
-            if (result.authentication?.accessToken) {
+            console.warn(result.params)
+            return;
+            if (result.params?.code) {
                 setLoading(true)
                 let userData = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
                     headers: {
-                        Authorization: "Bearer " + result.authentication?.accessToken
+                        Authorization: "Bearer " + result.params?.code
                     }
                 })
                 let { name, picture, email, } = userData?.data;
