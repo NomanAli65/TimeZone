@@ -34,15 +34,17 @@ class index extends Component {
   async componentDidMount() {
     Notifications.addNotificationResponseReceivedListener(this._handleNotificationResponse);
     Notifications.getLastNotificationResponseAsync().then((val) => {
-      let data = val.notification.request.content.data;
-      if (data.type == "post") {
-        this.props.getProduct({
-          onSuccess: (dt) => {
-            if (dt)
-              this.props.navigation.navigate("ProductDetail", { item: dt })
-          },
-          id: data.id,
-        })
+      let data = val.notification.request?.content?.data;
+      if (data) {
+        if (data.type == "post") {
+          this.props.getProduct({
+            onSuccess: (dt) => {
+              if (dt)
+                this.props.navigation.navigate("ProductDetail", { item: dt })
+            },
+            id: data.id,
+          })
+        }
       }
     })
     Linking.getInitialURL().then((url) => {
@@ -91,15 +93,17 @@ class index extends Component {
   }
 
   _handleNotificationResponse = (response: Notifications.NotificationResponse) => {
-    let data = response.notification.request.content.data;
-    if (data.type == "post") {
-      this.props.getProduct({
-        onSuccess: (dt) => {
-          if (dt)
-            this.props.navigation.navigate("ProductDetail", { item: dt })
-        },
-        id: data.id,
-      })
+    let data = response.notification.request?.content?.data;
+    if (data) {
+      if (data.type == "post") {
+        this.props.getProduct({
+          onSuccess: (dt) => {
+            if (dt)
+              this.props.navigation.navigate("ProductDetail", { item: dt })
+          },
+          id: data.id,
+        })
+      }
     }
   }
 
