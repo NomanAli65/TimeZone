@@ -36,7 +36,7 @@ class index extends Component {
     Notifications.getLastNotificationResponseAsync().then((val) => {
       let data = val.notification.request?.content?.data;
       if (data) {
-        if (data.type == "post") {
+        if (data.type == "product") {
           this.props.getProduct({
             onSuccess: (dt) => {
               if (dt)
@@ -95,7 +95,7 @@ class index extends Component {
   _handleNotificationResponse = (response: Notifications.NotificationResponse) => {
     let data = response.notification.request?.content?.data;
     if (data) {
-      if (data.type == "post") {
+      if (data.type == "product") {
         this.props.getProduct({
           onSuccess: (dt) => {
             if (dt)
