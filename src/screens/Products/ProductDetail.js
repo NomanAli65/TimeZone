@@ -208,7 +208,7 @@ class ProductDetail extends Component {
                                             onPress={() => Share.share({
                                                 title: "TIMEZONE",
                                                 url: "https://timezonedubai.com/mobile-app/products/" + data.id,
-                                                message: "Check out this watch on TimeZone \n" + data.product_name + (Platform.OS == "android" ? "\nhttps://timezonedubai.com/mobile-app/products/" + data.id : "")
+                                                message: "Check out this watch on Timezone Watches Ltd.\n" + data.product_name + (Platform.OS == "android" ? "\nhttps://timezonedubai.com/mobile-app/products/" + data.id : "")
                                             })}
                                             icon={<AntDesign name='sharealt' size={20} color={theme.colors.primary[100]} />} />
                                         <IconButton

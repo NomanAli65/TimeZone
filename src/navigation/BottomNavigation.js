@@ -27,7 +27,7 @@ const BottomNav = () => {
                 headerShown: false,
                 tabBarActiveTintColor: theme.colors.primary[100]
             }}>
-            <BottomNavigator.Screen name="Home" component={Login}
+            <BottomNavigator.Screen name="Home" component={MainStack}
                 options={{
                     tabBarIcon: ({ size, color, focused }) => (
                         <Icon size={size} color={color} as={Ionicons} name={focused ? "home" : "home-outline"} />

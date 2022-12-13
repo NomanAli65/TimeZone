@@ -33,6 +33,18 @@ class index extends Component {
 
   async componentDidMount() {
     Notifications.addNotificationResponseReceivedListener(this._handleNotificationResponse);
+    Notifications.getLastNotificationResponseAsync().then((val) => {
+      let data = val.notification.request.content.data;
+      if (data.type == "post") {
+        this.props.getProduct({
+          onSuccess: (dt) => {
+            if (dt)
+              this.props.navigation.navigate("ProductDetail", { item: dt })
+          },
+          id: data.id,
+        })
+      }
+    })
     Linking.getInitialURL().then((url) => {
       if (url && url.includes("product_id")) {
         let idArr = url.split("/");

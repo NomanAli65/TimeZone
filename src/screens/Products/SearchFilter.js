@@ -50,11 +50,11 @@ export default class SearchFilter extends Component {
                 })
             }
             if (data.includes("lowToHigh") && val == "highToLow") {
-                data=data.filter((v)=>v!="lowToHigh");
+                data = data.filter((v) => v != "lowToHigh");
                 this.setState({
                     filter: {
                         ...this.state.filter,
-                        sortBy: [...data,val]
+                        sortBy: [...data, val]
                     }
                 })
             }
@@ -67,11 +67,11 @@ export default class SearchFilter extends Component {
                 })
             }
             if (data.includes("highToLow") && val == "lowToHigh") {
-                data=data.filter((v)=>v!="highToLow");
+                data = data.filter((v) => v != "highToLow");
                 this.setState({
                     filter: {
                         ...this.state.filter,
-                        sortBy: [...data,val]
+                        sortBy: [...data, val]
                     }
                 })
             }
@@ -167,7 +167,6 @@ export default class SearchFilter extends Component {
                             </VStack>
                             {/* </Checkbox.Group> */}
                         </VStack>
-                        <Divider />
                         {/* <VStack space={2}>
                             <Heading>
                                 Gender
@@ -195,39 +194,6 @@ export default class SearchFilter extends Component {
                             </Radio.Group>
                         </VStack>
                         <Divider /> */}
-                        <VStack space={2}>
-                            <Heading>
-                                Dial Color
-                            </Heading>
-                            <Checkbox.Group
-                                value={[this.state.filter.color]}
-                                onChange={(value) => {
-                                    if (this.state.filter.color == value[1])
-                                        this.setState({
-                                            filter: {
-                                                ...this.state.filter,
-                                                color: ""
-                                            }
-                                        })
-                                    else
-                                        this.setState({
-                                            filter: {
-                                                ...this.state.filter,
-                                                color: value[1]
-                                            }
-                                        })
-                                }}
-                                name="SortGroup">
-                                {
-                                    colors.length > 0 ?
-                                        colors.map((color) => (
-                                            <Checkbox isChecked={this.state.filter.color == color} value={color} my={1}>
-                                                {this.toSentenceCase(color)}
-                                            </Checkbox>
-                                        )) : null
-                                }
-                            </Checkbox.Group>
-                        </VStack>
                         <Divider />
                         {
                             Object.values(otherFilter).map((fils, index) => (
@@ -272,6 +238,40 @@ export default class SearchFilter extends Component {
                                 </Box>
                             ))
                         }
+                        <Divider />
+                        <VStack space={2}>
+                            <Heading>
+                                Dial Color
+                            </Heading>
+                            <Checkbox.Group
+                                value={[this.state.filter.color]}
+                                onChange={(value) => {
+                                    if (this.state.filter.color == value[1])
+                                        this.setState({
+                                            filter: {
+                                                ...this.state.filter,
+                                                color: ""
+                                            }
+                                        })
+                                    else
+                                        this.setState({
+                                            filter: {
+                                                ...this.state.filter,
+                                                color: value[1]
+                                            }
+                                        })
+                                }}
+                                name="SortGroup">
+                                {
+                                    colors.length > 0 ?
+                                        colors.map((color) => (
+                                            <Checkbox isChecked={this.state.filter.color == color} value={color} my={1}>
+                                                {this.toSentenceCase(color)}
+                                            </Checkbox>
+                                        )) : null
+                                }
+                            </Checkbox.Group>
+                        </VStack>
                         {/* <VStack space={2}>
                             <Heading>
                                 Availability

@@ -46,13 +46,19 @@ function SocialSignin(props) {
         responseType: ResponseType.Token,
         scopes: ["email", "public_profile"],
         redirectUri: makeRedirectUri({
-            scheme: "timezone",
-            native: "fb495885272460928://authorize",
+            ...Platform.OS == "ios" ? {
+                scheme: "timezone",
+                native: "fb495885272460928://authorize",
+            } : {}
+            ,
             useProxy: Platform.OS == "android"
         })
     }, {
-        scheme: "timezone",
-        native: "fb495885272460928://authorize",
+        ...Platform.OS == "ios" ? {
+            scheme: "timezone",
+            native: "fb495885272460928://authorize",
+        } : {}
+        ,
         useProxy: Platform.OS == "android"
     });
 
