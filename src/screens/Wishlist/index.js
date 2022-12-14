@@ -177,7 +177,7 @@ class index extends Component {
                         null
                 }
 
-                 <AlertDialog isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
+                 {/* <AlertDialog isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
                     <AlertDialog.Content>
                         <AlertDialog.CloseButton />
                         <AlertDialog.Header _text={{ fontWeight: "bold" }}>Remove From Wishlist</AlertDialog.Header>
@@ -191,11 +191,6 @@ class index extends Component {
                                 </Button>
                                 <Button backgroundColor={"primary.100"} onPress={() => {
                                     this.props.removeProductWishlist(this.state.selectedItem);
-                                    this.props.emptyDashboard()
-                                    this.props.getDashboard({
-                                        onSuccess: () => {
-                                        }
-                                    });
                                     this.setState({ isOpen: false });
                                 }}>
                                     Remove
@@ -203,7 +198,7 @@ class index extends Component {
                             </Button.Group>
                         </AlertDialog.Footer>
                     </AlertDialog.Content>
-                </AlertDialog> 
+                </AlertDialog>  */}
             </View>
         );
     }

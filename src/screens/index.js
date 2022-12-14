@@ -32,7 +32,6 @@ class index extends Component {
   }
 
   async componentDidMount() {
-    console.warn(this.props.user)
     Notifications.addNotificationResponseReceivedListener(this._handleNotificationResponse);
     Notifications.getLastNotificationResponseAsync().then((val) => {
       let data = val.notification.request?.content?.data;
@@ -81,15 +80,19 @@ class index extends Component {
     //     this.setState({ loading: false })
     //   }
     // })
-    this.props.getDashboard({
-      onSuccess: () => {
-        this.setState({ loading: false })
-      }
-    });
+
     getDeviceTypeAsync().then((value) => {
       this.setState({
         deviceType: value
       })
+    })
+    this.props.navigation.addListener("focus", () => {
+      // this.props.getDashboard({
+      //   onSuccess: () => {
+      //     this.setState({ loading: false })
+      //   }
+      // });
+      this.onRefresh();
     })
   }
 
