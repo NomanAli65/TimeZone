@@ -32,6 +32,7 @@ class index extends Component {
   }
 
   async componentDidMount() {
+    console.warn(this.props.user)
     Notifications.addNotificationResponseReceivedListener(this._handleNotificationResponse);
     Notifications.getLastNotificationResponseAsync().then((val) => {
       let data = val.notification.request?.content?.data;
