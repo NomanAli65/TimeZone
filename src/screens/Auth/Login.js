@@ -12,7 +12,6 @@ import SocialSignin from './SocialSignin';
 import * as Notifications from "expo-notifications";
 import * as AppleAuthentication from 'expo-apple-authentication';
 
-
 class Login extends Component {
 
 
