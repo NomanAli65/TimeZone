@@ -5,7 +5,6 @@
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
 #import <React/RCTConvert.h>
-#import "RNGoogleSignin.h"
 
 #if defined(FB_SONARKIT_ENABLED) && __has_include(<FlipperKit/FlipperClient.h>)
 #import <FlipperKit/FlipperClient.h>
@@ -69,8 +68,5 @@ static void InitializeFlipper(UIApplication *application) {
   return [super application:application continueUserActivity:userActivity restorationHandler:restorationHandler] || result;
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
-  return [super application:application openURL:url options:options] || [RCTLinkingManager application:application openURL:url options:options] || [RNGoogleSignin application:application openURL:url options:options];
-}
 
 @end
