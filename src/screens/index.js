@@ -13,6 +13,7 @@ import GeneralActions from '../redux/Actions/GeneralActions';
 import AuthAction from '../redux/Actions/AuthActions';
 import { DeviceType, getDeviceTypeAsync } from "expo-device"
 import * as Notifications from "expo-notifications";
+import { GeneralTypes } from '../redux/ActionTypes/GeneralActionTypes';
 
 const { width } = Dimensions.get("window");
 
@@ -75,11 +76,6 @@ class index extends Component {
           })
       }
     })
-    // this.props.getTopCategories({
-    //   callback: () => {
-    //     this.setState({ loading: false })
-    //   }
-    // })
 
     getDeviceTypeAsync().then((value) => {
       this.setState({
@@ -87,12 +83,8 @@ class index extends Component {
       })
     })
     this.props.navigation.addListener("focus", () => {
-      // this.props.getDashboard({
-      //   onSuccess: () => {
-      //     this.setState({ loading: false })
-      //   }
-      // });
-      this.onRefresh();
+      if (this.props.refresh_dash)
+        this.onRefresh();
     })
   }
 
@@ -208,6 +200,7 @@ class index extends Component {
   }
 
   onRefresh = () => {
+    this.props.RefreshDash(false)
     this.setState({ loading: true })
     this.props.emptyDashboard()
     this.props.getDashboard({
@@ -439,7 +432,8 @@ const mapStateToProps = state => ({
   loading: state.GeneralReducer.loading,
   top_categories: state.GeneralReducer.top_categories,
   dashboard: state.GeneralReducer.dashboardData,
-  user: state.Auth.user
+  user: state.Auth.user,
+  refresh_dash: state.GeneralReducer.refresh_dash,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -448,7 +442,8 @@ const mapDispatchToProps = dispatch => ({
   emptyDashboard: () => dispatch(GeneralActions.SetDashboardData(undefined)),
   StopLoading: () => dispatch(GeneralActions.HideLoading()),
   getProduct: (data) => dispatch(GeneralMiddleware.getProduct(data)),
-  Login: (data) => dispatch(AuthAction.Login(data))
+  Login: (data) => dispatch(AuthAction.Login(data)),
+  RefreshDash: (data) => dispatch({ type: GeneralTypes.REFRESH_DASHBOARD, payload: data }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

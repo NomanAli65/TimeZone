@@ -7,13 +7,18 @@ let initialSate = {
     dashboardData: null,
     all_brands: null,
     all_categories: null,
-    top_categories: null
+    top_categories: null,
+    refresh_dash: true
 };
 
 const GeneralReducer = (state = initialSate, action) => {
     switch (action.type) {
         case GeneralTypes.SET_DASHBOARD_DATA:
             state = { ...state, dashboardData: action.payload, loading: false };
+            break;
+        case GeneralTypes.REFRESH_DASHBOARD:
+            console.warn("reducer",action.payload)
+            state = { ...state, refresh_dash: action.payload };
             break;
         case GeneralTypes.SET_LOADING:
             state = { ...state, loading: action.payload };

@@ -8,6 +8,7 @@ import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import { APIs, img_url } from '../../configs/APIs';
 import LGButton from '../../components/LGButton';
 import GeneralActions from '../../redux/Actions/GeneralActions';
+import { GeneralTypes } from '../../redux/ActionTypes/GeneralActionTypes';
 
 
 const data = [
@@ -145,13 +146,13 @@ class index extends Component {
                     backgroundColor: "#000"
                 }}
                 flex={1}>
-                  <AppBar
+                <AppBar
                     noLeftIcon
                     title={"Wishlist"}
                     noWish
                     noCart
                 />
-                 <FlatList
+                <FlatList
                     onRefresh={this.onRefresh}
                     refreshing={this.state.refreshing}
                     keyExtractor={(item) => item.name}
@@ -177,7 +178,7 @@ class index extends Component {
                         null
                 }
 
-                 {/* <AlertDialog isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
+                <AlertDialog isOpen={this.state.isOpen} onClose={() => this.setState({ isOpen: false })}>
                     <AlertDialog.Content>
                         <AlertDialog.CloseButton />
                         <AlertDialog.Header _text={{ fontWeight: "bold" }}>Remove From Wishlist</AlertDialog.Header>
@@ -191,6 +192,7 @@ class index extends Component {
                                 </Button>
                                 <Button backgroundColor={"primary.100"} onPress={() => {
                                     this.props.removeProductWishlist(this.state.selectedItem);
+                                    this.props.RefreshDash(true)
                                     this.setState({ isOpen: false });
                                 }}>
                                     Remove
@@ -198,7 +200,7 @@ class index extends Component {
                             </Button.Group>
                         </AlertDialog.Footer>
                     </AlertDialog.Content>
-                </AlertDialog>  */}
+                </AlertDialog>
             </View>
         );
     }
@@ -215,6 +217,7 @@ const mapDispatchToProps = dispatch => ({
     removeProductWishlist: data => dispatch(ProductMiddleware.saveToWishlist(data)),
     getDashboard: data => dispatch(GeneralMiddleware.getDashboardData(data)),
     emptyDashboard: () => dispatch(GeneralActions.SetDashboardData(undefined)),
+    RefreshDash: (data) => dispatch({ type: GeneralTypes.REFRESH_DASHBOARD, payload: data }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(index);

@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { img_url } from "../configs/APIs";
 import { ProductMiddleware } from "../redux/Middlewares/ProductMiddleware";
 import numbro from "numbro";
+import { GeneralTypes } from "../redux/ActionTypes/GeneralActionTypes";
 
 
 const WatchItem = ({ loading, description, item, halfScreen, index }) => {
@@ -25,7 +26,7 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
 
     useEffect(() => {
         addToWishlist(wish);
-        let formatted_price = item?.price==0 ? "Request for price" : numbro(item?.price).formatCurrency({
+        let formatted_price = item?.price == 0 ? "Request for price" : numbro(item?.price).formatCurrency({
             thousandSeparated: true,
             abbreviations: {
                 thousand: "k",
@@ -95,7 +96,7 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
                             <VStack>
                                 <HStack alignItems={"center"} space={1}>
                                     <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
-                                        {item?.price!=0 ? "PRICE" : ""} <Text color={"primary.100"} >{price}</Text>
+                                        {item?.price != 0 ? "PRICE" : ""} <Text color={"primary.100"} >{price}</Text>
                                     </Text>
                                     {/* <Text fontSize={"12"} flexWrap={"wrap"} numberOfLines={3} bold>
                                         PRICE <Text color={item.discount?.discount_value ?"red.500":"primary.100"} textDecorationLine={item.discount?.discount_value ? "line-through" : "none"} >{item.price} AED</Text>
@@ -128,9 +129,11 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
                             if (!loggedIn)
                                 navigation.navigate("Login")
                             else {
-                                //  wish = !wish;
                                 addToWishlist(!wishlist);
-                                dispatch(ProductMiddleware.saveToWishlist(item))
+                                dispatch(ProductMiddleware.saveToWishlist(item));
+                                let nav_state = navigation.getState();
+                                if (nav_state.routeNames[nav_state.index] != "Dashboard")
+                                    dispatch({ type: GeneralTypes.REFRESH_DASHBOARD, payload: true })
                             }
                         }}
                         position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name={wishlist ? "heart" : 'hearto'} size={20} color={wishlist ? "red" : color} />} />
