@@ -13,6 +13,7 @@ import { ProductMiddleware } from '../../redux/Middlewares/ProductMiddleware';
 import numbro from "numbro";
 import ImageView from "react-native-image-viewing";
 import { Platform } from 'expo-modules-core';
+import { GeneralTypes } from '../../redux/ActionTypes/GeneralActionTypes';
 
 const { width } = Dimensions.get("window");
 
@@ -218,6 +219,7 @@ class ProductDetail extends Component {
                                                 else {
                                                     this.setState({ wishlist: !this.state.wishlist });
                                                     this.props.addToWish(data)
+                                                    this.props.RefreshDash(true)
                                                 }
                                             }}
                                             icon={<AntDesign name={this.state.wishlist ? "heart" : 'hearto'} size={20} color={theme.colors.primary[100]} />} />
@@ -343,7 +345,8 @@ const mapDispatchToProps = dispatch => ({
     emptyCart: data => dispatch(ProductActions.EmptyCart()),
     removeFromCart: data => dispatch(ProductActions.RemoveFromCart(data)),
     addToWish: data => dispatch(ProductMiddleware.saveToWishlist(data)),
-    getProduct: data => dispatch(ProductMiddleware.getProduct(data))
+    getProduct: data => dispatch(ProductMiddleware.getProduct(data)),
+    RefreshDash: (data) => dispatch({ type: GeneralTypes.REFRESH_DASHBOARD, payload: data }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductDetail);
