@@ -6,7 +6,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Provider, useSelector } from "react-redux";
 import { store } from "./src/redux/store";
 import Navigation from "./src/navigation";
-
+import { LogBox } from "react-native";
+LogBox.ignoreLogs([
+	'ViewPropTypes will be removed from React Native. Migrate to ViewPropTypes exported from \'deprecated-react-native-prop-types\'.',
+	'NativeBase: The contrast ratio of',
+	"[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
+])
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
 
