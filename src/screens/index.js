@@ -4,7 +4,7 @@ import AppBar from '../components/Appbar';
 import SearchBar from '../components/SearchBar';
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import Carousel from "react-native-snap-carousel";
-import { Dimensions, View as RNView, Image as RNImage, RefreshControl, Linking } from "react-native";
+import { Dimensions, View as RNView, Image as RNImage, RefreshControl, Linking, Platform } from "react-native";
 import WatchItem from '../components/WatchItem';
 import { connect } from 'react-redux';
 import { GeneralMiddleware } from '../redux/Middlewares/GeneralMiddleware';
@@ -50,28 +50,28 @@ class index extends Component {
     Linking.getInitialURL().then((url) => {
       if (url && url.includes("product_id")) {
         let idArr = url.split("/");
-        let id = idArr[idArr.length - 1];
+        let id = Platform.OS == "ios" ? idArr[idArr.length - 1] : idArr[idArr.length - 3];
         if (id)
           this.props.getProduct({
             onSuccess: (data) => {
               if (data)
                 this.props.navigation.navigate("ProductDetail", { item: data })
             },
-            id,
+            id: Platform.OS == "ios" ? id : id.replace(":", ""),
           })
       }
     })
     Linking.addEventListener("url", ({ url }) => {
       if (url && url.includes("product_id")) {
         let idArr = url.split("/");
-        let id = idArr[idArr.length - 1];
+        let id = Platform.OS == "ios" ? idArr[idArr.length - 1] : idArr[idArr.length - 3];
         if (id)
           this.props.getProduct({
             onSuccess: (data) => {
               if (data)
                 this.props.navigation.navigate("ProductDetail", { item: data })
             },
-            id,
+            id: Platform.OS == "ios" ? id : id.replace(":", ""),
           })
       }
     })
@@ -110,7 +110,6 @@ class index extends Component {
       }
     }
   }
-
 
   componentWillUnmount() {
     clearTimeout(this.timeout)
