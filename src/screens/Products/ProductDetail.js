@@ -17,12 +17,6 @@ import { GeneralTypes } from '../../redux/ActionTypes/GeneralActionTypes';
 
 const { width } = Dimensions.get("window");
 
-const data = [
-    require("../../../assets/watch.png"),
-    require("../../../assets/wt.png"),
-    require("../../../assets/watchd.png"),
-]
-
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
