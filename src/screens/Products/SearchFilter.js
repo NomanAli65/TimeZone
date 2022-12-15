@@ -234,11 +234,10 @@ export default class SearchFilter extends Component {
                                             }
                                         </Checkbox.Group>
                                     </VStack>
-                                    <Divider />
+                                    <Divider mt={3} />
                                 </Box>
                             ))
                         }
-                        <Divider />
                         <VStack space={2}>
                             <Heading>
                                 Dial Color

@@ -12,8 +12,10 @@ import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 import { useNavigation } from '@react-navigation/native';
 import AlertAction from '../../redux/Actions/AlertActions';
 import * as AppleAuthentication from 'expo-apple-authentication';
-import { Platform } from 'react-native';
+import { Platform, Linking } from 'react-native';
 import jwt_decode from 'jwt-decode';
+import { get, post } from '../../configs/AxiosConfig';
+import { APIs, base_url } from '../../configs/APIs';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -34,7 +36,7 @@ function SocialSignin(props) {
         extraParams: {
             access_type: "offline"
         },
-        responseType: "code"
+        responseType: "code",
         // redirectUri: makeRedirectUri({
         //     scheme: "timezone"
         // }),
@@ -64,35 +66,27 @@ function SocialSignin(props) {
 
     const _GoogleSignin = async () => {
         try {
-            let result = await promptAsync();
-            console.warn(result.params)
-            return;
-            if (result.params?.code) {
-                setLoading(true)
-                let userData = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
-                    headers: {
-                        Authorization: "Bearer " + result.params?.code
-                    }
-                })
-                let { name, picture, email, } = userData?.data;
-                const token = (await Notifications.getExpoPushTokenAsync()).data;
-                dispatch(AuthMiddleware.SocialSignin({
-                    onSuccess: (success, msg) => {
-                        setLoading(false)
-                        if (!success)
-                            return;
-                        navigation.navigate("Dashboard")
-                    },
-                    name,
-                    email,
-                    pic: picture,
-                    token
-                }))
-            }
-            else if (result.error) {
-                setLoading(false)
-                alert("Error occured. Please try again")
-            }
+            WebBrowser.openAuthSessionAsync(base_url + APIs.GoogleSignin);
+            // let userData = await get(APIs.GoogleSignin)
+            // console.warn(userData)
+            // console.warn(base_url + APIs.GoogleSignin)
+            //     let result = await promptAsync();
+            //     console.warn(result.params)
+            //     return;
+            //     if (result.params?.code) {
+            //         setLoading(true)
+            //         let userData = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+            //             headers: {
+            //                 Authorization: "Bearer " + result.params?.code
+            //             }
+            //         })
+            //         let { name, picture, email, } = userData?.data;
+
+            //     }
+            //     else if (result.error) {
+            //         setLoading(false)
+            //         alert("Error occured. Please try again")
+            //     }
         } catch (error) {
             setLoading(false)
             alert("Error occured")
@@ -186,9 +180,9 @@ function SocialSignin(props) {
                 Sign in with Facebook
             </Button>
             <Button
-                disabled={loading}
+                disabled={props?.loading}
                 onPress={_GoogleSignin}
-                isLoading={loading}
+                isLoading={props?.loading}
                 isLoadingText="Signing in"
                 backgroundColor={"#DB4437"} h="12" leftIcon={<Icon as={AntDesign} name="google" size="4" />}>
                 Sign in with Google

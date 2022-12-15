@@ -41,5 +41,6 @@ export const APIs = {
   EditAddress: "updateUserAddress",
   DeleteAddress: "deleteUserAddress",
   GetUser: "userData",
-  DeleteUser: "deleteUser"
+  DeleteUser: "deleteUser",
+  GoogleSignin:"googleRedirect"
 };

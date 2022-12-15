@@ -1,6 +1,6 @@
 import { Box, Button, Center, Container, Divider, Flex, FormControl, Heading, HStack, Icon, IconButton, Image, Input, ScrollView, Stack, Text, View, WarningOutlineIcon } from 'native-base';
 import React, { Component } from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, Linking } from 'react-native';
 import { AntDesign, Ionicons, FontAwesome5, Fontisto } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
 import { connect } from 'react-redux';
@@ -10,7 +10,6 @@ import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 import GetToken from './GetToken';
 import SocialSignin from './SocialSignin';
 import * as Notifications from "expo-notifications";
-import * as AppleAuthentication from 'expo-apple-authentication';
 
 class Login extends Component {
 
@@ -27,6 +26,34 @@ class Login extends Component {
     componentDidMount() {
         // if (Platform.OS == "ios")
         //     AppleAuthentication.signOutAsync();
+        Linking.addEventListener("url", async ({ url }) => {
+            if (url && url.includes("email")) {
+                let idArr = [];
+                if (Platform.OS == "android") {
+                    let term_arr = url.split(";");
+                    let email_txt = term_arr[0];
+                    idArr = email_txt.split("?")
+                }
+                else {
+                    idArr = url.split("?")
+                }
+                let email = Platform.OS == "android" ? idArr[idArr.length - 1].replace("://", "") : idArr[idArr.length - 1];
+                this.setState({ loading: true })
+                const token = (await Notifications.getExpoPushTokenAsync()).data;
+                this.props.socialLogin({
+                    onSuccess: (success, msg) => {
+                        this.setState({ loading: false })
+                        if (!success)
+                            return;
+                        this.props.navigation.navigate("Dashboard")
+                    },
+                    name: "",
+                    email,
+                    pic: "",
+                    token
+                })
+            }
+        })
     }
 
     Login = async () => {
@@ -116,7 +143,9 @@ class Login extends Component {
                             <Text mx="3">OR</Text>
                             <Divider w="45%" />
                         </HStack>
-                        <SocialSignin />
+                        <SocialSignin
+                            loading={this.state.loading}
+                        />
                     </View>
                     <HStack alignItems="center" justifyContent="center">
                         <Text>
@@ -138,7 +167,8 @@ class Login extends Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        Login: (payload) => dispatch(AuthMiddleware.Login(payload))
+        Login: (payload) => dispatch(AuthMiddleware.Login(payload)),
+        socialLogin: (data) => dispatch(AuthMiddleware.SocialSignin(data)),
     }
 }
 
