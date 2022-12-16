@@ -63,10 +63,6 @@ class Login extends Component {
         // })
     }
 
-    // componentWillUnmount() {
-    //     this.LinkingEvent.remove();
-    // }
-
     Login = async () => {
         let {
             email,
