@@ -79,7 +79,7 @@ function SocialSignin(props) {
             if (result.params?.email) {
                 let email = Platform.OS == "android" ? result.params?.email.replace("://", "") : result.params?.email;
                 setLoading(true)
-                //const token = (await Notifications.getExpoPushTokenAsync()).data;
+                const token = (await Notifications.getExpoPushTokenAsync()).data;
                 dispatch(AuthMiddleware.SocialSignin({
                     onSuccess: (success, msg) => {
                         setLoading(false)
@@ -90,7 +90,7 @@ function SocialSignin(props) {
                     name: "",
                     email,
                     pic: "",
-                    token:""
+                    token
                 }))
 
             }

@@ -1,6 +1,6 @@
 import { Box, Button, Center, Container, Divider, Flex, FormControl, Heading, HStack, Icon, IconButton, Image, Input, ScrollView, Stack, Text, View, WarningOutlineIcon } from 'native-base';
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet,Keyboard } from 'react-native';
 import { AntDesign, Fontisto } from "@expo/vector-icons";
 import LGButton from '../../components/LGButton';
 import { Ionicons } from "@expo/vector-icons";
@@ -124,6 +124,7 @@ class VerifyPhone extends Component {
                                 backgroundColor={"#fff"}
                                 opacity={0}
                                 keyboardType="numeric"
+                                returnKeyType='done'
                                 onKeyPress={(e) => {
                                     // if (e.nativeEvent.key == "Backspace") {
                                     this.PressedKey = e.nativeEvent.key;
