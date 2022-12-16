@@ -218,6 +218,22 @@ class index extends Component {
                         </Box>
                         :
                         null}
+                {
+                    !this.props.user?.user ?
+                        <Box flex={1} p={5} justifyContent="center" position="absolute" top={0} left={0} bottom={0} right={0} backgroundColor="white">
+                            <Center>
+                                <Heading mb={3} fontSize={17} textAlign="center">
+                                    Please login to add products in cart and see your cart
+                                </Heading>
+                                <LGButton
+                                    w="40"
+                                    title={"Login"}
+                                    onPress={() => this.props.navigation.navigate("Login")}
+                                />
+                            </Center>
+                        </Box> :
+                        null
+                }
             </View>
         );
     }

@@ -1,6 +1,6 @@
 import { Button, Icon, View, VStack } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import * as Google from 'expo-auth-session/providers/google';
+import * as AuthSession from 'expo-auth-session';
 import * as Facebook from 'expo-auth-session/providers/facebook';
 import * as WebBrowser from 'expo-web-browser';
 import { AntDesign, Ionicons, FontAwesome5, Fontisto } from "@expo/vector-icons";
@@ -26,21 +26,30 @@ function SocialSignin(props) {
     const [loading, setLoading] = useState();
     const [fbLoading, setFBLoading] = useState();
     const [appleLoading, setAppleLoading] = useState();
-    const [request, response, promptAsync] = Google.useAuthRequest({
-        clientId: Platform.OS == "android" ? "230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com" : "230281440299-ak3v140kogbqio4jcp1r2fulcandsk3v.apps.googleusercontent.com",
-        expoClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
-        iosClientId: '230281440299-ak3v140kogbqio4jcp1r2fulcandsk3v.apps.googleusercontent.com',
-        androidClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
-        webClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
-        selectAccount: true,
-        extraParams: {
-            access_type: "offline"
-        },
+    // const [request, response, promptAsync] = Google.useAuthRequest({
+    //     clientId: Platform.OS == "android" ? "230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com" : "230281440299-ak3v140kogbqio4jcp1r2fulcandsk3v.apps.googleusercontent.com",
+    //     expoClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
+    //     iosClientId: '230281440299-ak3v140kogbqio4jcp1r2fulcandsk3v.apps.googleusercontent.com',
+    //     androidClientId: '230281440299-gh9fhva6sopi9nn9i8dv23h4vbeafpjr.apps.googleusercontent.com',
+    //     webClientId: '230281440299-n913skplf8in3pb0lnsou2vc9spt0pou.apps.googleusercontent.com',
+    //     selectAccount: true,
+    //     extraParams: {
+    //         access_type: "offline"
+    //     },
+    //     responseType: "code",
+    //     // redirectUri: makeRedirectUri({
+    //     //     scheme: "timezone"
+    //     // }),
+    // }, {
+    // });
+
+    const [request, response, promptAsync] = AuthSession.useAuthRequest({
         responseType: "code",
-        // redirectUri: makeRedirectUri({
-        //     scheme: "timezone"
-        // }),
+        redirectUri: makeRedirectUri({
+            scheme: "timezone"
+        })
     }, {
+        authorizationEndpoint: base_url + APIs.GoogleSignin
     });
 
     const [requestFB, responseFB, promptAsyncFB] = Facebook.useAuthRequest({
@@ -66,7 +75,25 @@ function SocialSignin(props) {
 
     const _GoogleSignin = async () => {
         try {
-            WebBrowser.openAuthSessionAsync(base_url + APIs.GoogleSignin);
+            let result = await promptAsync();
+            if (result.params?.email) {
+                let email = Platform.OS == "android" ? result.params?.email.replace("://", "") : result.params?.email;
+                setLoading(true)
+                //const token = (await Notifications.getExpoPushTokenAsync()).data;
+                dispatch(AuthMiddleware.SocialSignin({
+                    onSuccess: (success, msg) => {
+                        setLoading(false)
+                        if (!success)
+                            return;
+                        navigation.navigate("Dashboard")
+                    },
+                    name: "",
+                    email,
+                    pic: "",
+                    token:""
+                }))
+
+            }
             // let userData = await get(APIs.GoogleSignin)
             // console.warn(userData)
             // console.warn(base_url + APIs.GoogleSignin)
@@ -89,7 +116,7 @@ function SocialSignin(props) {
             //     }
         } catch (error) {
             setLoading(false)
-            alert("Error occured")
+            alert(error)
         }
     }
 
@@ -107,7 +134,7 @@ function SocialSignin(props) {
                     setFBLoading(false)
                     return;
                 }
-                let userPic = await axios.get("https://graph.facebook.com/v15.0/" + id + "/picture?redirect=falseheight=500&width=500&type=large")
+                let userPic = await axios.get("https://graph.facebook.com/v15.0/" + id + "/picture?redirect=false&height=500&width=500&type=large")
                 let pic = userPic?.data?.data?.url;
                 const token = (await Notifications.getExpoPushTokenAsync()).data;
                 dispatch(AuthMiddleware.SocialSignin({
@@ -180,9 +207,9 @@ function SocialSignin(props) {
                 Sign in with Facebook
             </Button>
             <Button
-                disabled={props?.loading}
+                disabled={loading}
                 onPress={_GoogleSignin}
-                isLoading={props?.loading}
+                isLoading={loading}
                 isLoadingText="Signing in"
                 backgroundColor={"#DB4437"} h="12" leftIcon={<Icon as={AntDesign} name="google" size="4" />}>
                 Sign in with Google

@@ -26,35 +26,46 @@ class Login extends Component {
     componentDidMount() {
         // if (Platform.OS == "ios")
         //     AppleAuthentication.signOutAsync();
-        Linking.addEventListener("url", async ({ url }) => {
-            if (url && url.includes("email")) {
-                let idArr = [];
-                if (Platform.OS == "android") {
-                    let term_arr = url.split(";");
-                    let email_txt = term_arr[0];
-                    idArr = email_txt.split("?")
-                }
-                else {
-                    idArr = url.split("?")
-                }
-                let email = Platform.OS == "android" ? idArr[idArr.length - 1].replace("://", "") : idArr[idArr.length - 1];
-                this.setState({ loading: true })
-                const token = (await Notifications.getExpoPushTokenAsync()).data;
-                this.props.socialLogin({
-                    onSuccess: (success, msg) => {
-                        this.setState({ loading: false })
-                        if (!success)
-                            return;
-                        this.props.navigation.navigate("Dashboard")
-                    },
-                    name: "",
-                    email,
-                    pic: "",
-                    token
-                })
-            }
-        })
+        // this.LinkingEvent = Linking.addEventListener("url", async ({ url }) => {
+        //     try {
+        //         if (url && url.includes("email")) {
+        //             let idArr = [];
+        //             if (Platform.OS == "android") {
+        //                 let term_arr = url.split(";");
+        //                 let email_txt = term_arr[0];
+        //                 idArr = email_txt.split("?")
+        //             }
+        //             else {
+        //                 idArr = url.split("?")
+        //             }
+        //             let email = Platform.OS == "android" ? idArr[idArr.length - 1].replace("://", "") : idArr[idArr.length - 1];
+        //             this.setState({ loading: true })
+        //             const token = (await Notifications.getExpoPushTokenAsync()).data;
+        //             console.warn(token)
+        //             this.props.socialLogin({
+        //                 onSuccess: (success, msg) => {
+        //                     this.setState({ loading: false })
+        //                     if (!success)
+        //                         return;
+        //                     this.props.navigation.navigate("Dashboard")
+        //                 },
+        //                 name: "",
+        //                 email,
+        //                 pic: "",
+        //                 token
+        //             })
+        //         }
+
+        //     } catch (error) {
+        //         this.setState({ loading: false })
+        //         console.warn(error)
+        //     }
+        // })
     }
+
+    // componentWillUnmount() {
+    //     this.LinkingEvent.remove();
+    // }
 
     Login = async () => {
         let {
