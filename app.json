@@ -25,6 +25,7 @@
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
+      "versionCode":"2",
       "adaptiveIcon": {
         "foregroundImage": "./assets/TZ.png",
         "backgroundColor": "#FFFFFF"
