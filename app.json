@@ -15,17 +15,17 @@
     "ios": {
       "supportsTablet": false,
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "The app accesses your photos to add images in trade feature.",
-        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera",
-        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone",
-        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos"
+        "NSPhotoLibraryUsageDescription": "The app accesses your photos to add images in trade feature and profile",
+        "NSCameraUsageDescription": "Allow $(PRODUCT_NAME) to access your camera to add images in trade feature and profile",
+        "NSMicrophoneUsageDescription": "Allow $(PRODUCT_NAME) to access your microphone to record videos",
+        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos to add images in trade feature and profile"
       },
       "bundleIdentifier": "com.app.timezone.dubai",
       "usesAppleSignIn": true,
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
-      "versionCode":2,
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/TZ.png",
         "backgroundColor": "#FFFFFF"
