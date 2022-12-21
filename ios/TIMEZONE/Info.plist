@@ -19,7 +19,7 @@
     <key>CFBundlePackageType</key>
     <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.1.8</string>
+    <string>1.1.9</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleURLTypes</key>
@@ -45,7 +45,7 @@
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <integer>2</integer>
+    <integer>1</integer>
     <key>FacebookAdvertiserIDCollectionEnabled</key>
     <string>false</string>
     <key>FacebookAppID</key>
