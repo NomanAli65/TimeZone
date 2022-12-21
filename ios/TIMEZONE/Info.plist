@@ -19,7 +19,7 @@
     <key>CFBundlePackageType</key>
     <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.1.8</string>
+    <string>1.1.9</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleURLTypes</key>
@@ -45,7 +45,7 @@
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>1</string>
+    <integer>2</integer>
     <key>FacebookAdvertiserIDCollectionEnabled</key>
     <string>false</string>
     <key>FacebookAppID</key>
@@ -81,13 +81,13 @@
       </dict>
     </dict>
     <key>NSCameraUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your camera</string>
+    <string>Allow $(PRODUCT_NAME) to access your camera to add images in trade feature and profile</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your microphone</string>
+    <string>Allow $(PRODUCT_NAME) to access your microphone to record videos</string>
     <key>NSMotionUsageDescription</key>
     <string>Allow $(PRODUCT_NAME) to access your device motion</string>
     <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to save photos</string>
+    <string>Allow $(PRODUCT_NAME) to save photos to add images in trade feature and profile</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>The app accesses your photos to add images in trade feature.</string>
     <key>SKAdNetworkItems</key>
