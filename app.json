@@ -3,7 +3,7 @@
     "name": "TIMEZONE",
     "slug": "TimeZone",
     "scheme": "timezone",
-    "version": "1.1.8",
+    "version": "1.1.9",
     "orientation": "portrait",
     "icon": "./assets/TZ.png",
     "updates": {
@@ -13,7 +13,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber":2,
+      "buildNumber":1,
       "supportsTablet": true,
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "The app accesses your photos to add images in trade feature and profile",
