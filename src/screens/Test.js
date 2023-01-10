@@ -7,25 +7,30 @@ const names = ["noman", "taha", "umair", "maaz", "hamza", "shehroz"];
 
 function Test() {
 
-    const [selected, setSelected] = useState([{ name: "noman", checked: false }, { name: "noman", checked: false }, { name: "noman", checked: false }, { name: "noman", checked: false }, { name: "noman", checked: false }]);
+    const [selected, setSelected] = useState([{ name: "noman", checked: false }, { name: "ahsan", checked: false }, { name: "maaz", checked: false }, { name: "hamza", checked: false }, { name: "souhaib", checked: false }]);
 
-    const onPress = (item, i) => {
-        let arr_copy = [...selected];
-        if (arr_copy[i].checked) {
-            arr_copy[i].checked = false;
-        }
-        else {
-            arr_copy[i].checked = true;
-        }
-        setSelected(arr_copy);
-    };
+    const onPress = useCallback((i) => {
+
+        setSelected(prevItems => prevItems.map((v, index) => {
+            let obj = { ...v };
+            if (index == i && v.checked == false) {
+                obj.checked = true
+            }
+            else if (index == i && v.checked == true) {
+                obj.checked = false
+            }
+
+            return obj;
+        }));
+    }, []);
 
     return (
         <View style={styles.app}>
             <FlatList
                 data={selected}
-                renderItem={({ item, index }) => <ListItem item={item} index={index} onPress={onPress} />}
+                renderItem={({ item, index }) => <ListItem checked={item.checked} name={item.name} index={index} onPress={onPress} />}
             />
+
             <Button title="Submit" onPress={() => {
                 alert(JSON.stringify(selected))
             }} />
