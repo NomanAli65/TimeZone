@@ -86,6 +86,8 @@ class index extends Component {
                     _dark={{
                         backgroundColor: "gray.800"
                     }}
+                    borderWidth="2"
+                    borderColor={"#eee"}
                     w={"90%"} alignItems="center" backgroundColor="#f7f7f7" overflow={"hidden"} rounded="lg" m={"5%"}>
                     <Pressable
                         onPress={() => this.props.navigation.navigate("ProductDetail", { item: item.product })}

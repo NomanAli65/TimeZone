@@ -93,7 +93,7 @@ class index extends Component {
                     data={this.props.all_methods}
                     renderItem={this._renderItem}
                 />
-                <Fab onPress={() => this.props.navigation.navigate("AddCard")} renderInPortal={false} shadow={2} w={55} h={55} icon={<Icon color="white" as={AntDesign} name="plus" size="sm" ml={2} />} />
+                <Fab onPress={() => this.props.navigation.navigate("AddCard")} renderInPortal={false} shadow={2} w={55} h={55} icon={<Icon color="white" as={AntDesign} name="plus" size="lg" />} />
             </View>
         );
     }

@@ -11,11 +11,19 @@ import TermsAndCondition from './TermsAndCondition';
 class PersonalDetail extends Component {
     constructor(props) {
         super(props);
+        let phone = this.props.user?.user?.phone
+        if (phone.startsWith("0")) {
+            phone = phone.substring(1, phone.length)
+        }
+        else if(phone.startsWith("+97")) {
+            phone = phone.substring(4, phone.length)
+        }
+
         this.state = {
             pname: this.props.user?.user?.name,
             email: this.props.user?.user?.email,
             invalid: "",
-            phone: this.props.user?.user?.phone,
+            phone,
             code: "",
             loading: false,
             uploading: false,
@@ -97,7 +105,11 @@ class PersonalDetail extends Component {
                                     <InputLeftAddon children={"+971"} />
                                     <Input
                                         value={this.state.phone}
-                                        keyboardType='phone-pad' flex={1} placeholder={"1234567890"} onChangeText={(phone) => this.setState({ phone, invalid: "" })} />
+                                        keyboardType='phone-pad'
+                                        flex={1}
+                                        placeholder={"1234567890"}
+                                        maxLength={10}
+                                        onChangeText={(phone) => this.setState({ phone, invalid: "" })} />
                                 </InputGroup>
                                 {/* </HStack> */}
                             </VStack>

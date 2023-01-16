@@ -30,7 +30,7 @@ export default function AppBar({ title, back, noWish, noCart, edit, noLeftIcon, 
                         back ?
                             <IconButton
                                 onPress={() => navigation.goBack()}
-                                icon={<Icon size="sm" as={MaterialIcons} name="chevron-left" color="white" />} />
+                                icon={<Icon size="lg" as={MaterialIcons} name="chevron-left" color="white" />} />
                             :
                             <IconButton
                                 onPress={() => navigation.toggleDrawer()}

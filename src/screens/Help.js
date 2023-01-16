@@ -51,21 +51,24 @@ class Help extends Component {
                 noWish
                 back
                 /> */}
-                <View flex={1} justifyContent="center" p="5%">
+                <View flex={1} marginTop="20%" p="5%">
                     <Stack>
                         <Heading bold fontSize={35} color="black" _dark={{ color: "white" }}>
                             Help
                         </Heading>
                         <Text color="coolGray.400" fontSize={17}>Please fill required field to continue</Text>
                     </Stack>
-                    <Stack w="100%" marginY={50}>
+                    <Stack w="100%" marginY={"10%"}>
                         <FormControl isInvalid={this.state.invalid}>
                             <TextArea
+                                blurOnSubmit
+                                onSubmitEditing={()=>{}}
                                 value={this.state.help}
                                 placeholder='Tell us how can we help you...'
                                 onChangeText={(help) => {
                                     this.setState({ help, invalid: "" })
                                 }}
+                                h={170}
                             />
                             <FormControl.ErrorMessage leftIcon={<WarningOutlineIcon size="xs" />}>
                                 {this.state.invalid}
