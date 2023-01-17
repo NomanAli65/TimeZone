@@ -11,12 +11,14 @@ import TermsAndCondition from './TermsAndCondition';
 class PersonalDetail extends Component {
     constructor(props) {
         super(props);
-        let phone = this.props.user?.user?.phone
-        if (phone.startsWith("0")) {
-            phone = phone.substring(1, phone.length)
-        }
-        else if(phone.startsWith("+97")) {
-            phone = phone.substring(4, phone.length)
+        let phone = this.props.user?.user?.phone ? this.props.user?.user?.phone : ""
+        if (phone) {
+            if (phone.startsWith("0")) {
+                phone = phone.substring(1, phone.length)
+            }
+            else if (phone.startsWith("+97")) {
+                phone = phone.substring(4, phone.length)
+            }
         }
 
         this.state = {
