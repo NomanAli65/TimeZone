@@ -66,12 +66,10 @@ export default function Navigation() {
 
   }, [])
 
-  const _handleNotification = notification => {
-    //messa
+  const _handleNotification = (notification) => {
   };
 
-  const _handleNotificationResponse = response => {
-    console.log(response);
+  const _handleNotificationResponse = (response) => {
   };
 
   useEffect(() => {
