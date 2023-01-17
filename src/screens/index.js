@@ -257,8 +257,8 @@ class index extends Component {
               itemHeight={250}
               sliderWidth={width}
               itemWidth={width}
-              snapToInterval={width}
-              enableSnap={false}
+              //snapToInterval={width}
+              enableSnap={true}
               data={this.state.loading ? [{}, {}, {}, {}] : this.props.dashboard?.banners}
               extraData={this.state.loading}
               renderItem={this._renderBanner}
