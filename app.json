@@ -46,6 +46,9 @@
     },
     "plugins": [
       [
+        "@notifee/react-native"
+      ],
+      [
         "expo-media-library",
         {
           "photosPermission": "The app accesses your photos to add images in trade feature.",

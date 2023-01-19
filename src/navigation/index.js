@@ -11,11 +11,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Notifications from "expo-notifications";
 import AuthAction from '../redux/Actions/AuthActions';
 import * as SplashScreen from 'expo-splash-screen';
-
+import notifee, { AndroidStyle } from "@notifee/react-native";
+import messaging from "@react-native-firebase/messaging";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
-    shouldShowAlert: true,
+    shouldShowAlert: false,
     shouldPlaySound: false,
     shouldSetBadge: false,
   }),
@@ -61,16 +62,7 @@ export default function Navigation() {
   useEffect(() => {
     LoginIfRegistered();
     registerForPushNotificationsAsync();
-    Notifications.addNotificationReceivedListener(_handleNotification);
-    Notifications.addNotificationResponseReceivedListener(_handleNotificationResponse);
-
   }, [])
-
-  const _handleNotification = (notification) => {
-  };
-
-  const _handleNotificationResponse = (response) => {
-  };
 
   useEffect(() => {
     if (showAlert) {
@@ -82,25 +74,51 @@ export default function Navigation() {
 
   const registerForPushNotificationsAsync = async () => {
     if (Platform.OS === 'ios') {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
-      let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
-        const { status } = await Notifications.requestPermissionsAsync();
-        finalStatus = status;
-      }
-      if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
-        return;
-      }
+      // const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      // let finalStatus = existingStatus;
+      // if (existingStatus !== 'granted') {
+      //   const { status } = await Notifications.requestPermissionsAsync();
+      //   finalStatus = status;
+      // }
+      // if (finalStatus !== 'granted') {
+      //   alert('Failed to get push token for push notification!');
+      //   return;
+      // }
+      messaging().registerDeviceForRemoteMessages();
+      await notifee.requestPermission()
+
     }
     if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
+      // Notifications.setNotificationChannelAsync('default', {
+      //   name: 'default',
+      //   importance: Notifications.AndroidImportance.MAX,
+      //   vibrationPattern: [0, 250, 250, 250],
+      //   lightColor: '#FF231F7C',
+      // });
+      await notifee.createChannel({
+        id: 'default',
+        name: 'Default Channel',
       });
     };
+    messaging().onMessage(async remoteMessage => {
+      await notifee.displayNotification({
+        title: remoteMessage.notification.title,
+        message: remoteMessage.notification.body,
+        body: remoteMessage.notification.body,
+        data: remoteMessage.data,
+        android: {
+          channelId: "default",
+          pressAction: {
+            id: 'default',
+            launchActivity: "default"
+          },
+          style:{type:AndroidStyle.BIGPICTURE,picture:remoteMessage.notification.android.imageUrl}
+        },
+        ios: {
+
+        }
+      });
+    });
   }
 
 

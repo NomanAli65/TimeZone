@@ -136,7 +136,9 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
                                     dispatch({ type: GeneralTypes.REFRESH_DASHBOARD, payload: true })
                             }
                         }}
-                        position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name={wishlist ? "heart" : 'hearto'} size={20} color={wishlist ? "red" : color} />} />
+                        backgroundColor="white"
+                        borderRadius={100}
+                        position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name={wishlist ? "heart" : 'hearto'} size={17} color={wishlist ? "red" : color} />} />
                 </Pressable >
             </Box>
         )

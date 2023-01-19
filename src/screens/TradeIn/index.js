@@ -207,6 +207,8 @@ class index extends Component {
                 value={this.state.comments}
                 placeholder='Comments'
                 onChangeText={(comments) => this.setState({ comments })}
+                onSubmitEditing={()=>{}}
+                blurOnSubmit
               />
               <LGButton
                 title={"Next"}

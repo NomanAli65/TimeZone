@@ -16,6 +16,7 @@ import { Platform, Linking } from 'react-native';
 import jwt_decode from 'jwt-decode';
 import { get, post } from '../../configs/AxiosConfig';
 import { APIs, base_url } from '../../configs/APIs';
+import messaging from "@react-native-firebase/messaging";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -79,7 +80,8 @@ function SocialSignin(props) {
             if (result.params?.email) {
                 let email = Platform.OS == "android" ? result.params?.email.replace("://", "") : result.params?.email;
                 setLoading(true)
-                const token = (await Notifications.getExpoPushTokenAsync()).data;
+                //const token = (await Notifications.getExpoPushTokenAsync()).data;
+                const token=(await messaging().getToken());
                 dispatch(AuthMiddleware.SocialSignin({
                     onSuccess: (success, msg) => {
                         setLoading(false)

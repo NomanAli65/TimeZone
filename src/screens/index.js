@@ -14,6 +14,7 @@ import AuthAction from '../redux/Actions/AuthActions';
 import { DeviceType, getDeviceTypeAsync } from "expo-device"
 import * as Notifications from "expo-notifications";
 import { GeneralTypes } from '../redux/ActionTypes/GeneralActionTypes';
+import notifee, { AndroidStyle, EventType } from "@notifee/react-native";
 
 const { width } = Dimensions.get("window");
 
@@ -33,21 +34,23 @@ class index extends Component {
   }
 
   async componentDidMount() {
-    Notifications.addNotificationResponseReceivedListener(this._handleNotificationResponse);
-    Notifications.getLastNotificationResponseAsync().then((val) => {
-      let data = val.notification.request?.content?.data;
-      if (data) {
-        if (data.type == "product") {
-          this.props.getProduct({
-            onSuccess: (dt) => {
-              if (dt)
-                this.props.navigation.navigate("ProductDetail", { item: dt })
-            },
-            id: data.id,
-          })
-        }
-      }
-    })
+
+    // Notifications.addNotificationResponseReceivedListener(this._handleNotificationResponse);
+    // Notifications.getLastNotificationResponseAsync().then((val) => {
+    //   let data = val.notification.request?.content?.data;
+    //   if (data) {
+    //     if (data.type == "product") {
+    //       this.props.getProduct({
+    //         onSuccess: (dt) => {
+    //           if (dt)
+    //             this.props.navigation.navigate("ProductDetail", { item: dt })
+    //         },
+    //         id: data.id,
+    //       })
+    //     }
+    //   }
+    // })
+    this.notificationHandlers();
     Linking.getInitialURL().then((url) => {
       if (url && url.includes("product_id")) {
         let idArr = url.split("/");
@@ -85,6 +88,84 @@ class index extends Component {
     this.props.navigation.addListener("focus", () => {
       if (this.props.refresh_dash)
         this.onRefresh();
+    })
+  }
+
+  notificationHandlers = () => {
+    // Notifications.addNotificationReceivedListener((notification) => {
+    //   let notify = notification.request.content;
+    //   notifee.displayNotification({
+    //     title: notify.title,
+    //     body: notify.body,
+    //     data: notify.data,
+    //     android: {
+    //       channelId: "default",
+    //       pressAction: {
+    //         id: 'default',
+    //       },
+    //       ...notify.data?.picture ? {
+    //         style: {
+    //           type: AndroidStyle.BIGPICTURE,
+    //           picture: notify?.data.picture
+    //         }
+    //       } : {}
+    //     }
+    //   })
+    // })
+    notifee.onForegroundEvent((event) => {
+      let data = event.detail.notification.data;
+      switch (event.type) {
+        case EventType.PRESS || EventType.ACTION_PRESS:
+          if (data) {
+            if (data?.type == "product") {
+              this.props.getProduct({
+                onSuccess: (dt) => {
+                  if (dt)
+                    this.props.navigation.navigate("ProductDetail", { item: dt })
+                },
+                id: data?.id,
+              })
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    })
+    notifee.onBackgroundEvent((event) => {
+      let data = event.detail.notification.data;
+      switch (event.type) {
+        case EventType.PRESS || EventType.ACTION_PRESS:
+          if (data) {
+            if (data?.type == "product") {
+              this.props.getProduct({
+                onSuccess: (dt) => {
+                  if (dt)
+                    this.props.navigation.navigate("ProductDetail", { item: dt })
+                },
+                id: data?.id,
+              })
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    })
+    notifee.getInitialNotification().then((val) => {
+      console.warn(val?.notification)
+      let data = val?.notification?.data;
+      if (data) {
+        if (data?.type == "product") {
+          this.props.getProduct({
+            onSuccess: (dt) => {
+              if (dt)
+                this.props.navigation.navigate("ProductDetail", { item: dt })
+            },
+            id: data?.id,
+          })
+        }
+      }
     })
   }
 
