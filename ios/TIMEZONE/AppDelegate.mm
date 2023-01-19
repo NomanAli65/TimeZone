@@ -111,10 +111,17 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 }
 
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-{
-  return [super application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-}
+//- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+//{
+//  return [super application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+//}
+-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken: (NSData *)deviceToken
+    {
+      [FIRMessaging messaging].APNSToken = deviceToken;
+      NSString *fcmToken = [FIRMessaging messaging].FCMToken;
+      NSLog(@"++APNST deviceToken : %@", deviceToken);
+      NSLog(@"++FCM device token : %@", fcmToken);
+    }
 
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error

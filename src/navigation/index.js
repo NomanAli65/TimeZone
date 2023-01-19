@@ -13,6 +13,7 @@ import AuthAction from '../redux/Actions/AuthActions';
 import * as SplashScreen from 'expo-splash-screen';
 import notifee, { AndroidStyle } from "@notifee/react-native";
 import messaging from "@react-native-firebase/messaging";
+import { Platform } from 'expo-modules-core';
 
 // Notifications.setNotificationHandler({
 //   handleNotification: async () => ({
@@ -101,21 +102,26 @@ export default function Navigation() {
       });
     };
     messaging().onMessage(async remoteMessage => {
+      let { fcm_options, ...rest } = remoteMessage.data;
       await notifee.displayNotification({
         title: remoteMessage.notification.title,
         message: remoteMessage.notification.body,
         body: remoteMessage.notification.body,
-        data: remoteMessage.data,
+        data: rest,
         android: {
           channelId: "default",
           pressAction: {
             id: 'default',
             launchActivity: "default"
           },
-          style:{type:AndroidStyle.BIGPICTURE,picture:remoteMessage.notification.android.imageUrl}
+          ...Platform.OS == "android" ? {
+            style: { type: AndroidStyle.BIGPICTURE, picture: remoteMessage?.notification?.android?.imageUrl }
+          } : {}
         },
         ios: {
-
+          attachments: [{
+            url: fcm_options?.image
+          }]
         }
       });
     });

@@ -8,6 +8,7 @@ import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 import { connect } from 'react-redux';
 import * as Notifications from "expo-notifications";
 import AlertAction from '../../redux/Actions/AlertActions';
+import messaging from "@react-native-firebase/messaging";
 
 class Signup extends Component {
 
@@ -53,7 +54,7 @@ class Signup extends Component {
             this.setState({ invalid: "Phone number should start with country code (example +971)" });
             return;
         }
-        const token = (await Notifications.getExpoPushTokenAsync()).data;
+        const token = (await messaging().getToken());//(await Notifications.getExpoPushTokenAsync()).data;
         this.props.Signup({
             f_name,
             l_name,

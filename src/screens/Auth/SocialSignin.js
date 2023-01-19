@@ -138,7 +138,7 @@ function SocialSignin(props) {
                 }
                 let userPic = await axios.get("https://graph.facebook.com/v15.0/" + id + "/picture?redirect=false&height=500&width=500&type=large")
                 let pic = userPic?.data?.data?.url;
-                const token = (await Notifications.getExpoPushTokenAsync()).data;
+                const token = (await messaging().getToken());//(await Notifications.getExpoPushTokenAsync()).data;
                 dispatch(AuthMiddleware.SocialSignin({
                     onSuccess: (success, msg) => {
                         setFBLoading(false)
@@ -172,7 +172,7 @@ function SocialSignin(props) {
             const { email } = jwt_decode(result.identityToken)
             if (result?.email || email) {
                 let apple_name = email ? email.split("@")[0] : "No username";
-                const token = (await Notifications.getExpoPushTokenAsync()).data;
+                const token = (await messaging().getToken());//(await Notifications.getExpoPushTokenAsync()).data;
                 dispatch(AuthMiddleware.SocialSignin({
                     onSuccess: (success, msg) => {
                         setAppleLoading(false)

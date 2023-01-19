@@ -5,6 +5,8 @@ require File.join(File.dirname(`node --print "require.resolve('@react-native-com
 require 'json'
 podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties.json'))) rescue {}
 
+$RNFirebaseAsStaticFramework = true
+
 platform :ios, podfile_properties['ios.deploymentTarget'] || '13.0'
 install! 'cocoapods',
   :deterministic_uuids => false
@@ -29,7 +31,6 @@ target 'TIMEZONE' do
     # Note that if you have use_frameworks! enabled, Flipper will not work
     # :flipper_configuration => !ENV['CI'] ? FlipperConfiguration.enabled : FlipperConfiguration.disabled,
   )
-
   post_install do |installer|
     react_native_post_install(
       installer,
@@ -58,4 +59,10 @@ target 'TIMEZONE' do
       Pod::UI.warn e
     end
   end
+end
+
+target 'ImageNotifications' do
+  use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
+
+  pod 'Firebase/Messaging', '~> 9.6.0'
 end

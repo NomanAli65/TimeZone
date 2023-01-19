@@ -10,6 +10,7 @@ import { AuthMiddleware } from '../../redux/Middlewares/AuthMiddleware';
 import GetToken from './GetToken';
 import SocialSignin from './SocialSignin';
 import * as Notifications from "expo-notifications";
+import messaging from "@react-native-firebase/messaging";
 
 class Login extends Component {
 
@@ -73,7 +74,7 @@ class Login extends Component {
             return;
         }
 
-        const token = (await Notifications.getExpoPushTokenAsync()).data;
+        const token = (await messaging().getToken());//(await Notifications.getExpoPushTokenAsync()).data;
         //console.warn(token)
         this.props.Login({
             email,
