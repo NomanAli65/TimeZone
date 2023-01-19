@@ -15,6 +15,7 @@ import { DeviceType, getDeviceTypeAsync } from "expo-device"
 import * as Notifications from "expo-notifications";
 import { GeneralTypes } from '../redux/ActionTypes/GeneralActionTypes';
 import notifee, { AndroidStyle, EventType } from "@notifee/react-native";
+import messaging from "@react-native-firebase/messaging";
 
 const { width } = Dimensions.get("window");
 
@@ -132,28 +133,22 @@ class index extends Component {
           break;
       }
     })
-    notifee.onBackgroundEvent((event) => {
-      let data = event.detail.notification.data;
-      switch (event.type) {
-        case EventType.PRESS || EventType.ACTION_PRESS:
-          if (data) {
-            if (data?.type == "product") {
-              this.props.getProduct({
-                onSuccess: (dt) => {
-                  if (dt)
-                    this.props.navigation.navigate("ProductDetail", { item: dt })
-                },
-                id: data?.id,
-              })
-            }
-          }
-          break;
-        default:
-          break;
+    messaging().getInitialNotification().then((notification) => {
+      let data = notification?.data;
+      if (data) {
+        if (data?.type == "product") {
+          this.props.getProduct({
+            onSuccess: (dt) => {
+              if (dt)
+                this.props.navigation.navigate("ProductDetail", { item: dt })
+            },
+            id: data?.id,
+          })
+        }
       }
     })
-    notifee.getInitialNotification().then((val) => {
-      let data = val?.notification?.data;
+    messaging().onNotificationOpenedApp((message)=>{
+      let data = message?.data;
       if (data) {
         if (data?.type == "product") {
           this.props.getProduct({
