@@ -16,9 +16,11 @@ class Profile extends Component {
 
 
     componentDidMount() {
+        if(!this.props.user?.user?.email_verified_at || !this.props.user?.user?.verify_status)
         this.props.getUser({
             onSuccess: (req) => {
-            }
+            },
+            old_data:this.props.user
         })
     }
 

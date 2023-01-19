@@ -105,7 +105,6 @@ class index extends Component {
     }
 
     render() {
-        console.warn(this.props.user)
         return (
             <View flex={1} _dark={{ backgroundColor: "black" }}>
                 <AppBar

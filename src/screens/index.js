@@ -153,7 +153,6 @@ class index extends Component {
       }
     })
     notifee.getInitialNotification().then((val) => {
-      console.warn(val?.notification)
       let data = val?.notification?.data;
       if (data) {
         if (data?.type == "product") {

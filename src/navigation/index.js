@@ -14,13 +14,13 @@ import * as SplashScreen from 'expo-splash-screen';
 import notifee, { AndroidStyle } from "@notifee/react-native";
 import messaging from "@react-native-firebase/messaging";
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: false,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
+// Notifications.setNotificationHandler({
+//   handleNotification: async () => ({
+//     shouldShowAlert: false,
+//     shouldPlaySound: false,
+//     shouldSetBadge: false,
+//   }),
+// });
 
 export default function Navigation() {
   const showAlert = useSelector((state) => state.Alert.showAlert)
@@ -134,20 +134,6 @@ export default function Navigation() {
             <Image source={require("../../assets/tz_logo_gif.gif")} style={{ width: "100%", height: "100%", resizeMode: "contain" }} />
           </View>
         </Modal>
-        {/* <AwesomeAlert
-          show={showAlert}
-          showProgress={false}
-          title={alertOptions?.title}
-          message={alertOptions.message}
-          closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
-          showConfirmButton={true}
-          confirmText="OK"
-          confirmButtonColor="#000"
-          onConfirmPressed={() => {
-            dispatch({type:AlertTypes.HIDE_ALERT})
-          }}
-        /> */}
         {
           showAlert ?
             <View style={{ ...StyleSheet.absoluteFill, backgroundColor: "rgba(0,0,0,0.2)" }}>
