@@ -138,7 +138,7 @@ const WatchItem = ({ loading, description, item, halfScreen, index }) => {
                         }}
                         backgroundColor="white"
                         borderRadius={100}
-                        position={"absolute"} top={1.5} right={1.5} icon={<AntDesign name={wishlist ? "heart" : 'hearto'} size={17} color={wishlist ? "red" : color} />} />
+                        position={"absolute"} top={1.5} right={1.5} icon={<AntDesign style={{fontWeight:"bold"}} name={wishlist ? "heart" : 'hearto'} size={17} color={wishlist ? "red" : color} />} />
                 </Pressable >
             </Box>
         )

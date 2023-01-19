@@ -121,8 +121,6 @@ export default function Navigation() {
     });
   }
 
-
-
   return (
     <NavigationContainer>
       <NativeBaseProvider theme={theme} config={config}>
