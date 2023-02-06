@@ -16,6 +16,7 @@ import * as Notifications from "expo-notifications";
 import { GeneralTypes } from '../redux/ActionTypes/GeneralActionTypes';
 import notifee, { AndroidStyle, EventType } from "@notifee/react-native";
 import messaging from "@react-native-firebase/messaging";
+import FastImage from 'react-native-fast-image';
 
 const { width } = Dimensions.get("window");
 
@@ -147,7 +148,7 @@ class index extends Component {
         }
       }
     })
-    messaging().onNotificationOpenedApp((message)=>{
+    messaging().onNotificationOpenedApp((message) => {
       let data = message?.data;
       if (data) {
         if (data?.type == "product") {
@@ -262,13 +263,13 @@ class index extends Component {
       if (this.state.deviceType == DeviceType.TABLET && item.banner_status == 0)
         return (
           <RNView style={{ width }}>
-            <RNImage source={{ uri: img_url + item.banner_path }} style={{ width, height: 250, }} resizeMode="stretch" />
+            <FastImage source={{ uri: img_url + item.banner_path, cache:"immutable" }} style={{ width, height: 250, }} resizeMode="stretch" />
           </RNView>
         )
       else
         return (
           <RNView style={{ width }}>
-            <RNImage source={{ uri: img_url + item.banner_path }} style={{ width, height: 250, }} resizeMode="stretch" />
+            <FastImage source={{ uri: img_url + item.banner_path, cache:"immutable" }} style={{ width, height: 250, }} resizeMode="stretch" />
           </RNView>
         )
     }
