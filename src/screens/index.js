@@ -207,7 +207,7 @@ class index extends Component {
       )
     else
       return (
-        <Box w={width * 0.45} h={width * 0.53} marginRight={3} backgroundColor="#f7f7f7" _dark={{ backgroundColor: "gray.800" }} overflow={"hidden"} rounded="lg">
+        <Box w={width * 0.45} h={width * 0.53} marginRight={3} marginBottom={3} backgroundColor="#f7f7f7" _dark={{ backgroundColor: "gray.800" }} overflow={"hidden"} rounded="lg">
           <Pressable
             flex={1}
             onPress={() => {
