@@ -258,17 +258,19 @@ class Checkout extends Component {
                                                     Card
                                                 </Text>
                                             </HStack>
-                                            {this.props.all_methods.length != 0 ?
+                                            {this.props.all_methods?.length != 0 ?
                                                 <Box>
-                                                    {this.props.all_methods.find(val => val.is_default == "1").holder_name ?
+                                                    {this.props.all_methods?.find(val => val.is_default == "1")?.holder_name ?
                                                         <Text>
-                                                            {this.props.all_methods.find(val => val.is_default == "1").holder_name
+                                                            {this.props.all_methods?.find(val => val.is_default == "1")?.holder_name
                                                             }
                                                         </Text>
                                                         : null}
                                                     <Text>
 
-                                                        {"xxxx-xxxx-xxxx-" + this.props.all_methods.find(val => val.is_default == "1").card_end_number
+                                                        {this.props.all_methods?.find(val => val.is_default == "1")?.card_end_number?
+                                                        "xxxx-xxxx-xxxx-" + this.props.all_methods?.find(val => val.is_default == "1")?.card_end_number
+                                                        :"Please select default card for payment"
                                                         }
                                                     </Text>
                                                 </Box>

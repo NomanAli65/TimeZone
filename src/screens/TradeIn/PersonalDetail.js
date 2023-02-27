@@ -19,6 +19,9 @@ class PersonalDetail extends Component {
             else if (phone.startsWith("+97")) {
                 phone = phone.substring(4, phone.length)
             }
+            else if (phone.startsWith("+92")) {
+                phone = phone.substring(3, phone.length)
+            }
         }
 
         this.state = {
@@ -71,6 +74,7 @@ class PersonalDetail extends Component {
     }
 
     render() {
+        let phone = this.props.user?.user?.phone ? this.props.user?.user?.phone : ""
         return (
             <ScrollView backgroundColor="#fff" _dark={{ backgroundColor: "black" }}>
                 <View flex={1}>
@@ -104,7 +108,7 @@ class PersonalDetail extends Component {
                                         <Select.Item label="+971" value="+971" />
                                     </Select> */}
                                 <InputGroup>
-                                    <InputLeftAddon children={"+971"} />
+                                    <InputLeftAddon children={phone.startsWith("+92")?"+92":"+971"} />
                                     <Input
                                         value={this.state.phone}
                                         keyboardType='phone-pad'

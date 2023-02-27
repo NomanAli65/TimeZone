@@ -46,7 +46,9 @@ class index extends Component {
                             </Radio.Group>
                             <Image alt={"image"} w={25} h={6} resizeMode="stretch" source={item.card_brand == "Visa" ? require("../../../assets/visa.png") : require("../../../assets/master.png")} />
                             <VStack>
-                                <Text bold>{item.holder_name}</Text>
+                                {item?.holder_name ?
+                                    <Text bold>{item.holder_name}</Text>
+                                    : null}
                                 <Text bold>xxxx-xxxx-xxxx-{item.card_end_number}</Text>
                             </VStack>
                         </HStack>
@@ -56,8 +58,8 @@ class index extends Component {
                                 this.props.deleteMethod({
                                     index, id: item.id, onSuccess: () => {
                                         console.warn(this.props.all_methods)
-                                        let selectedIndex = this.props.all_methods.findIndex(val => val.is_default == "1");
-                                        this.setState({ selectedIndex })
+                                        // let selectedIndex = this.props.all_methods[]
+                                        // this.setState({ selectedIndex })
                                     }
                                 })
                             }}

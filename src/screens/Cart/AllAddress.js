@@ -182,7 +182,7 @@ class AllAddress extends Component {
                 //         : null
                 // }
                 />
-                <Fab onPress={() => this.props.navigation.navigate("Address")} renderInPortal={false} shadow={2} w={55} h={55} icon={<Icon color="white" as={AntDesign} name="plus" size="sm" ml={2} />} />
+                <Fab onPress={() => this.props.navigation.navigate("Address")} renderInPortal={false} shadow={2} w={55} h={55} icon={<Icon color="white" as={AntDesign} name="plus" size="lg" />} />
             </View>
         );
     }

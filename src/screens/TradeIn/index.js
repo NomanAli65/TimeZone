@@ -264,7 +264,7 @@ class index extends Component {
                         <HStack alignItems="center">
                           <IconButton
                             onPress={() => this.setState({ picker: false })}
-                            icon={<Icon size="sm" as={MaterialIcons} name="chevron-left" color="white" />} />
+                            icon={<Icon size="lg" as={MaterialIcons} name="chevron-left" color="white" />} />
                           <Text color="white" fontSize="20" fontWeight="bold" textAlign={"center"}>
                             {header?.album?.title ? header?.album?.title : "Select images"}
                           </Text>
@@ -279,7 +279,7 @@ class index extends Component {
                                 this.setState({ picker: false })
                                 header.save()
                               }}
-                              icon={<Icon as={MaterialIcons} name="check" size="sm" color="white" />} />
+                              icon={<Icon as={MaterialIcons} name="check" size="lg" color="white" />} />
                           </HStack>
                           : null}
                       </HStack>

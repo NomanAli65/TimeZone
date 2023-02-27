@@ -222,7 +222,7 @@ class index extends Component {
                         refreshing={this.state.refreshing}
                         numColumns={2}
                         style={{ marginHorizontal: "3%" }}
-                        keyExtractor={(item) => item.name}
+                        keyExtractor={(item, index) => item.name +"-"+ index}
                         data={this.props.products?.data}
                         renderItem={this._renderItem}
                         onEndReached={this.onEndReached}

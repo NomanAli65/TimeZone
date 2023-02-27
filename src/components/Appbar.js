@@ -60,7 +60,7 @@ export default function AppBar({ title, back, noWish, noCart, edit, noLeftIcon, 
                 {edit ?
                     <IconButton
                         onPress={() => navigation.navigate("EditProfile")}
-                        icon={<Icon as={MaterialCommunityIcons} name="account-edit" size="sm" color="white" />} />
+                        icon={<Icon as={MaterialCommunityIcons} name="account-edit" size="lg" color="white" />} />
                     : null
                 }
                 {noWish && noCart && !edit ?
