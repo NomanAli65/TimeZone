@@ -3,7 +3,7 @@
     "name": "TIMEZONE",
     "slug": "TimeZone",
     "scheme": "timezone",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "orientation": "portrait",
     "icon": "./assets/TZ.png",
     "updates": {
@@ -25,7 +25,7 @@
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
-      "versionCode": 4,
+      "versionCode": 6,
       "adaptiveIcon": {
         "foregroundImage": "./assets/TZ.png",
         "backgroundColor": "#FFFFFF"
