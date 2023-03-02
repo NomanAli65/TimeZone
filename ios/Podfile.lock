@@ -14,7 +14,7 @@ PODS:
     - ExpoModulesCore
   - EXApplication (5.0.1):
     - ExpoModulesCore
-  - EXAV (13.0.2):
+  - EXAV (13.0.3):
     - ExpoModulesCore
     - ReactCommon/turbomodule/core
   - EXConstants (14.0.2):
@@ -38,27 +38,27 @@ PODS:
     - React-Core
   - EXNotifications (0.17.0):
     - ExpoModulesCore
-  - Expo (47.0.8):
+  - Expo (47.0.13):
     - ExpoModulesCore
-  - expo-image-multiple-picker (4.7.6):
+  - expo-image-multiple-picker (4.8.3):
     - React
   - ExpoAdapterFBSDKNext (11.1.0):
     - ExpoModulesCore
     - FBSDKCoreKit
     - React-Core
-  - ExpoAdapterGoogleSignIn (8.2.1):
+  - ExpoAdapterGoogleSignIn (8.2.2):
     - ExpoModulesCore
-    - GoogleSignIn
+    - GoogleSignIn (~> 6.2)
     - React-Core
-  - ExpoCrypto (12.0.0):
+  - ExpoCrypto (11.0.0):
     - ExpoModulesCore
-  - ExpoImagePicker (14.0.2):
+  - ExpoImagePicker (14.0.3):
     - ExpoModulesCore
   - ExpoKeepAwake (11.0.1):
     - ExpoModulesCore
   - ExpoLinearGradient (12.0.1):
     - ExpoModulesCore
-  - ExpoModulesCore (1.0.3):
+  - ExpoModulesCore (1.1.1):
     - React-Core
     - ReactCommon/turbomodule/core
   - ExpoRandom (13.0.0):
@@ -500,7 +500,7 @@ PODS:
     - RNFBApp
   - RNGestureHandler (2.8.0):
     - React-Core
-  - RNGoogleSignin (8.2.1):
+  - RNGoogleSignin (8.2.2):
     - GoogleSignIn (~> 6.2)
     - React-Core
   - RNNotifee (5.6.0):
@@ -569,7 +569,7 @@ DEPENDENCIES:
   - Expo (from `../node_modules/expo`)
   - expo-image-multiple-picker (from `../node_modules/expo-image-multiple-picker`)
   - ExpoAdapterFBSDKNext (from `../node_modules/react-native-fbsdk-next/ios`)
-  - "ExpoAdapterGoogleSignIn (from `../node_modules/@react-native-google-signin/google-signin/ios`)"
+  - "ExpoAdapterGoogleSignIn (from `../node_modules/@react-native-google-signin/google-signin/expo/ios`)"
   - ExpoCrypto (from `../node_modules/expo-crypto/ios`)
   - ExpoImagePicker (from `../node_modules/expo-image-picker/ios`)
   - ExpoKeepAwake (from `../node_modules/expo-keep-awake/ios`)
@@ -700,7 +700,7 @@ EXTERNAL SOURCES:
   ExpoAdapterFBSDKNext:
     :path: "../node_modules/react-native-fbsdk-next/ios"
   ExpoAdapterGoogleSignIn:
-    :path: "../node_modules/@react-native-google-signin/google-signin/ios"
+    :path: "../node_modules/@react-native-google-signin/google-signin/expo/ios"
   ExpoCrypto:
     :path: "../node_modules/expo-crypto/ios"
   ExpoImagePicker:
@@ -823,38 +823,38 @@ SPEC CHECKSUMS:
   ASN1Decoder: 6110fdeacfdb41559b1481457a1645be716610aa
   boost: a7c83b31436843459a1961bfd74b96033dc77234
   DoubleConversion: 5189b271737e1565bdce30deb4a08d647e3f5f54
-  EASClient: 19efe9e8ef9b3917c5f3dcb3ed82319de4d8c0bd
-  EXAppleAuthentication: d93f7acd71fb3dcfa14eb6cb12ada053e06d4b66
-  EXApplication: 034b1c40a8e9fe1bff76a1e511ee90dff64ad834
-  EXAV: 9a45d37772c5329294c054a041dcc39931fc5032
-  EXConstants: 3c86653c422dd77e40d10cbbabb3025003977415
-  EXDevice: 734a55d8935ea8e075d12df1919a0497153bf55c
-  EXErrorRecovery: ae43433feb0608a64dc5b1c8363b3e7769a9ea24
-  EXFileSystem: 60602b6eefa6873f97172c684b7537c9760b50d6
-  EXFont: 319606bfe48c33b5b5063fb0994afdc496befe80
-  EXImageLoader: 84b65e6bd9d3345d6fbb3ab936a546c54496a64d
-  EXJSONUtils: 09aef2c1fba1a116ca8c73a2c8299aac00d96b43
-  EXManifests: 347f49430b63444579aa013f0ad057d16b8d1cc8
-  EXMediaLibrary: b1c4f78878e45f6a359aff3a059e1660c41b73ab
-  EXNotifications: babce2a87b7922051354fcfe7a74dd279b7e272a
-  Expo: 36b5f625d36728adbdd1934d4d57182f319ab832
-  expo-image-multiple-picker: 54b007372d709bb9d17aa7fcd9f0b4180a810ed9
+  EASClient: cbee74126deb71b9f66eaca1179e07cb6b43128a
+  EXAppleAuthentication: ec6fc95eee427941308f6917efde8a7af04937b3
+  EXApplication: 097fc9f58dd3921d7ce3f64157978a3523652a84
+  EXAV: 47ccaf3dd134ffd524b02eb9be5fccb4f71b493e
+  EXConstants: dc7a16230c5815fa80ed70b3a09aa7f2e2a94be3
+  EXDevice: 80a0170f5a75cc5167c58d7040a90ac782e0adbb
+  EXErrorRecovery: 2f378e5c9aaaab8b09179da65080d958721f8a36
+  EXFileSystem: 509903f11b97b25b54d8f449d5c1fc49cb2172f4
+  EXFont: 955655aa111e20756af96d7c5c0b23add0cdc303
+  EXImageLoader: 2457c9c38b2bc012b05c408aac3aa8de4147b602
+  EXJSONUtils: d1d050feeb04d40d82d1c7ef52f271946f6332a2
+  EXManifests: 6c8c6b14118181dbe57f8d082c301b1addccfe41
+  EXMediaLibrary: ac4302c7066ad795f379b6bdff043d66930a9f10
+  EXNotifications: 8c85301e03edc87fe090a95c795815f6e1c3ba8a
+  Expo: bdf852f46647982fbda24197e648a9d490759be9
+  expo-image-multiple-picker: 16f67301759684fb6639f78526f1b4823c55310d
   ExpoAdapterFBSDKNext: cb13ee1823c70383d17a82e7e2385053fa917d01
-  ExpoAdapterGoogleSignIn: c1740208e5c85db43daf7ed429fbe8f6c5889d34
-  ExpoCrypto: 51e7662c7f5bfeab25b7909b8a5d545ec15d4877
-  ExpoImagePicker: d2a1cea4023008ae2fb0d95f33422b80772cc76e
-  ExpoKeepAwake: 69b59d0a8d2b24de9f82759c39b3821fec030318
-  ExpoLinearGradient: b40c2133ad57ae105b1b12a319e314463c817f6b
-  ExpoModulesCore: b5d21c8880afda6fb6ee95469f9ac2ec9b98e995
-  ExpoRandom: 58b7e0a5fe1adf1cb6dc1cbe503a6fe9524f36ce
-  ExpoWebBrowser: 073e50f16669d498fb49063b9b7fe780b24f7fda
-  EXSecureStore: daec0117c922a67c658cb229152a9e252e5c1750
-  EXSensors: c4d17812887f3b8bec1da3c1e501a1d7b02bf19d
-  EXSplashScreen: 3e989924f61a8dd07ee4ea584c6ba14be9b51949
-  EXStructuredHeaders: fb774e45eac2e5d62ba40b28176bfbfba61b843e
-  EXTaskManager: 0afcc6fd813dec5dee98aa5ec4f22c2a840dd4a7
-  EXUpdates: e687436502147e80ef13cf6eedd17e3039ef47d6
-  EXUpdatesInterface: bffd1ead18f0bab04fa784ca159c115607b8a23c
+  ExpoAdapterGoogleSignIn: 5f84030137e256234647f2663c6ff257e1fd8e7a
+  ExpoCrypto: ee6a08b9aa2286ae3437e4ca350cc47705b70c5d
+  ExpoImagePicker: 8cb0a1b530e2a9f86319bf7d755c7852a7674ff4
+  ExpoKeepAwake: f8aae9b3d48116f253418cde831cf71af424d563
+  ExpoLinearGradient: 0e72c81aa6b6ad1e79a1e5fcb3b062632ca1b811
+  ExpoModulesCore: 3ce34db9fb6549a5bc62ce37559462e6e96e9704
+  ExpoRandom: 5ef1edb04fc1aa8284eeaf6f56e095f89b88df18
+  ExpoWebBrowser: 1b56cde73b4c380bb74d70a51b3db6c76f64e82a
+  EXSecureStore: 3dab86d991c21ccd604708ac4c87ae4c5ffc7662
+  EXSensors: caa587d10693a7d9dd3b8526c111e1634f9521c7
+  EXSplashScreen: a864db3be7c3362c9e0d4a78f5034f73f3284239
+  EXStructuredHeaders: 1d6b9732ed660a91c50a275d2f4de65f05b257e6
+  EXTaskManager: 5b68a5ceedd0cda114ec44115277d358ed47c66f
+  EXUpdates: 348929e518ae24b3a377544378dcc7a9e13b953e
+  EXUpdatesInterface: 0a117ef525cae1e410806612658e844e1415c089
   FBAEMKit: d8312d8451ead46282adc7f3565ffc4965e3a4a7
   FBLazyVector: affa4ba1bfdaac110a789192f4d452b053a86624
   FBReactNativeSpec: fe8b5f1429cfe83a8d72dc8ed61dc7704cac8745
@@ -895,7 +895,7 @@ SPEC CHECKSUMS:
   React-jsinspector: badd81696361249893a80477983e697aab3c1a34
   React-logger: fdda34dd285bdb0232e059b19d9606fa0ec3bb9c
   react-native-fbsdk-next: c78dede90e3c50ab6936a7d56c43e1a9eb37e25a
-  react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
+  react-native-safe-area-context: ec0d85aca8110dae9327430a9541fec165352dab
   React-perflogger: e68d3795cf5d247a0379735cbac7309adf2fb931
   React-RCTActionSheet: 05452c3b281edb27850253db13ecd4c5a65bc247
   React-RCTAnimation: 578eebac706428e68466118e84aeacf3a282b4da
@@ -909,19 +909,19 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 7401c4a40f8728fd89df4a56104541b760876117
   ReactCommon: c9246996e73bf75a2c6c3ff15f1e16707cdc2da9
   rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
-  RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
+  RNCAsyncStorage: 889cea2408e52fe71da475306dcef43951577da0
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBApp: ad6ad2dd37ccf10e737ec8688208761026331d64
   RNFBMessaging: f75d2d54bbf6ddc29304e2f45152bc397a8b5b3f
   RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
-  RNGoogleSignin: 3db2d849581299f425f5b61b90cb482a9e68c7af
+  RNGoogleSignin: 78e473696c7f0f7d6f579f8d96286f963903ca01
   RNNotifee: 8ee6ddabfc44b16600b978983162e0d4db20ce19
   RNReanimated: 2a91e85fcd343f8af3c58d3425b99fdd285590a5
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
-  UMAppLoader: 354d71d2d2ce8d6c19fb13d72b9c8209b18a8c56
+  UMAppLoader: 4c59f1ee595e56d9df18a0aad32ce57618bc913f
   Yoga: eca980a5771bf114c41a754098cd85e6e0d90ed7
 
 PODFILE CHECKSUM: d350e3eb21e26645ada4a29aa005549046f89bb9
